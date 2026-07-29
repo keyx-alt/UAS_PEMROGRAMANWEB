@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tcpdump Ethical Guide — VeloraSec</title>
+  <meta name="description"
+    content="Panduan lengkap Tcpdump untuk network monitoring legal dan etis — capture, filter, analisis, dan troubleshooting jaringan rumah.">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../assets/icons/icons8-eye-32.png">
+  <link rel="stylesheet" href="./tcpdump-guide.css">
+</head>
+
+<body>
+
+  <!-- PROGRESS -->
+  <div id="progress-bar"></div>
+  <!-- TOAST -->
+  <div id="toast">✓ Copied to clipboard</div>
+  <!-- TOGGLE -->
+  <button class="menu-toggle" id="menuToggleBtn">☰</button>
+  <div class="overlay" id="overlay"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="8" fill="rgba(0,255,198,0.12)" />
+          <rect x="4" y="12" width="20" height="2" rx="1" fill="#00FFC6" />
+          <rect x="4" y="7" width="12" height="2" rx="1" fill="#4DA3FF" />
+          <rect x="4" y="17" width="16" height="2" rx="1" fill="#8B5CF6" />
+          <circle cx="22" cy="8" r="3" fill="#00FFC6" opacity="0.8" />
+        </svg>
+        Tcpdump Guide
+      </div>
+      <div class="sidebar-subtitle">VeloraSec v4.1.0</div>
+      <a href="../../../index.html#hero" class="home-btn">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 1L1 7h2v7h4v-4h2v4h4V7h2L8 1z" />
+        </svg>
+        Home
+      </a>
+      <a href="../../../index.html#tools" class="home-btn">< Back</a>
+    </div>
+
+    <span class="nav-section-title">Dasar</span>
+    <a class="nav-item" href="#s1"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2.5a1 1 0 110 2 1 1 0 010-2zm-.5 3h1v5h-1V6.5z" />
+      </svg>Apa itu Tcpdump</a>
+    <a class="nav-item" href="#s2"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 1v8M5 6l3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" fill="none"
+          stroke-linecap="round" />
+      </svg>Instalasi</a>
+    <a class="nav-item" href="#s3"><svg viewBox="0 0 16 16" fill="currentColor">
+        <rect x="2" y="2" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M2 6h12" stroke="currentColor" stroke-width="1.5" />
+      </svg>Interface &amp; IP</a>
+
+    <span class="nav-section-title">Capture</span>
+    <a class="nav-item" href="#s4"><svg viewBox="0 0 16 16" fill="currentColor">
+        <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <circle cx="8" cy="8" r="3" fill="currentColor" />
+      </svg>Capture Dasar</a>
+    <a class="nav-item" href="#s5"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" />
+      </svg>Filter BPF</a>
+    <a class="nav-item" href="#s6"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M2 8 Q5 2 8 8 Q11 14 14 8" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </svg>Baca Output</a>
+    <a class="nav-item" href="#s7"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M3 5h10M3 8h7M3 11h5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" />
+      </svg>Simpan &amp; Baca PCAP</a>
+
+    <span class="nav-section-title">Lanjutan</span>
+    <a class="nav-item" href="#s8"><svg viewBox="0 0 16 16" fill="currentColor">
+        <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M2 8h12M8 2Q5 5 5 8Q5 11 8 14" stroke="currentColor" stroke-width="1.2" fill="none" />
+      </svg>Use Cases Legal</a>
+    <a class="nav-item" href="#s9"><svg viewBox="0 0 16 16" fill="currentColor">
+        <rect x="4" y="7" width="8" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M5.5 7V5.5a2.5 2.5 0 015 0V7" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </svg>Defensive Monitoring</a>
+    <a class="nav-item" href="#s10"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 2L2 6v7l6 1 6-1V6L8 2z" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M8 9V6M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>Etika &amp; Risiko</a>
+    <a class="nav-item" href="#s11"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M8 2l1.5 4h4.5l-3.5 2.5 1.5 4L8 10l-4 2.5 1.5-4L2 6h4.5z" fill="none" stroke="currentColor"
+          stroke-width="1.5" stroke-linejoin="round" />
+      </svg>Best Practice</a>
+    <a class="nav-item" href="#s12"><svg viewBox="0 0 16 16" fill="currentColor">
+        <rect x="3" y="2" width="10" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M6 6h4M6 9h4M6 12h2" stroke="currentColor" stroke-width="1.2" fill="none" />
+      </svg>Cheat Sheet</a>
+    <a class="nav-item" href="#s13"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M6 2v6L3 12h10l-3-4V2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" />
+        <path d="M6 2h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>Latihan Praktik</a>
+    <a class="nav-item" href="#s14"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M3 3h10v10H3z" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="1.2" />
+      </svg>Integrasi Tools</a>
+    <a class="nav-item" href="#s15"><svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M2 8h5M9 8h5M7 4l2 4-2 4" stroke="currentColor" stroke-width="1.5" fill="none"
+          stroke-linecap="round" />
+      </svg>Perbandingan</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <canvas class="hero-canvas" id="heroCanvas"></canvas>
+      <div class="hero-content">
+        <div class="hero-badge">Cybersecurity Learning Path</div>
+        <h1 class="hero-title">Panduan Lengkap<br>Tcpdump Ethical Use</h1>
+        <p class="hero-sub">Kuasai packet capture secara legal, aman, dan etis — untuk troubleshooting jaringan rumah,
+          monitoring defensif, dan analisis trafik pada perangkat yang Anda miliki.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" data-scroll-target="s1">Mulai Belajar 🎯</button>
+          <button class="btn-ghost" data-scroll-target="s13">Latihan Praktik</button>
+          <button class="btn-ghost" data-scroll-target="s12">Cheat Sheet</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-num" data-target="65535">0</div>
+            <div class="stat-label">Ports Capturable</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-target="150">0</div>
+            <div class="stat-label">Filter Expressions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-target="15">0</div>
+            <div class="stat-label">Modul Panduan</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-target="6">0</div>
+            <div class="stat-label">Hands-on Labs</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="content">
+
+      <!-- SECTION 1: APA ITU TCPDUMP -->
+      <section class="section" id="s1">
+        <div class="section-header">
+          <span class="section-number">// 01 &mdash; Apa itu Tcpdump?</span>
+          <h2 class="section-title">Apa itu Tcpdump?</h2>
+          <p class="section-desc">Tcpdump adalah tool command-line untuk <strong>packet capture dan analisis
+              jaringan</strong> yang berjalan di hampir semua sistem Unix/Linux. Dikembangkan pertama kali pada 1988
+            oleh Van Jacobson, Craig Leres, dan Steven McCanne, Tcpdump memungkinkan Anda <em>mengintip</em> paket data
+            yang melewati interface jaringan secara real-time.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">📡</span> Packet Capture</div>
+            <div class="card-body">Menangkap paket jaringan yang melewati interface secara real-time — TCP, UDP, ICMP,
+              ARP, DNS, HTTP, TLS, dan protokol lainnya.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🔍</span> Traffic Analysis</div>
+            <div class="card-body">Menganalisis isi paket, header, flags, payload — berguna untuk troubleshooting
+              koneksi, debugging DNS, dan deteksi anomali.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🛡️</span> Security Monitoring</div>
+            <div class="card-body">Monitoring defensif jaringan — deteksi scan port, koneksi tidak wajar, traffic
+              mencurigakan, dan traffic plaintext berbahaya.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">💾</span> PCAP Files</div>
+            <div class="card-body">Menyimpan capture ke file .pcap yang bisa dibuka ulang di Tcpdump, Wireshark, tshark,
+              Zeek, atau Suricata untuk analisis mendalam.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">⚙️</span> BPF Filters</div>
+            <div class="card-body">Menggunakan Berkeley Packet Filter (BPF) — bahasa filter yang sangat powerful untuk
+              memilih paket berdasarkan host, port, protokol, dan kombinasinya.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🔗</span> Passive Listening</div>
+            <div class="card-body">Bekerja secara <strong>pasif</strong> — hanya mendengarkan tanpa mengirim paket.
+              Berbeda dengan Nmap yang aktif. Tidak mengganggu jaringan.</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <span class="box-icon">ℹ️</span>
+          <p><strong>Tcpdump vs Wireshark:</strong> Tcpdump adalah CLI tool — ringan, powerful, dan berjalan di server
+            tanpa GUI. Wireshark adalah GUI tool dengan fitur analisis visual lebih kaya. Keduanya menggunakan library
+            <code>libpcap</code> yang sama dan bisa saling membaca file .pcap.</p>
+        </div>
+
+        <h3>Passive vs Active Monitoring</h3>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">👂</span> Passive Monitoring (Tcpdump)</div>
+            <div class="card-body">
+              <ul>
+                <li>Hanya <strong>mendengarkan</strong> paket yang lewat</li>
+                <li>Tidak mengirim paket apapun ke jaringan</li>
+                <li>Tidak terdeteksi oleh perangkat lain</li>
+                <li>Tidak mempengaruhi kinerja jaringan</li>
+                <li>Cocok untuk monitoring dan troubleshooting</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">📤</span> Active Scanning (Nmap)</div>
+            <div class="card-body">
+              <ul>
+                <li><strong>Mengirim paket</strong> ke target untuk mendapat respons</li>
+                <li>Terlihat di log target dan IDS</li>
+                <li>Menghasilkan traffic tambahan</li>
+                <li>Bisa memicu alert keamanan</li>
+                <li>Digunakan untuk discovery dan port scanning</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: INSTALASI -->
+      <section class="section" id="s2">
+        <div class="section-header">
+          <span class="section-number">// 02 &mdash; Instalasi Tcpdump</span>
+          <h2 class="section-title">Instalasi Tcpdump</h2>
+        </div>
+
+        <h3>🐧 Linux (Debian / Ubuntu)</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Terminal — Linux</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Update dan install tcpdump</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo apt update &amp;&amp; sudo apt install <span
+                class="term-highlight">-y</span> <span class="term-out">tcpdump</span></span><br><br>
+            <span class="comment"># Verifikasi versi</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">tcpdump <span
+                class="term-highlight">--version</span></span>
+            <span class="output-line">tcpdump version 4.99.1</span>
+            <span class="output-line">libpcap version 1.10.1 (with TPACKET_V3)</span>
+            <span class="output-line">OpenSSL 3.0.2 15 Mar 2022</span><br>
+            <span class="comment"># Cek lokasi binary</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">which tcpdump</span>
+            <span class="output-line">/usr/bin/tcpdump</span>
+          </div>
+        </div>
+
+        <h3>🐧 Linux (Arch / Manjaro)</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Terminal — Arch</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo pacman <span class="term-highlight">-S</span>
+              <span class="term-out">tcpdump</span></span>
+          </div>
+        </div>
+
+        <h3>🍎 macOS</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Terminal — macOS</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Tcpdump sudah terinstall di macOS secara default</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">tcpdump <span
+                class="term-highlight">--version</span></span>
+            <span class="output-line">tcpdump version 4.99.4 -- Apple version 108.8</span><br>
+            <span class="comment"># Atau install versi terbaru via Homebrew</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">brew install <span
+                class="term-out">tcpdump</span></span>
+          </div>
+        </div>
+
+        <h3>🪟 Windows (via WSL)</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">PowerShell → WSL2</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Aktifkan WSL2 (jalankan sebagai Administrator di PowerShell)</span><br>
+            <span class="term-prompt">PS&gt; </span><span class="term-cmd">wsl --install</span><br><br>
+            <span class="comment"># Di dalam WSL Ubuntu, install tcpdump</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo apt install <span
+                class="term-highlight">-y</span> <span class="term-out">tcpdump</span></span><br><br>
+            <span class="comment"># Alternatif: WinDump (native Windows, butuh Npcap)</span><br>
+            <span class="comment"># Download Npcap dari: npcap.com</span><br>
+            <span class="comment"># Download WinDump dari: winpcap.org/windump</span>
+          </div>
+        </div>
+
+        <div class="warn-box">
+          <span class="box-icon">⚠️</span>
+          <p><strong>Hak Akses Root/Sudo:</strong> Tcpdump memerlukan akses <strong>root/sudo</strong> untuk membuka
+            interface jaringan dalam mode promiscuous. Tanpa sudo, Anda tidak bisa capture paket dari interface. Ini
+            adalah fitur keamanan OS, bukan bug.</p>
+        </div>
+
+        <div class="tip-box">
+          <span class="box-icon">💡</span>
+          <p><strong>Tip — Jalankan tanpa sudo setiap saat:</strong> Tambahkan user ke grup <code>pcap</code> dan set
+            capabilities pada binary: <code>sudo setcap cap_net_raw,cap_net_admin=eip $(which tcpdump)</code>. Namun ini
+            membuka risiko keamanan — hanya lakukan di lab/VM pribadi.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 3: INTERFACE & IP -->
+      <section class="section" id="s3">
+        <div class="section-header">
+          <span class="section-number">// 03 &mdash; Mengetahui Interface &amp; IP</span>
+          <h2 class="section-title">Mengetahui Interface Jaringan &amp; IP</h2>
+          <p class="section-desc">Sebelum capture, Anda perlu mengetahui nama interface jaringan yang aktif, IP address
+            lokal, gateway, dan subnet jaringan rumah Anda.</p>
+        </div>
+
+        <h3>Melihat Semua Interface Tersedia</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">List Network Interfaces</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Tampilkan semua interface yang bisa di-capture</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span
+                class="term-highlight">-D</span></span>
+            <span class="output-line">1.eth0 [Up, Running, Connected]</span>
+            <span class="open-port">2.wlan0 [Up, Running, Connected]</span>
+            <span class="output-line">3.lo [Up, Running, Loopback]</span>
+            <span class="output-line">4.docker0 [Up, Running]</span>
+            <span class="output-line">5.any (Pseudo-device that captures on all interfaces)</span><br>
+            <span class="comment"># Alternatif dengan ip command</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">ip addr show</span>
+            <span class="output-line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500</span>
+            <span class="output-line"> inet <span class="highlight">192.168.1.105/24</span> brd 192.168.1.255 scope
+              global eth0</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">ip route show</span>
+            <span class="output-line">default via <span class="highlight">192.168.1.1</span> dev eth0 proto dhcp</span>
+            <span class="output-line">192.168.1.0/24 dev eth0 proto kernel scope link</span>
+          </div>
+        </div>
+
+        <table class="cheat-table">
+          <tr>
+            <th>Interface</th>
+            <th>Keterangan</th>
+            <th>Kapan Digunakan</th>
+          </tr>
+          <tr>
+            <td class="flag-col">eth0 / ens33</td>
+            <td>Interface Ethernet (kabel)</td>
+            <td>Capture trafik jaringan kabel</td>
+          </tr>
+          <tr>
+            <td class="flag-col">wlan0 / wlp2s0</td>
+            <td>Interface WiFi (wireless)</td>
+            <td>Capture trafik WiFi</td>
+          </tr>
+          <tr>
+            <td class="flag-col">lo</td>
+            <td>Loopback (127.0.0.1)</td>
+            <td>Capture trafik lokal (antar proses di komputer sama)</td>
+          </tr>
+          <tr>
+            <td class="flag-col">any</td>
+            <td>Semua interface sekaligus</td>
+            <td>Capture dari semua interface, tapi tidak support promiscuous mode</td>
+          </tr>
+          <tr>
+            <td class="flag-col">docker0</td>
+            <td>Interface Docker bridge</td>
+            <td>Monitor trafik container Docker</td>
+          </tr>
+        </table>
+
+        <div class="info-box">
+          <span class="box-icon">💡</span>
+          <p><strong>Promiscuous Mode:</strong> Defaultnya, interface hanya menerima paket yang ditujukan ke MAC
+            address-nya sendiri. Tcpdump dengan sudo mengaktifkan <strong>promiscuous mode</strong> — interface
+            menangkap <em>semua</em> paket di segmen jaringan, termasuk broadcast dan multicast.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 4: CAPTURE DASAR -->
+      <section class="section" id="s4">
+        <div class="section-header">
+          <span class="section-number">// 04 &mdash; Packet Capture Dasar</span>
+          <h2 class="section-title">Packet Capture Dasar</h2>
+          <p class="section-desc">Pelajari cara menjalankan capture dasar Tcpdump — dari semua traffic hingga filter
+            spesifik per interface, host, port, dan protokol.</p>
+        </div>
+
+        <h3>4.1 — Capture Semua Traffic</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Basic Capture</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Capture semua paket di interface eth0 (Ctrl+C untuk stop)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i
+                eth0</span></span>
+            <span class="output-line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span>
+            <span class="output-line">listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144
+              bytes</span>
+            <span class="open-port">14:32:05.123456 IP 192.168.1.105.52341 &gt; 8.8.8.8.53: UDP, length 28</span>
+            <span class="open-port">14:32:05.145678 IP 8.8.8.8.53 &gt; 192.168.1.105.52341: UDP, length 44</span>
+            <span class="output-line">14:32:05.160000 IP 192.168.1.105.80 &gt; 192.168.1.1.59821: Flags [S], seq 0, win
+              64240</span>
+            <span class="output-line">^C</span>
+            <span class="output-line">47 packets captured</span>
+            <span class="output-line">47 packets received by filter</span>
+            <span class="output-line">0 packets dropped by kernel</span><br>
+            <span class="comment"># Capture dengan output lebih verbose (-v, -vv, -vvv)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -v</span></span><br>
+            <span class="comment"># Tampilkan IP sebagai angka, bukan hostname (lebih cepat)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -n</span></span><br>
+            <span class="comment"># Tampilkan port sebagai angka, bukan nama service</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn</span></span><br>
+            <span class="comment"># Batasi jumlah paket yang di-capture (10 paket lalu stop)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -c 10</span></span>
+          </div>
+        </div>
+
+        <table class="cheat-table">
+          <tr>
+            <th>Flag</th>
+            <th>Fungsi</th>
+            <th>Keterangan</th>
+          </tr>
+          <tr>
+            <td class="flag-col">-i eth0</td>
+            <td>Pilih Interface</td>
+            <td>Tentukan interface yang di-listen. Wajib diisi untuk capture spesifik.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-n</td>
+            <td>No DNS Lookup</td>
+            <td>Tidak resolve IP ke hostname — lebih cepat, output lebih bersih.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-nn</td>
+            <td>No DNS + No Port Name</td>
+            <td>IP dan port ditampilkan sebagai angka. Sangat direkomendasikan.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-v / -vv / -vvv</td>
+            <td>Verbose</td>
+            <td>Tampilkan lebih banyak detail paket. -vvv = paling detail.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-c 100</td>
+            <td>Count</td>
+            <td>Stop setelah capture N paket. Berguna agar tidak capture terus-menerus.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-e</td>
+            <td>Ethernet Header</td>
+            <td>Tampilkan MAC address source dan destination.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-q</td>
+            <td>Quiet</td>
+            <td>Output minimal — hanya info penting, tanpa detail protokol.</td>
+          </tr>
+        </table>
+
+        <h3>4.2 — Capture Berdasarkan Host/IP</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Host Filter</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Capture semua traffic ke/dari router (192.168.1.1)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn host</span> <span class="term-out">192.168.1.1</span></span><br><br>
+            <span class="comment"># Capture hanya traffic DARI IP tertentu (source)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn src</span> <span class="term-out">192.168.1.100</span></span><br><br>
+            <span class="comment"># Capture hanya traffic KE IP tertentu (destination)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn dst</span> <span class="term-out">8.8.8.8</span></span><br><br>
+            <span class="comment"># Capture semua traffic di subnet rumah</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn net</span> <span class="term-out">192.168.1.0/24</span></span>
+          </div>
+        </div>
+
+        <h3>4.3 — Capture Berdasarkan Port</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Port Filter</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Capture traffic HTTP (port 80)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn port</span> <span class="term-out">80</span></span><br><br>
+            <span class="comment"># Capture traffic DNS (port 53)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn port</span> <span class="term-out">53</span></span><br><br>
+            <span class="comment"># Capture range port (port 1 sampai 1024)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn portrange</span> <span class="term-out">1-1024</span></span><br><br>
+            <span class="comment"># Capture traffic dari port tertentu (source port)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn src port</span> <span class="term-out">443</span></span><br><br>
+            <span class="comment"># Capture ke port tertentu (destination port)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn dst port</span> <span class="term-out">22</span></span>
+          </div>
+        </div>
+
+        <h3>4.4 — Capture Berdasarkan Protokol</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Protocol Filter</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Capture hanya paket TCP</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn tcp</span></span><br><br>
+            <span class="comment"># Capture hanya paket UDP</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn udp</span></span><br><br>
+            <span class="comment"># Capture hanya paket ICMP (ping)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn icmp</span></span><br><br>
+            <span class="comment"># Capture DNS (UDP port 53)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn udp port 53</span></span><br><br>
+            <span class="comment"># Capture HTTP plaintext</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn -A tcp port 80</span></span><br><br>
+            <span class="comment"># Capture HTTPS/TLS (hanya header, payload terenkripsi)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn tcp port 443</span></span><br><br>
+            <span class="comment"># Capture ARP (address resolution protocol)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn arp</span></span>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <span class="box-icon">💡</span>
+          <p><strong>Flag -A vs -X:</strong> Flag <code>-A</code> menampilkan payload paket dalam format ASCII (berguna
+            untuk HTTP plaintext). Flag <code>-X</code> menampilkan payload dalam format hex + ASCII. Hati-hati — flag
+            ini bisa menampilkan data sensitif seperti password HTTP atau cookie.</p>
+        </div>
+
+        <h3>4.5 — Capture Incoming/Outgoing Traffic</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Direction Filter</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Capture hanya traffic MASUK ke komputer Anda (inbound)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn dst</span> <span class="term-out">192.168.1.105</span></span><br><br>
+            <span class="comment"># Capture hanya traffic KELUAR dari komputer Anda (outbound)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn src</span> <span class="term-out">192.168.1.105</span></span><br><br>
+            <span class="comment"># Capture seluruh subnet rumah (semua perangkat)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span class="term-highlight">-i eth0
+                -nn net</span> <span class="term-out">192.168.1.0/24</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: FILTER BPF -->
+      <section class="section" id="s5">
+        <div class="section-header">
+          <span class="section-number">// 05 &mdash; Filter BPF (Berkeley Packet Filter)</span>
+          <h2 class="section-title">Filter BPF — Berkeley Packet Filter</h2>
+          <p class="section-desc">BPF adalah bahasa filter yang digunakan Tcpdump untuk memilih paket yang ingin
+            di-capture. Filter dijalankan di kernel space — sangat efisien karena menyaring paket sebelum masuk ke user
+            space.</p>
+        </div>
+
+        <h3>Operator Dasar</h3>
+        <table class="cheat-table">
+          <tr>
+            <th>Operator</th>
+            <th>Fungsi</th>
+            <th>Contoh</th>
+          </tr>
+          <tr>
+            <td class="flag-col">host</td>
+            <td>Filter berdasarkan IP (src + dst)</td>
+            <td>host 192.168.1.1</td>
+          </tr>
+          <tr>
+            <td class="flag-col">src</td>
+            <td>Filter berdasarkan IP sumber</td>
+            <td>src 192.168.1.100</td>
+          </tr>
+          <tr>
+            <td class="flag-col">dst</td>
+            <td>Filter berdasarkan IP tujuan</td>
+            <td>dst 8.8.8.8</td>
+          </tr>
+          <tr>
+            <td class="flag-col">port</td>
+            <td>Filter berdasarkan port (src + dst)</td>
+            <td>port 443</td>
+          </tr>
+          <tr>
+            <td class="flag-col">src port</td>
+            <td>Filter berdasarkan port sumber</td>
+            <td>src port 80</td>
+          </tr>
+          <tr>
+            <td class="flag-col">dst port</td>
+            <td>Filter berdasarkan port tujuan</td>
+            <td>dst port 22</td>
+          </tr>
+          <tr>
+            <td class="flag-col">portrange</td>
+            <td>Filter range port</td>
+            <td>portrange 1-1024</td>
+          </tr>
+          <tr>
+            <td class="flag-col">net</td>
+            <td>Filter berdasarkan subnet/network</td>
+            <td>net 192.168.1.0/24</td>
+          </tr>
+          <tr>
+            <td class="flag-col">tcp / udp / icmp</td>
+            <td>Filter berdasarkan protokol</td>
+            <td>tcp</td>
+          </tr>
+          <tr>
+            <td class="flag-col">and / &amp;&amp;</td>
+            <td>Kedua kondisi harus terpenuhi</td>
+            <td>host 192.168.1.1 and port 80</td>
+          </tr>
+          <tr>
+            <td class="flag-col">or / ||</td>
+            <td>Salah satu kondisi terpenuhi</td>
+            <td>port 80 or port 443</td>
+          </tr>
+          <tr>
+            <td class="flag-col">not / !</td>
+            <td>Kebalikan dari kondisi</td>
+            <td>not port 22</td>
+          </tr>
+        </table>
+
+        <h3>Filter Kombinasi Kompleks</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Complex BPF Filters</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Traffic HTTP atau HTTPS ke/dari router</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">host 192.168.1.1 and (port 80 or port 443)</span></span><br><br>
+            <span class="comment"># TCP traffic KECUALI SSH (exclude port 22)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">tcp and not port 22</span></span><br><br>
+            <span class="comment"># DNS query dari semua perangkat di jaringan rumah</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">src net 192.168.1.0/24 and dst port 53</span></span><br><br>
+            <span class="comment"># Traffic antara dua perangkat spesifik</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">"(src host 192.168.1.100 and dst host 192.168.1.1) or (src host 192.168.1.1 and
+                dst host 192.168.1.100)"</span></span><br><br>
+            <span class="comment"># Semua broadcast dan multicast (untuk deteksi perangkat IoT)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">broadcast or multicast</span></span><br><br>
+            <span class="comment"># Capture traffic non-SSH dari subnet (monitoring tanpa noise)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">net 192.168.1.0/24 and not port 22</span></span><br><br>
+            <span class="comment"># Deteksi koneksi ke port mencurigakan di luar jaringan lokal</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">src net 192.168.1.0/24 and not dst net 192.168.1.0/24 and not dst net
+                10.0.0.0/8</span></span>
+          </div>
+        </div>
+
+        <div class="warn-box">
+          <span class="box-icon">⚠️</span>
+          <p><strong>Gunakan tanda kutip untuk filter kompleks:</strong> Selalu bungkus filter yang mengandung karakter
+            spesial atau spasi dengan tanda kutip ganda <code>"filter expression"</code> atau gunakan tanda kurung untuk
+            grouping yang benar.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 6: BACA OUTPUT -->
+      <section class="section" id="s6">
+        <div class="section-header">
+          <span class="section-number">// 06 &mdash; Cara Membaca Output Tcpdump</span>
+          <h2 class="section-title">Cara Membaca Output Tcpdump</h2>
+          <p class="section-desc">Setiap baris output Tcpdump berisi informasi lengkap tentang satu paket jaringan.
+            Pelajari cara membaca dan menginterpretasikan setiap bagiannya.</p>
+        </div>
+
+        <h3>Anatomi Satu Baris Output</h3>
+        <div class="terminal">
+          <div class="terminal-header"><span class="term-label">Output Anatomy — TCP Packet</span></div>
+          <div class="terminal-body">
+            <span class="comment">┌─ [1] Timestamp — waktu paket diterima</span>
+            <span class="comment">│ ┌─ [2] Protokol layer 3</span>
+            <span class="comment">│ │ ┌─ [3] Source IP.Port</span>
+            <span class="comment">│ │ │ ┌─ [4] Destination IP.Port</span>
+            <span class="comment">│ │ │ │ ┌─ [5] TCP Flags</span>
+            <span class="comment">│ │ │ │ │ ┌─ [6] Seq number</span>
+            <span class="output-line"><span class="highlight">14:32:05.123456</span> IP <span
+                class="highlight">192.168.1.105.52341</span> &gt; <span class="highlight">8.8.8.8.443</span>: Flags
+              [<span class="highlight">S</span>], seq <span class="highlight">3842901234</span>, win 64240, options [mss
+              1460,sackOK,TS val 1234567 ecr 0,nop,wscale 7], length <span class="highlight">0</span></span>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 16px;">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🕐</span> Timestamp</div>
+            <div class="card-body"><code>14:32:05.123456</code> — Waktu paket diterima dalam format
+              HH:MM:SS.microseconds. Gunakan <code>-tttt</code> untuk format tanggal lengkap.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">📍</span> Source &amp; Destination</div>
+            <div class="card-body"><code>192.168.1.105.52341</code> — format <strong>IP.Port</strong>. IP address
+              diikuti titik lalu nomor port. Port 52341 = ephemeral port (client).</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🚩</span> TCP Flags</div>
+            <div class="card-body">
+              <code>[S]</code> = SYN, <code>[.]</code> = ACK, <code>[S.]</code> = SYN-ACK, <code>[P.]</code> = PSH+ACK
+              (data),
+              <code>[F.]</code> = FIN, <code>[R]</code> = RST (reset/reject), <code>[U]</code> = URG
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🔢</span> Sequence &amp; ACK Number</div>
+            <div class="card-body"><code>seq 3842901234</code> — nomor urut paket TCP. <code>ack 12345</code> —
+              konfirmasi paket yang sudah diterima. Berguna untuk analisis retransmit.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">📏</span> Length &amp; Win</div>
+            <div class="card-body"><code>length 0</code> = panjang payload data (SYN tidak punya data).
+              <code>win 64240</code> = TCP window size (buffer receiver).</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">⏱️</span> TTL</div>
+            <div class="card-body">Tampil saat pakai flag <code>-v</code>: <code>ttl 64</code> — Time To Live. Setiap
+              router mengurangi 1. TTL=64 biasanya Linux, TTL=128 Windows, TTL=255 router.</div>
+          </div>
+        </div>
+
+        <h3>Membaca Berbagai Jenis Paket</h3>
+        <div class="terminal">
+          <div class="terminal-header"><span class="term-label">DNS Query &amp; Response</span></div>
+          <div class="terminal-body">
+            <span class="comment">┌─ DNS Query (client bertanya ke DNS server)</span>
+            <span class="open-port">14:32:05.001 IP 192.168.1.105.34521 &gt; 8.8.8.8.53: <span class="highlight">24351+
+                A? google.com.</span> (28)</span>
+            <span class="comment">│ A? = query type A record (IPv4 address)</span>
+            <span class="comment">│ google.com. = domain yang ditanyakan</span>
+            <span class="comment">│ (28) = panjang paket DNS</span><br>
+            <span class="comment">┌─ DNS Response (server menjawab)</span>
+            <span class="open-port">14:32:05.045 IP 8.8.8.8.53 &gt; 192.168.1.105.34521: <span class="highlight">24351
+                1/0/0 A 142.250.4.100</span> (44)</span>
+            <span class="comment">│ 1/0/0 = 1 answer, 0 authority, 0 additional</span>
+            <span class="comment">│ A 142.250.4.100 = IP address hasil resolve</span>
+          </div>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-header"><span class="term-label">TCP 3-Way Handshake</span></div>
+          <div class="terminal-body">
+            <span class="comment">┌─ [1] SYN — client memulai koneksi</span>
+            <span class="open-port">14:32:06.100 IP 192.168.1.105.54321 &gt; 93.184.216.34.80: Flags <span
+                class="highlight">[S]</span>, seq 1234567890, win 64240, length 0</span>
+            <span class="comment">┌─ [2] SYN-ACK — server setuju</span>
+            <span class="open-port">14:32:06.150 IP 93.184.216.34.80 &gt; 192.168.1.105.54321: Flags <span
+                class="highlight">[S.]</span>, seq 9876543210, ack 1234567891, win 65535, length 0</span>
+            <span class="comment">┌─ [3] ACK — client konfirmasi</span>
+            <span class="open-port">14:32:06.151 IP 192.168.1.105.54321 &gt; 93.184.216.34.80: Flags <span
+                class="highlight">[.]</span>, ack 9876543211, win 502, length 0</span>
+            <span class="comment">┌─ [4] HTTP GET — data dikirim</span>
+            <span class="open-port">14:32:06.152 IP 192.168.1.105.54321 &gt; 93.184.216.34.80: Flags <span
+                class="highlight">[P.]</span>, seq 1:78, ack 1, win 502, length 77</span>
+          </div>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-header"><span class="term-label">ARP — Address Resolution Protocol</span></div>
+          <div class="terminal-body">
+            <span class="comment">┌─ ARP Request — siapa yang punya 192.168.1.1?</span>
+            <span class="output-line">14:32:07.000 ARP, Request who-has <span class="highlight">192.168.1.1</span> tell
+              192.168.1.105, length 28</span>
+            <span class="comment">┌─ ARP Reply — saya! ini MAC address saya</span>
+            <span class="output-line">14:32:07.001 ARP, Reply <span class="highlight">192.168.1.1</span> is-at <span
+                class="highlight">a8:7e:ea:c1:45:2f</span>, length 28</span>
+            <span class="comment">│ ARP berlebihan bisa indikasi ARP spoofing atau banyak perangkat baru</span>
+          </div>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-header"><span class="term-label">ICMP — Ping</span></div>
+          <div class="terminal-body">
+            <span class="comment">┌─ ICMP Echo Request (ping out)</span>
+            <span class="output-line">14:32:08.000 IP 192.168.1.105 &gt; 8.8.8.8: ICMP echo request, id 12345, seq 1,
+              length 64</span>
+            <span class="comment">┌─ ICMP Echo Reply (pong back)</span>
+            <span class="output-line">14:32:08.022 IP 8.8.8.8 &gt; 192.168.1.105: ICMP echo reply, id 12345, seq 1,
+              length 64</span>
+          </div>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-header"><span class="term-label">TLS Handshake (HTTPS)</span></div>
+          <div class="terminal-body">
+            <span class="comment"># Capture dengan flag -v untuk lihat TLS info</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -v tcp port
+              443</span><br><br>
+            <span class="output-line">14:32:10.100 IP 192.168.1.105.55123 &gt; 93.184.216.34.443: Flags [P.], length
+              318</span>
+            <span class="output-line"> <span class="highlight">TLS 1.3, Handshake, ClientHello (1)</span></span>
+            <span class="output-line"> Version: TLS 1.0 (compatibility)</span>
+            <span class="output-line"> Random: 5f3a2b1c...</span>
+            <span class="output-line"> Server Name: <span class="highlight">www.example.com</span></span>
+            <span class="comment">│ SNI (Server Name Indication) terlihat di ClientHello — bisa identifikasi situs yang
+              dikunjungi</span>
+            <span class="comment">│ Namun payload (data) terenkripsi — tidak bisa dibaca isinya</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7: SIMPAN & BACA PCAP -->
+      <section class="section" id="s7">
+        <div class="section-header">
+          <span class="section-number">// 07 &mdash; Simpan &amp; Baca File PCAP</span>
+          <h2 class="section-title">Menyimpan &amp; Membaca File PCAP</h2>
+          <p class="section-desc">Simpan hasil capture ke file .pcap untuk analisis mendalam, perbandingan historis,
+            atau dibuka di Wireshark.</p>
+        </div>
+
+        <h3>Menyimpan Capture ke File</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Write PCAP File</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Simpan capture ke file .pcap (-w = write)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">-w</span> <span class="term-out">capture.pcap</span></span>
+            <span class="output-line">tcpdump: listening on eth0, link-type EN10MB, snapshot length 262144 bytes</span>
+            <span class="output-line">^C</span>
+            <span class="output-line">247 packets captured</span><br>
+            <span class="comment"># Simpan dengan nama file berisi timestamp otomatis</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">-w</span> capture_$(date +%Y%m%d_%H%M%S).pcap</span><br><br>
+            <span class="comment"># Simpan hanya traffic DNS ke file</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn port 53 <span
+                class="term-highlight">-w</span> dns_capture.pcap</span><br><br>
+            <span class="comment"># Rotate file setiap 100MB (file baru otomatis dibuat)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">-C 100 -w</span> capture.pcap</span><br><br>
+            <span class="comment"># Rotate file setiap 60 detik</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">-G 60 -w</span> capture_%Y%m%d_%H%M%S.pcap</span><br><br>
+            <span class="comment"># Batasi jumlah file rotate (max 10 file, lalu overwrite yang lama)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn <span
+                class="term-highlight">-G 60 -W 10 -w</span> capture_%Y%m%d_%H%M%S.pcap</span>
+          </div>
+        </div>
+
+        <h3>Membaca File PCAP</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Read PCAP File</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Baca file pcap (-r = read)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump <span
+                class="term-highlight">-r</span> capture.pcap <span class="term-highlight">-nn</span></span><br><br>
+            <span class="comment"># Baca dan filter hanya DNS dari file</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -r capture.pcap -nn <span
+                class="term-highlight">port 53</span></span><br><br>
+            <span class="comment"># Baca dengan detail verbose</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -r capture.pcap -nn <span
+                class="term-highlight">-vvv</span></span><br><br>
+            <span class="comment"># Buka di Wireshark (GUI)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">wireshark capture.pcap</span><br><br>
+            <span class="comment"># Analisis dengan tshark (CLI Wireshark)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">tshark -r capture.pcap -Y "dns" -T fields -e
+              dns.qry.name</span>
+          </div>
+        </div>
+
+        <table class="cheat-table">
+          <tr>
+            <th>Flag</th>
+            <th>Fungsi</th>
+          </tr>
+          <tr>
+            <td class="flag-col">-w file.pcap</td>
+            <td>Tulis capture ke file PCAP. File disimpan dalam format libpcap.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-r file.pcap</td>
+            <td>Baca file PCAP yang sudah tersimpan. Bisa difilter ulang saat dibaca.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-C 100</td>
+            <td>Rotate file setiap 100 MB. Nama file auto diberi nomor urut.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-G 60</td>
+            <td>Rotate file setiap 60 detik. Gunakan format strftime di nama file.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-W 10</td>
+            <td>Maksimal 10 file rotate — setelah penuh, file lama di-overwrite.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-s 0</td>
+            <td>Capture full packet (snaplen = 0 = unlimited). Default 262144 bytes.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">-S</td>
+            <td>Print absolute sequence numbers (bukan relative) untuk analisis TCP.</td>
+          </tr>
+        </table>
+
+        <div class="tip-box">
+          <span class="box-icon">💡</span>
+          <p><strong>Snaplen (-s):</strong> Default Tcpdump modern sudah 262144 bytes (full packet). Jika menggunakan
+            versi lama, gunakan <code>-s 0</code> untuk memastikan seluruh payload paket tersimpan, bukan hanya
+            headernya saja.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 8: USE CASES LEGAL -->
+      <section class="section" id="s8">
+        <div class="section-header">
+          <span class="section-number">// 08 &mdash; Use Cases Legal &amp; Aman</span>
+          <h2 class="section-title">Use Cases Legal &amp; Aman</h2>
+        </div>
+
+        <h3>🏠 Troubleshooting Jaringan Rumah</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Network Troubleshooting</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Cek apakah koneksi ke router berhasil (ping + ARP)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn host 192.168.1.1 and (arp
+              or icmp) -c 20</span><br><br>
+            <span class="comment"># Debugging koneksi lambat — cek retransmit TCP</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn tcp -w troubleshoot.pcap
+              -c 500</span><br>
+            <span class="comment"># Buka di Wireshark, filter: tcp.analysis.retransmission</span><br><br>
+            <span class="comment"># Analisis latency DNS — cek berapa lama DNS resolve</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -tttt port 53 -c
+              30</span>
+            <span class="output-line">2024-11-20 14:32:05.001234 IP 192.168.1.105.34521 &gt; 8.8.8.8.53: A?
+              google.com</span>
+            <span class="output-line">2024-11-20 14:32:05.045678 IP 8.8.8.8.53 &gt; 192.168.1.105.34521: A
+              142.250.4.100</span>
+            <span class="comment">│ Latency DNS = 45678 - 1234 = 44.4ms — masih wajar (&lt;100ms)</span>
+          </div>
+        </div>
+
+        <h3>📱 Mendeteksi Perangkat IoT Aktif</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">IoT Device Detection</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Monitor semua broadcast — perangkat IoT sering kirim broadcast</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -e broadcast</span>
+            <span class="output-line">14:32:00 a8:7e:ea:c1:45:2f &gt; ff:ff:ff:ff:ff:ff, ARP who-has
+              192.168.1.100</span>
+            <span class="output-line">14:32:01 b4:e6:2d:00:11:22 &gt; ff:ff:ff:ff:ff:ff, ARP who-has
+              192.168.1.105</span><br>
+            <span class="comment"># Monitor traffic MQTT (port 1883) — protokol IoT umum</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn port 1883 or port
+              8883</span><br><br>
+            <span class="comment"># Lihat siapa yang melakukan koneksi ke internet</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn "src net 192.168.1.0/24
+              and not dst net 192.168.1.0/24" -c 50</span>
+          </div>
+        </div>
+
+        <h3>🔍 Debugging DNS</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">DNS Debug</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Monitor semua DNS query dan response dari semua perangkat</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn port 53</span>
+            <span class="output-line">IP 192.168.1.105 &gt; 8.8.8.8: A? youtube.com</span>
+            <span class="output-line">IP 192.168.1.101 &gt; 8.8.8.8: A? doubleclick.net</span>
+            <span class="output-line">IP 192.168.1.102 &gt; 8.8.8.8: A? analytics.google.com</span><br>
+            <span class="comment"># Cek DNS leak — apakah DNS melewati router lokal atau langsung ke
+              internet?</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn "dst port 53 and not dst
+              host 192.168.1.1"</span>
+            <span class="comment"># Jika ada output, ada DNS yang bypass router — bisa jadi DNS leak</span>
+          </div>
+        </div>
+
+        <h3>📊 Monitoring Inventory Service Jaringan</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Service Inventory</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Lihat semua port yang diakses di jaringan rumah (5 menit)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -w
+              inventory.pcap</span><br>
+            <span class="comment"># Setelah selesai, analisis port unik yang muncul:</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -r inventory.pcap -nn | awk '{print
+              $5}' | grep -oP '\d+$' | sort -n | uniq -c | sort -rn | head -20</span><br><br>
+            <span class="comment"># Deteksi broadcast berlebihan (broadcast storm indicator)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn broadcast -c 100 | wc
+              -l</span>
+            <span class="comment"># Jika 100 paket datang sangat cepat, mungkin ada broadcast storm</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 9: DEFENSIVE MONITORING -->
+      <section class="section" id="s9">
+        <div class="section-header">
+          <span class="section-number">// 09 &mdash; Defensive Monitoring</span>
+          <h2 class="section-title">Penggunaan Defensif — Security Monitoring</h2>
+          <p class="section-desc">Tcpdump sangat berguna untuk monitoring keamanan jaringan rumah secara defensif —
+            mendeteksi anomali, koneksi mencurigakan, dan traffic tidak terenkripsi.</p>
+        </div>
+
+        <h3>🔍 Deteksi Port Scanning Internal</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Internal Scan Detection</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Deteksi banyak SYN ke berbagai port dari satu IP (ciri port scan)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn "tcp[tcpflags] ==
+              tcp-syn"</span>
+            <span class="comment"># Jika satu IP mengirim banyak SYN ke berbagai port dalam waktu singkat =
+              scan</span><br>
+            <span class="output-line">14:35:01 IP 192.168.1.200.40001 &gt; 192.168.1.105.22: Flags [S]</span>
+            <span class="output-line">14:35:01 IP 192.168.1.200.40002 &gt; 192.168.1.105.23: Flags [S]</span>
+            <span class="output-line">14:35:01 IP 192.168.1.200.40003 &gt; 192.168.1.105.25: Flags [S]</span>
+            <span class="output-line">14:35:01 IP 192.168.1.200.40004 &gt; 192.168.1.105.80: Flags [S]</span>
+            <span class="warn-line">⚠ Pola ini menunjukkan ada perangkat di 192.168.1.200 sedang scanning port
+              Anda!</span>
+          </div>
+        </div>
+
+        <h3>🚨 Deteksi Koneksi Mencurigakan</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Suspicious Connection Detection</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Monitor koneksi ke port yang tidak biasa dari jaringan lokal</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn "src net 192.168.1.0/24
+              and dst port not (80 or 443 or 53 or 22)"</span><br><br>
+            <span class="comment"># Deteksi ARP spoofing — banyak ARP reply dari satu MAC ke berbagai IP</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn arp</span>
+            <span class="output-line">ARP, Reply 192.168.1.1 is-at aa:bb:cc:11:22:33</span>
+            <span class="output-line">ARP, Reply 192.168.1.105 is-at aa:bb:cc:11:22:33</span>
+            <span class="warn-line">⚠ MAC yang sama mengklaim beberapa IP = kemungkinan ARP spoofing!</span><br>
+            <span class="comment"># Monitor koneksi outbound mencurigakan (ke port non-standard)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn "src host 192.168.1.105
+              and dst port not (80 or 443 or 53 or 22 or 25 or 143 or 993 or 465)"</span>
+          </div>
+        </div>
+
+        <h3>🔓 Deteksi Traffic Tidak Terenkripsi</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Plaintext Traffic Detection</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Lihat konten HTTP plaintext (-A = ASCII output)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -A port 80 -c 20</span>
+            <span class="output-line">GET /login HTTP/1.1</span>
+            <span class="open-port">Host: example.com</span>
+            <span class="output-line">Content-Type: application/x-www-form-urlencoded</span>
+            <span class="warn-line">username=admin&amp;password=<span class="highlight">password123</span></span>
+            <span class="comment">│ ⚠ Password terlihat jelas di HTTP plaintext! Selalu gunakan HTTPS!</span><br>
+            <span class="comment"># Cek apakah ada Telnet (tidak terenkripsi) aktif di jaringan</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn port 23 -c 10</span>
+            <span class="comment"># Jika ada traffic Telnet = bahaya, beralih ke SSH!</span><br>
+            <span class="comment"># Cek FTP login plaintext</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -A port 21</span>
+          </div>
+        </div>
+
+        <div class="danger-box">
+          <span class="box-icon">🚫</span>
+          <p><strong>Penting:</strong> Flag <code>-A</code> dan <code>-X</code> bisa menampilkan data sensitif termasuk
+            password, cookie, dan token. Hanya gunakan di jaringan yang <strong>sepenuhnya Anda miliki</strong>.
+            Menyimpan data seperti ini dari jaringan orang lain adalah tindakan ilegal penyadapan.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 10: ETIKA & RISIKO -->
+      <section class="section" id="s10">
+        <div class="section-header">
+          <span class="section-number">// 10 &mdash; Etika &amp; Risiko Penggunaan</span>
+          <h2 class="section-title">Etika &amp; Risiko Penggunaan Tcpdump</h2>
+        </div>
+
+        <div class="danger-box">
+          <span class="box-icon">🚫</span>
+          <p><strong>ILEGAL — JANGAN LAKUKAN:</strong> Menjalankan Tcpdump di jaringan atau perangkat yang bukan milik
+            Anda tanpa izin eksplisit adalah penyadapan ilegal di Indonesia (UU ITE No. 19 Tahun 2016 Pasal 31) dan bisa
+            dikenakan pidana penjara dan denda besar. Packet sniffing di jaringan publik juga melanggar hukum.</p>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 40px;">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">✅</span> BOLEH dilakukan</div>
+            <div class="card-body">
+              <ul>
+                <li>Capture di jaringan rumah <strong>milik sendiri</strong></li>
+                <li>Capture di lab virtual machine milik sendiri</li>
+                <li>Capture di perangkat dengan <strong>izin tertulis</strong></li>
+                <li>Capture untuk debugging layanan sendiri</li>
+                <li>Platform legal: TryHackMe, HackTheBox</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">❌</span> TIDAK BOLEH dilakukan</div>
+            <div class="card-body">
+              <ul>
+                <li>Capture di WiFi publik/cafe tanpa izin</li>
+                <li>Sniffing jaringan kantor/sekolah tanpa otorisasi</li>
+                <li>Capture data orang lain (credentials, data pribadi)</li>
+                <li>Menyimpan dan menggunakan data yang di-capture dari jaringan orang lain</li>
+                <li>Capture di VPN shared tanpa izin provider</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>Risiko Privasi Data</h3>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🔑</span> Credential Exposure</div>
+            <div class="card-body">HTTP, FTP, Telnet, POP3 tanpa enkripsi mengirim password dalam plaintext. Tcpdump
+              dengan -A bisa menangkap ini. Selalu gunakan HTTPS/SFTP/SSH.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🍪</span> Session Cookie</div>
+            <div class="card-body">Cookie session HTTP bisa di-capture dan digunakan untuk session hijacking. Ini alasan
+              cookie harus memiliki flag Secure dan HttpOnly.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">📧</span> Email Plaintext</div>
+            <div class="card-body">POP3 (110) dan IMAP (143) tanpa TLS mengirim email dan password dalam plaintext.
+              Gunakan port 993 (IMAPS) atau 995 (POP3S).</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 11: BEST PRACTICE -->
+      <section class="section" id="s11">
+        <div class="section-header">
+          <span class="section-number">// 11 &mdash; Best Practice</span>
+          <h2 class="section-title">Best Practice — Capture yang Aman &amp; Efisien</h2>
+        </div>
+
+        <h3>Prinsip Capture yang Baik</h3>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🎯</span> Selalu Gunakan Filter</div>
+            <div class="card-body">Jangan capture semua traffic tanpa filter di jaringan sibuk. Filter BPF diproses di
+              kernel — efisien dan tidak membuang resource. Spesifik ke host/port yang dibutuhkan.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">⏱️</span> Batasi Durasi</div>
+            <div class="card-body">Gunakan <code>-c N</code> (jumlah paket) atau buat script dengan timeout. Jangan
+              biarkan capture berjalan selamanya — file .pcap bisa sangat besar.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">💾</span> Rotate File</div>
+            <div class="card-body">Gunakan <code>-C</code> (size) atau <code>-G</code> (time) untuk rotate otomatis.
+              Kombinasikan dengan <code>-W</code> untuk limit jumlah file agar disk tidak penuh.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🔐</span> Amankan File PCAP</div>
+            <div class="card-body">File .pcap berisi data sensitif. Simpan di direktori terbatas (chmod 600), jangan
+              taruh di folder publik, dan hapus setelah analisis selesai.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🌐</span> Pilih Interface Tepat</div>
+            <div class="card-body">Gunakan interface spesifik, bukan <code>any</code>. Interface <code>any</code> tidak
+              support promiscuous mode dan bisa duplikat paket di beberapa distro.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">📝</span> Dokumentasikan</div>
+            <div class="card-body">Selalu catat: tanggal, tujuan capture, interface, filter yang digunakan. File pcap
+              tanpa konteks tidak berguna untuk analisis di kemudian hari.</div>
+          </div>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Best Practice Commands</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># ✅ BAIK: Filter spesifik, batasi paket, no DNS lookup</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -c 200 port
+              53</span><br><br>
+            <span class="comment"># ✅ BAIK: Simpan ke file dengan rotate dan limit</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -G 300 -W 6 -w
+              /tmp/cap_%Y%m%d_%H%M%S.pcap</span><br><br>
+            <span class="comment"># ✅ BAIK: Capture background dengan nohup, stop dengan kill</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo nohup tcpdump -i eth0 -nn -w capture.pcap
+              port 80 &amp;</span>
+            <span class="output-line">[1] 12345</span>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo kill 12345</span><br><br>
+            <span class="comment"># ❌ HINDARI: Capture semua traffic tanpa filter tanpa batas</span><br>
+            <span class="comment"># sudo tcpdump -i eth0 -A &lt;-- bisa capture data sensitif semua
+              orang!</span><br><br>
+            <span class="comment"># ❌ HINDARI: Simpan ke disk tanpa limit ukuran</span><br>
+            <span class="comment"># sudo tcpdump -i eth0 -w bigfile.pcap &lt;-- bisa isi seluruh disk!</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 12: CHEAT SHEET -->
+      <section class="section" id="s12">
+        <div class="section-header">
+          <span class="section-number">// 12 &mdash; Cheat Sheet Command Penting</span>
+          <h2 class="section-title">Cheat Sheet Command Tcpdump</h2>
+        </div>
+
+        <table class="cheat-table">
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>Fungsi</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mono">tcpdump -D</span></td>
+              <td><span class="key">List Interface</span></td>
+              <td>Tampilkan semua interface yang tersedia untuk capture</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn</span></td>
+              <td><span class="key">Basic Capture</span></td>
+              <td>Capture semua traffic di eth0, tampilkan IP dan port sebagai angka</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn host 192.168.1.1</span></td>
+              <td><span class="key">Host Filter</span></td>
+              <td>Capture traffic ke/dari IP tertentu</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn port 53</span></td>
+              <td><span class="key">Port Filter</span></td>
+              <td>Capture traffic DNS</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn tcp</span></td>
+              <td><span class="key">Protocol Filter</span></td>
+              <td>Capture hanya paket TCP</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn icmp</span></td>
+              <td><span class="key">ICMP / Ping</span></td>
+              <td>Monitor aktivitas ping di jaringan</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn arp</span></td>
+              <td><span class="key">ARP Monitor</span></td>
+              <td>Monitor ARP — berguna deteksi perangkat baru atau ARP spoofing</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn broadcast</span></td>
+              <td><span class="key">Broadcast Monitor</span></td>
+              <td>Tampilkan semua broadcast — IoT, DHCP, NetBIOS</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn -c 100</span></td>
+              <td><span class="key">Limit Count</span></td>
+              <td>Stop setelah 100 paket</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn -v</span></td>
+              <td><span class="key">Verbose</span></td>
+              <td>Output detail termasuk TTL, checksum, options</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn -e</span></td>
+              <td><span class="key">MAC Address</span></td>
+              <td>Tampilkan MAC address source dan destination</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn -A port 80</span></td>
+              <td><span class="key">ASCII Payload</span></td>
+              <td>Tampilkan payload HTTP dalam teks (hati-hati data sensitif)</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn -w file.pcap</span></td>
+              <td><span class="key">Save PCAP</span></td>
+              <td>Simpan capture ke file untuk analisis lanjutan</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -r file.pcap -nn</span></td>
+              <td><span class="key">Read PCAP</span></td>
+              <td>Baca file pcap yang sudah tersimpan</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn "host X and port Y"</span></td>
+              <td><span class="key">Combined Filter</span></td>
+              <td>Filter kombinasi host dan port</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn net 192.168.1.0/24</span></td>
+              <td><span class="key">Subnet Filter</span></td>
+              <td>Capture semua traffic di subnet rumah</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn "tcp[tcpflags]==tcp-syn"</span></td>
+              <td><span class="key">SYN Only</span></td>
+              <td>Capture hanya paket SYN — deteksi connection attempt</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn -G 60 -W 10 -w cap_%T.pcap</span></td>
+              <td><span class="key">Rotate Capture</span></td>
+              <td>Rotate file setiap 60 detik, max 10 file</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn "not port 22"</span></td>
+              <td><span class="key">Exclude SSH</span></td>
+              <td>Capture semua kecuali SSH — kurangi noise saat remote management</td>
+            </tr>
+            <tr>
+              <td><span class="mono">tcpdump -i eth0 -nn -tttt</span></td>
+              <td><span class="key">Full Timestamp</span></td>
+              <td>Tampilkan timestamp lengkap dengan tanggal (YYYY-MM-DD)</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 13: LATIHAN -->
+      <section class="section" id="s13">
+        <div class="section-header">
+          <span class="section-number">// 13 &mdash; Mini Latihan Praktik Bertahap</span>
+          <h2 class="section-title">Mini Latihan Praktik Bertahap</h2>
+        </div>
+
+        <!-- LAB 1 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">1</div>
+            <div>
+              <div class="lab-title">Kenali Jaringan &amp; Interface</div>
+            </div>
+            <div class="lab-difficulty diff-beginner">Beginner</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Memahami interface jaringan dan melakukan capture
+              pertama.</p>
+            <div class="lab-step">
+              <div class="lab-step-num">1</div>
+              <div class="lab-step-content">Jalankan <code>sudo tcpdump -D</code> — catat nama interface yang tersedia
+                (eth0, wlan0, dll).</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">2</div>
+              <div class="lab-step-content">Jalankan <code>ip addr show</code> untuk mengetahui IP address dan subnet
+                Anda.</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">3</div>
+              <div class="lab-step-content">Capture 20 paket: <code>sudo tcpdump -i eth0 -nn -c 20</code> — amati
+                output.</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">4</div>
+              <div class="lab-step-content">Identifikasi: IP address, port, protokol apa yang muncul paling sering?
+              </div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">5</div>
+              <div class="lab-step-content">Capture hanya ARP: <code>sudo tcpdump -i eth0 -nn -e arp</code> — lihat MAC
+                address perangkat di jaringan.</div>
+            </div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Anda bisa mengidentifikasi nama interface, IP Anda, gateway, dan minimal
+                3 jenis protokol dalam capture.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 2 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">2</div>
+            <div>
+              <div class="lab-title">Debug DNS &amp; Analisis Latency</div>
+            </div>
+            <div class="lab-difficulty diff-beginner">Beginner</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Memahami bagaimana DNS bekerja dan menganalisis latency
+              resolusi.</p>
+            <div class="lab-step">
+              <div class="lab-step-num">1</div>
+              <div class="lab-step-content">Jalankan di terminal 1: <code>sudo tcpdump -i eth0 -nn -tttt port 53</code>
+              </div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">2</div>
+              <div class="lab-step-content">Di terminal 2, jalankan: <code>ping google.com</code> atau buka browser.
+              </div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">3</div>
+              <div class="lab-step-content">Amati output Tcpdump — cari pasangan query (<code>A? domain.com</code>) dan
+                response (<code>A IP</code>).</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">4</div>
+              <div class="lab-step-content">Hitung latency DNS: selisih timestamp query vs response. Normal &lt; 100ms.
+              </div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">5</div>
+              <div class="lab-step-content">Cek apakah ada query ke selain router Anda (DNS leak):
+                <code>sudo tcpdump -i eth0 -nn "dst port 53 and not dst host 192.168.1.1"</code></div>
+            </div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Anda bisa membaca pasangan DNS query-response dan mengukur latency DNS
+                Anda.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 3 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">3</div>
+            <div>
+              <div class="lab-title">Monitor Traffic HTTP vs HTTPS</div>
+            </div>
+            <div class="lab-difficulty diff-beginner">Beginner</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Memahami perbedaan HTTP (plaintext) dan HTTPS
+              (terenkripsi).</p>
+            <div class="lab-step">
+              <div class="lab-step-num">1</div>
+              <div class="lab-step-content">Capture HTTP dengan payload:
+                <code>sudo tcpdump -i eth0 -nn -A port 80 -c 30</code></div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">2</div>
+              <div class="lab-step-content">Di browser, kunjungi situs HTTP (bukan HTTPS) — amati GET request yang
+                terlihat di terminal.</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">3</div>
+              <div class="lab-step-content">Sekarang capture HTTPS:
+                <code>sudo tcpdump -i eth0 -nn -A port 443 -c 30</code></div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">4</div>
+              <div class="lab-step-content">Kunjungi situs HTTPS — amati bahwa payload hanya terlihat sebagai data acak
+                terenkripsi.</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">5</div>
+              <div class="lab-step-content">Perhatikan: pada TLS handshake, SNI (Server Name) masih terlihat di
+                ClientHello meski data terenkripsi.</div>
+            </div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Anda bisa melihat perbedaan jelas antara konten HTTP yang terbaca dan
+                HTTPS yang terenkripsi.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 4 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">4</div>
+            <div>
+              <div class="lab-title">Deteksi Perangkat &amp; Monitoring IoT</div>
+            </div>
+            <div class="lab-difficulty diff-intermediate">Intermediate</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Menggunakan Tcpdump untuk memetakan aktivitas perangkat
+              di jaringan rumah.</p>
+            <div class="lab-step">
+              <div class="lab-step-num">1</div>
+              <div class="lab-step-content">Monitor broadcast 2 menit:
+                <code>sudo tcpdump -i eth0 -nn -e broadcast -c 100 -w iot_scan.pcap</code></div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">2</div>
+              <div class="lab-step-content">Baca hasilnya dan ekstrak MAC address unik:
+                <code>tcpdump -r iot_scan.pcap -nn -e | awk '{print $2}' | sort -u</code></div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">3</div>
+              <div class="lab-step-content">Identifikasi vendor dari MAC address menggunakan <code>macvendors.com</code>
+                (masukkan 3 byte pertama).</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">4</div>
+              <div class="lab-step-content">Monitor MQTT: <code>sudo tcpdump -i eth0 -nn port 1883 -c 20</code> — apakah
+                ada perangkat IoT MQTT?</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">5</div>
+              <div class="lab-step-content">Buat daftar perangkat: IP, MAC, vendor, protokol aktif. Identifikasi
+                perangkat tak dikenal.</div>
+            </div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Anda bisa membuat inventori perangkat jaringan berdasarkan traffic yang
+                di-capture.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 5 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">5</div>
+            <div>
+              <div class="lab-title">Capture &amp; Analisis dengan Wireshark</div>
+            </div>
+            <div class="lab-difficulty diff-intermediate">Intermediate</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Gunakan Tcpdump untuk capture, lalu analisis mendalam
+              di Wireshark.</p>
+            <div class="lab-step">
+              <div class="lab-step-num">1</div>
+              <div class="lab-step-content">Capture 60 detik traffic umum:
+                <code>sudo tcpdump -i eth0 -nn -w full_capture.pcap</code>, lalu buka browser normal selama 60 detik.
+              </div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">2</div>
+              <div class="lab-step-content">Buka di Wireshark: <code>wireshark full_capture.pcap</code></div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">3</div>
+              <div class="lab-step-content">Di Wireshark, gunakan filter: <code>dns</code> — lihat semua DNS query.
+                Domain apa yang paling sering diakses?</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">4</div>
+              <div class="lab-step-content">Filter: <code>tcp.flags.syn==1 and tcp.flags.ack==0</code> — lihat semua
+                connection initiation.</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">5</div>
+              <div class="lab-step-content">Menu Statistics → Conversations → TCP — lihat top talkers di jaringan Anda.
+              </div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">6</div>
+              <div class="lab-step-content">Menu Statistics → Protocol Hierarchy — lihat distribusi protokol dalam
+                capture.</div>
+            </div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Anda bisa membuat laporan: top 5 domain yang diakses, top 3 protokol,
+                dan identifikasi satu koneksi lengkap TCP dari SYN sampai FIN.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 6 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">6</div>
+            <div>
+              <div class="lab-title">Defensive Security Monitoring</div>
+            </div>
+            <div class="lab-difficulty diff-intermediate">Intermediate</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Setup monitoring defensif sederhana untuk keamanan
+              jaringan rumah.</p>
+            <div class="lab-step">
+              <div class="lab-step-num">1</div>
+              <div class="lab-step-content">Monitor SYN flood/scan:
+                <code>sudo tcpdump -i eth0 -nn "tcp[tcpflags]==tcp-syn" -c 50 -w syn_monitor.pcap</code></div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">2</div>
+              <div class="lab-step-content">Cek traffic plaintext berbahaya:
+                <code>sudo tcpdump -i eth0 -nn port 23 or port 21 or port 110 -c 20</code> — apakah ada Telnet/FTP/POP3?
+              </div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">3</div>
+              <div class="lab-step-content">Deteksi koneksi ke luar yang tidak biasa:
+                <code>sudo tcpdump -i eth0 -nn "src net 192.168.1.0/24 and dst port not (80 or 443 or 53 or 22)" -c 30</code>
+              </div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">4</div>
+              <div class="lab-step-content">Monitor ARP untuk deteksi perangkat baru:
+                <code>sudo tcpdump -i eth0 -nn arp -c 30</code> — catat semua MAC address.</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">5</div>
+              <div class="lab-step-content">Buat script monitoring sederhana yang jalankan Tcpdump setiap malam dan
+                simpan ke file dengan rotasi 7 hari.</div>
+            </div>
+            <div class="lab-step">
+              <div class="lab-step-num">6</div>
+              <div class="lab-step-content">Dokumentasikan baseline: traffic normal Anda seperti apa? DNS server mana
+                yang digunakan? Port apa yang biasa terbuka?</div>
+            </div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Anda memiliki pemahaman tentang baseline traffic normal jaringan rumah
+                dan bisa mendeteksi anomali dari baseline tersebut.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box" style="margin-top: 30px;">
+          <span class="box-icon">🎓</span>
+          <p><strong>Langkah Selanjutnya:</strong> Setelah menguasai Tcpdump, pelajari <strong>Wireshark</strong> untuk
+            analisis visual, <strong>tshark</strong> untuk scripting, dan <strong>Zeek (Bro)</strong> untuk analisis
+            traffic otomatis dan deteksi ancaman.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 14: INTEGRASI TOOLS -->
+      <section class="section" id="s14">
+        <div class="section-header">
+          <span class="section-number">// 14 &mdash; Integrasi dengan Tools Lain</span>
+          <h2 class="section-title">Integrasi Tcpdump dengan Tools Lain</h2>
+          <p class="section-desc">Tcpdump menjadi jauh lebih powerful ketika dikombinasikan dengan tools analisis
+            lainnya. Berikut cara mengintegrasikan Tcpdump dengan ekosistem tools jaringan dan keamanan.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🦈</span> Wireshark — GUI Analyzer</div>
+            <div class="card-body">
+              Tool GUI paling populer untuk analisis packet. Buka file .pcap dari Tcpdump, filter visual, rekonstruksi
+              stream TCP, statistik lengkap, dan decode ratusan protokol secara otomatis.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🔬</span> tshark — CLI Wireshark</div>
+            <div class="card-body">
+              Versi command-line dari Wireshark. Sangat berguna untuk scripting, automasi analisis, dan extract field
+              spesifik dari pcap. Decode protokol lebih banyak dari Tcpdump.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🦓</span> Zeek (Bro) — Traffic Analyzer</div>
+            <div class="card-body">
+              Framework analisis traffic jaringan level tinggi. Zeek menghasilkan log terstruktur (conn.log, dns.log,
+              http.log) dari pcap. Sangat berguna untuk threat hunting dan security monitoring.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🛡️</span> Suricata / Snort — IDS/IPS</div>
+            <div class="card-body">
+              IDS/IPS yang bisa membaca file pcap dari Tcpdump dan menjalankan rules deteksi ancaman. Tcpdump capture →
+              Suricata analyze → alert jika ada pattern berbahaya.
+            </div>
+          </div>
+        </div>
+
+        <h3>Integrasi Tcpdump + Wireshark</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Tcpdump → Wireshark Workflow</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># 1. Capture dengan Tcpdump di server/CLI (tanpa GUI)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -w <span
+                class="term-highlight">capture.pcap</span> port 80 or port 443</span><br><br>
+            <span class="comment"># 2. Transfer file pcap ke komputer lokal (jika dari remote server)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">scp user@192.168.1.100:<span
+                class="term-highlight">capture.pcap</span> ./</span><br><br>
+            <span class="comment"># 3. Buka langsung di Wireshark</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">wireshark <span
+                class="term-highlight">capture.pcap</span></span><br><br>
+            <span class="comment"># 4. Alternatif: pipe langsung ke Wireshark real-time (remote capture)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">ssh user@192.168.1.100 "sudo tcpdump -i eth0 -nn
+              -U -w -" | wireshark -k -i -</span>
+            <span class="comment">│ -U = packet-buffered (langsung kirim, tidak buffer dulu)</span>
+            <span class="comment">│ -w - = write ke stdout</span>
+            <span class="comment">│ Wireshark -k = mulai capture langsung</span>
+            <span class="comment">│ Wireshark -i - = baca dari stdin</span>
+          </div>
+        </div>
+
+        <h3>Integrasi Tcpdump + tshark</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">tshark Analysis Commands</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Install tshark</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo apt install <span
+                class="term-highlight">tshark</span></span><br><br>
+            <span class="comment"># Extract semua domain DNS yang diquery dari pcap</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">tshark -r capture.pcap <span
+                class="term-highlight">-Y "dns.flags.response == 0"</span> -T fields -e dns.qry.name | sort | uniq -c |
+              sort -rn</span>
+            <span class="output-line"> 47 google.com</span>
+            <span class="output-line"> 23 youtube.com</span>
+            <span class="output-line"> 18 doubleclick.net</span><br>
+            <span class="comment"># Lihat semua HTTP request (method + URL) dari pcap</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">tshark -r capture.pcap <span
+                class="term-highlight">-Y "http.request"</span> -T fields -e http.request.method -e http.host -e
+              http.request.uri</span><br><br>
+            <span class="comment"># Statistik koneksi: source IP, destination IP, bytes transferred</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">tshark -r capture.pcap -q <span
+                class="term-highlight">-z conv,tcp</span></span><br><br>
+            <span class="comment"># Filter dan export ke file baru</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">tshark -r capture.pcap <span
+                class="term-highlight">-Y "ip.addr == 8.8.8.8"</span> -w filtered.pcap</span>
+          </div>
+        </div>
+
+        <h3>Integrasi Tcpdump + Zeek</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Zeek Analysis from PCAP</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Install Zeek</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo apt install <span
+                class="term-highlight">zeek</span></span><br><br>
+            <span class="comment"># Analisis pcap dengan Zeek — menghasilkan log terstruktur</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">zeek -r capture.pcap</span>
+            <span class="output-line">Zeek menghasilkan file log:</span>
+            <span class="open-port">conn.log — semua koneksi TCP/UDP (IP, port, durasi, bytes)</span>
+            <span class="open-port">dns.log — semua DNS query dan response</span>
+            <span class="open-port">http.log — semua HTTP request (method, host, URI, response code)</span>
+            <span class="open-port">ssl.log — semua TLS/SSL connection (server name, cert)</span>
+            <span class="output-line">files.log — semua file yang ditransfer</span><br>
+            <span class="comment"># Baca conn.log dengan format tabel</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">cat conn.log | zeek-cut id.orig_h id.resp_h
+              id.resp_p proto duration | head -20</span><br><br>
+            <span class="comment"># Cari semua domain unik dari dns.log</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">cat dns.log | zeek-cut query | sort -u</span>
+          </div>
+        </div>
+
+        <h3>Integrasi dengan IDS — Suricata</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dots">
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+              <div class="term-dot"></div>
+            </div>
+            <span class="term-label">Suricata PCAP Analysis</span><button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Capture dengan Tcpdump dulu</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo tcpdump -i eth0 -nn -w
+              suspicious_traffic.pcap -c 1000</span><br><br>
+            <span class="comment"># Analisis pcap dengan Suricata dan rules ETOpen</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">sudo suricata -r suspicious_traffic.pcap -l
+              ./logs/</span>
+            <span class="output-line">Reading file 'suspicious_traffic.pcap'</span>
+            <span class="open-port">28/11/2024-14:32:05 [**] [1:2001219:20] ET SCAN Potential SSH Scan [**]</span>
+            <span class="open-port">28/11/2024-14:32:10 [**] [1:2013504:5] ET POLICY DNS Query for TOR .onion
+              [**]</span>
+            <span class="comment">│ Suricata mencocokkan traffic dengan rules IDS</span>
+            <span class="comment">│ Alert muncul jika ada pola yang mencurigakan</span>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <span class="box-icon">💡</span>
+          <p><strong>Workflow Lengkap:</strong> Capture dengan Tcpdump → Simpan .pcap → Analisis dengan Wireshark
+            (visual) + tshark (scripting) + Zeek (log terstruktur) + Suricata (threat detection). Setiap tool melengkapi
+            satu sama lain.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 15: PERBANDINGAN -->
+      <section class="section" id="s15">
+        <div class="section-header">
+          <span class="section-number">// 15 &mdash; Perbandingan Konsep Penting</span>
+          <h2 class="section-title">Perbandingan Konsep Penting</h2>
+        </div>
+
+        <h3>Tcpdump vs Wireshark</h3>
+        <table class="cheat-table">
+          <thead>
+            <tr>
+              <th>Aspek</th>
+              <th>Tcpdump</th>
+              <th>Wireshark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Interface</td>
+              <td>Command-line (CLI)</td>
+              <td>Graphical UI (GUI)</td>
+            </tr>
+            <tr>
+              <td>Instalasi</td>
+              <td>Ringan, tersedia di semua Linux</td>
+              <td>Butuh desktop environment, lebih besar</td>
+            </tr>
+            <tr>
+              <td>Remote Server</td>
+              <td>✅ Sangat ideal untuk server headless</td>
+              <td>❌ Butuh GUI atau X forwarding</td>
+            </tr>
+            <tr>
+              <td>Scripting</td>
+              <td>✅ Mudah dikombinasikan dengan shell/script</td>
+              <td>⚠️ Terbatas (gunakan tshark)</td>
+            </tr>
+            <tr>
+              <td>Analisis Visual</td>
+              <td>❌ Teks saja</td>
+              <td>✅ Warna, diagram, statistik visual</td>
+            </tr>
+            <tr>
+              <td>Protocol Decode</td>
+              <td>Terbatas (protokol umum)</td>
+              <td>✅ 3000+ protokol didukung</td>
+            </tr>
+            <tr>
+              <td>Real-time Follow</td>
+              <td>❌ Tidak bisa follow stream GUI</td>
+              <td>✅ Follow TCP/UDP stream, reassemble</td>
+            </tr>
+            <tr>
+              <td>Resource Usage</td>
+              <td>Sangat ringan</td>
+              <td>Berat (RAM tinggi untuk file besar)</td>
+            </tr>
+            <tr>
+              <td>Library</td>
+              <td>libpcap</td>
+              <td>libpcap + winpcap/npcap</td>
+            </tr>
+            <tr>
+              <td>Format File</td>
+              <td>.pcap (standard)</td>
+              <td>.pcapng (extended), kompatibel pcap</td>
+            </tr>
+            <tr>
+              <td>Best For</td>
+              <td>Capture, quick filter, scripting</td>
+              <td>Analisis mendalam, debugging protokol</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Packet Capture vs Port Scanning</h3>
+        <table class="cheat-table">
+          <thead>
+            <tr>
+              <th>Aspek</th>
+              <th>Packet Capture (Tcpdump)</th>
+              <th>Port Scanning (Nmap)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mode Operasi</td>
+              <td><strong>Pasif</strong> — hanya mendengarkan</td>
+              <td><strong>Aktif</strong> — mengirim paket probe</td>
+            </tr>
+            <tr>
+              <td>Deteksi</td>
+              <td>Tidak terdeteksi oleh target</td>
+              <td>Terlihat di log dan IDS target</td>
+            </tr>
+            <tr>
+              <td>Tujuan</td>
+              <td>Analisis traffic yang sudah ada</td>
+              <td>Discovery host dan port terbuka</td>
+            </tr>
+            <tr>
+              <td>Pengaruh Jaringan</td>
+              <td>Tidak ada (hanya read)</td>
+              <td>Menghasilkan traffic tambahan</td>
+            </tr>
+            <tr>
+              <td>Informasi</td>
+              <td>Siapa berbicara dengan siapa, kapan, apa</td>
+              <td>Host aktif, port terbuka, service, OS</td>
+            </tr>
+            <tr>
+              <td>Risiko Legal</td>
+              <td>Aman jika di jaringan sendiri</td>
+              <td>Aman jika di jaringan sendiri</td>
+            </tr>
+            <tr>
+              <td>Gunakan Untuk</td>
+              <td>Monitoring, troubleshooting, forensik</td>
+              <td>Inventory jaringan, security audit</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Passive Monitoring vs Active Scanning</h3>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">👂</span> Passive Monitoring</div>
+            <div class="card-body">
+              <ul>
+                <li><strong>Tools:</strong> Tcpdump, Wireshark, Zeek, ntopng</li>
+                <li>Tidak mengirim paket — hanya observe</li>
+                <li>Tidak terdeteksi oleh perangkat lain</li>
+                <li>Hanya bisa melihat traffic yang melewati interface</li>
+                <li>Ideal untuk monitoring kontinyu dan forensik</li>
+                <li>Tidak bisa menemukan host yang tidak mengirim traffic</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">📡</span> Active Scanning</div>
+            <div class="card-body">
+              <ul>
+                <li><strong>Tools:</strong> Nmap, Masscan, Netcat, Ping</li>
+                <li>Mengirim paket ke target — generate traffic</li>
+                <li>Terlihat di log firewall dan IDS</li>
+                <li>Bisa menemukan host yang diam sekalipun</li>
+                <li>Ideal untuk asset discovery dan security audit</li>
+                <li>Bisa memicu alert atau crash perangkat sensitif</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box" style="margin-top: 24px;">
+          <span class="box-icon">🧠</span>
+          <p><strong>Mindset Defensif:</strong> Seorang network defender yang baik memahami kedua teknik — passive
+            monitoring untuk baseline dan anomaly detection, active scanning untuk asset inventory berkala. Kombinasi
+            keduanya memberikan visibilitas jaringan yang komprehensif.</p>
+        </div>
+      </section>
+
+    </div><!-- /content -->
+  </main>
+
+  <script src="./tcpdump-guide.js"></script>
+</body>
+
+</html>

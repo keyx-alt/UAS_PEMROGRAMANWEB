@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wireshark Interactive Guide — VeloraSec</title>
+<link rel="icon" type="image/png" sizes="32x32" rel="icon" href="../../../assets/icons/icons8-shark-32.png">
+<link rel="stylesheet" href="./wireshark-guide.css">
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div id="progress-bar"></div>
+
+<!-- TOAST -->
+<div id="toast">✓ Copied to clipboard</div>
+
+<!-- MOBILE TOGGLE -->
+<button class="menu-toggle" id="menuToggleBtn">☰</button>
+<div class="overlay" id="overlay"></div>
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <!-- Wireshark-like icon SVG -->
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="8" fill="rgba(0,255,198,0.12)"/>
+        <path d="M6 21C8 21 11 16 14 11C17 6 21 5 22 5C21 9 18 14 18 18C18 20 19 21 22 21" stroke="#00FFC6" stroke-width="2.2" fill="rgba(0,255,198,0.1)" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 23Q9 21.5 14 23T24 23" stroke="#4DA3FF" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      WireShark Guide
+    </div>
+    <div class="sidebar-subtitle">VeloraSec v4.1.0</div>
+    <a href="../../../index.html#hero" class="home-btn">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1L1 7h2v7h4v-4h2v4h4V7h2L8 1z"/></svg>
+      Home
+    </a>
+    <a href="../../../index.html#tools" class="home-btn">
+      < Back
+    </a>
+  </div>
+
+  <span class="nav-section-title">Getting Started</span>
+  <a class="nav-item" href="#introduction">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2.5a1 1 0 110 2 1 1 0 010-2zm-.5 3h1v5h-1V6.5z"/></svg>
+    Introduction
+  </a>
+  <a class="nav-item" href="#installation">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v8M5 6l3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+    Installation
+  </a>
+  <a class="nav-item" href="#interface">
+    <svg viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 6h12" stroke="currentColor" stroke-width="1.5"/></svg>
+    Interface Overview
+  </a>
+  <a class="nav-item" href="#capture">
+    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="3" fill="currentColor"/></svg>
+    Packet Capture
+  </a>
+
+  <span class="nav-section-title">Analysis</span>
+  <a class="nav-item" href="#filters">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+    Display Filters
+  </a>
+  <a class="nav-item" href="#tcp">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 8 Q5 2 8 8 Q11 14 14 8" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+    TCP Analysis
+  </a>
+  <a class="nav-item" href="#http">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 5h10M3 8h7M3 11h5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+    HTTP Analysis
+  </a>
+  <a class="nav-item" href="#dns">
+    <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 8h12M8 2Q5 5 5 8Q5 11 8 14" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+    DNS Analysis
+  </a>
+  <a class="nav-item" href="#https">
+    <svg viewBox="0 0 16 16" fill="currentColor"><rect x="4" y="7" width="8" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5.5a2.5 2.5 0 015 0V7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+    HTTPS / TLS
+  </a>
+
+  <span class="nav-section-title">Advanced</span>
+  <a class="nav-item" href="#malware">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 2L2 6v7l6 1 6-1V6L8 2z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 9V6M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    Malware Analysis
+  </a>
+  <a class="nav-item" href="#labs">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6 2v6L3 12h10l-3-4V2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M6 2h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    Labs
+  </a>
+  <a class="nav-item" href="#cheatsheet">
+    <svg viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="10" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 6h4M6 9h4M6 12h2" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+    Cheat Sheet
+  </a>
+  <a class="nav-item" href="#bestpractices">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 2l1.5 4h4.5l-3.5 2.5 1.5 4L8 10l-4 2.5 1.5-4L2 6h4.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    Best Practices
+  </a>
+  <a class="nav-item" href="#resources">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2h6l4 4v9H4V2z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 2v4h4" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>
+    Resources
+  </a>
+</aside>
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+<main class="main">
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section id="hero" class="hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge">Interactive Learning Platform</div>
+    <h1 class="hero-title">Wireshark<br>Mastery Guide</h1>
+    <p class="hero-sub">Panduan lengkap network analysis, packet capture, dan cybersecurity traffic investigation untuk pemula hingga profesional.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" data-scroll-target="introduction">Mulai Belajar →</button>
+      <button class="btn-ghost" data-scroll-target="labs">Lihat Labs</button>
+      <button class="btn-ghost" data-scroll-target="cheatsheet">Cheat Sheet</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-num" data-target="50000">0</div>
+        <div class="stat-label">Packets Captured</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" data-target="100">0</div>
+        <div class="stat-label">Protocols Supported</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" data-target="15">0</div>
+        <div class="stat-label">Analysis Modules</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" data-target="5">0</div>
+        <div class="stat-label">Hands-on Labs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     INTRODUCTION
+     ============================================================ -->
+<section id="introduction" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 01 — Introduction</div>
+    <h2 class="section-title">Apa itu Wireshark?</h2>
+    <p class="section-desc">Network protocol analyzer paling populer di dunia — gratis, open-source, dan digunakan oleh jutaan profesional IT.</p>
+  </div>
+
+  <div class="grid-2 ws-inline-1">
+    <div class="card">
+      <div class="card-title">📡 Definisi</div>
+      <div class="card-body">
+        <p>Wireshark adalah <strong class="ws-inline-2">network protocol analyzer</strong> — tools yang memungkinkan kamu menangkap (capture) dan menganalisis lalu lintas jaringan secara real-time. Bayangkan Wireshark seperti "X-ray untuk jaringan komputer" — kamu bisa melihat setiap packet data yang lewat di kabel atau WiFi, lengkap dengan detail protokol, isi data, dan timing-nya.</p>
+        <br>
+        <p>Nama "Wireshark" sendiri berasal dari kata wire (kabel/jaringan) + shark (hiu = pemburu handal). Dibuat oleh Gerald Combs tahun 1998, awalnya bernama Ethereal sebelum berubah nama ke Wireshark di 2006.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🎯 Fungsi Utama</div>
+      <div class="card-body">
+        <ul class="ws-inline-3">
+          <li><span class="flag-dot flag-green"></span>Capture live network traffic</li>
+          <li><span class="flag-dot flag-green"></span>Analisis protocol (TCP, HTTP, DNS, dll)</li>
+          <li><span class="flag-dot flag-green"></span>Troubleshoot masalah jaringan</li>
+          <li><span class="flag-dot flag-green"></span>Security incident investigation</li>
+          <li><span class="flag-dot flag-green"></span>Malware traffic analysis</li>
+          <li><span class="flag-dot flag-green"></span>Belajar cara kerja protokol jaringan</li>
+          <li><span class="flag-dot flag-green"></span>Forensik digital dan bukti jaringan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 ws-inline-4">Kapan Menggunakan Wireshark?</h3>
+  <div class="grid-3 mb-24">
+    <div class="card ws-inline-5">
+      <div class="ws-inline-6">🔧</div>
+      <div class="card-title">Network Troubleshooting</div>
+      <div class="card-body">Website lambat? Koneksi putus-putus? Wireshark bisa menunjukkan persis dimana bottleneck terjadi — apakah retransmission, high latency, atau packet loss.</div>
+    </div>
+    <div class="card ws-inline-7">
+      <div class="ws-inline-6">🛡️</div>
+      <div class="card-title">Security Analysis</div>
+      <div class="card-body">Deteksi port scan, brute force, beaconing malware, C2 communication, dan berbagai anomali traffic yang mengindikasikan serangan siber.</div>
+    </div>
+    <div class="card ws-inline-8">
+      <div class="ws-inline-6">📚</div>
+      <div class="card-title">Learning & Research</div>
+      <div class="card-body">Cara terbaik memahami cara kerja protokol jaringan adalah melihat packet aslinya. Wireshark adalah lab interaktif terbaik untuk belajar networking.</div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 ws-inline-4">Kelebihan & Kekurangan</h3>
+  <div class="grid-2 mb-24">
+    <div class="card ws-inline-5">
+      <div class="card-title text-primary">✅ Kelebihan</div>
+      <ul class="ws-inline-9">
+        <li><span class="flag-dot flag-green"></span>Free dan open-source (GPL)</li>
+        <li><span class="flag-dot flag-green"></span>Cross-platform: Windows, Linux, macOS</li>
+        <li><span class="flag-dot flag-green"></span>Support ribuan protokol (1000+)</li>
+        <li><span class="flag-dot flag-green"></span>GUI yang powerful dan intuitif</li>
+        <li><span class="flag-dot flag-green"></span>Filter syntax yang fleksibel</li>
+        <li><span class="flag-dot flag-green"></span>Export ke berbagai format</li>
+        <li><span class="flag-dot flag-green"></span>Community dan dokumentasi besar</li>
+      </ul>
+    </div>
+    <div class="card ws-inline-10">
+      <div class="card-title text-danger">⚠️ Kekurangan & Limitasi</div>
+      <ul class="ws-inline-9">
+        <li><span class="flag-dot flag-red"></span>Tidak bisa decrypt HTTPS tanpa private key</li>
+        <li><span class="flag-dot flag-red"></span>Butuh privilege admin/root untuk capture</li>
+        <li><span class="flag-dot flag-red"></span>High-volume traffic bisa membebani RAM</li>
+        <li><span class="flag-dot flag-red"></span>Tidak real-time alerting (bukan IDS)</li>
+        <li><span class="flag-dot flag-red"></span>Bisa disalahgunakan untuk sniffing ilegal</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="danger-box">
+    <div class="box-icon">⚖️</div>
+    <div>
+      <strong class="ws-inline-11">LEGAL & ETHICAL WARNING</strong><br>
+      Menggunakan Wireshark untuk menangkap lalu lintas jaringan <strong>yang bukan milikmu atau tanpa izin</strong> adalah ILEGAL di hampir semua yurisdiksi. Ini termasuk sniffing WiFi publik untuk mencuri kredensial, menangkap traffic di kantor tanpa otorisasi, atau penggunaan dalam kegiatan kriminal siber. Selalu gunakan Wireshark di lingkungan lab sendiri, dengan izin eksplisit, atau dalam konteks legal seperti CTF, pen-testing yang diizinkan, atau jaringan pribadi sendiri.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     INSTALLATION
+     ============================================================ -->
+<section id="installation" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 02 — Installation</div>
+    <h2 class="section-title">Instalasi Wireshark</h2>
+    <p class="section-desc">Panduan instalasi lengkap untuk tiga platform utama beserta troubleshooting error umum.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab-list">
+      <button class="tab-btn active" data-tab="install-win">🪟 Windows</button>
+      <button class="tab-btn" data-tab="install-lin">🐧 Linux</button>
+      <button class="tab-btn" data-tab="install-mac">🍎 macOS</button>
+    </div>
+
+    <!-- Windows -->
+    <div class="tab-panel active" id="install-win">
+      <h3 class="mb-16 ws-inline-12">Sistem Requirements</h3>
+      <div class="grid-4 mb-24">
+        <div class="card ws-inline-13">
+          <div class="ws-inline-14">💻</div>
+          <div class="ws-inline-15">OS</div>
+          <div class="ws-inline-16">Win 10/11</div>
+        </div>
+        <div class="card ws-inline-13">
+          <div class="ws-inline-14">🧠</div>
+          <div class="ws-inline-15">RAM</div>
+          <div class="ws-inline-16">Min 4GB</div>
+        </div>
+        <div class="card ws-inline-13">
+          <div class="ws-inline-14">💾</div>
+          <div class="ws-inline-15">Disk</div>
+          <div class="ws-inline-16">400 MB</div>
+        </div>
+        <div class="card ws-inline-13">
+          <div class="ws-inline-14">⚙️</div>
+          <div class="ws-inline-15">CPU</div>
+          <div class="ws-inline-16">64-bit</div>
+        </div>
+      </div>
+
+      <h3 class="mb-16 ws-inline-12">Langkah Instalasi</h3>
+
+      <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Download installer dari website resmi: <span class="mono text-secondary">https://www.wireshark.org/download.html</span> — pilih versi <strong class="ws-inline-2">Windows x64 Installer</strong>.</div></div>
+      <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Jalankan installer sebagai <strong>Administrator</strong>. Klik "Next" untuk memulai.</div></div>
+      <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content"><strong class="ws-inline-17">Penting:</strong> Pastikan centang "Install Npcap" — ini adalah driver wajib untuk packet capture di Windows. Tanpa Npcap, Wireshark tidak bisa menangkap traffic.</div></div>
+      <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Pada dialog Npcap, centang <strong>"Install Npcap in WinPcap API-compatible Mode"</strong> untuk kompatibilitas dengan tools lain.</div></div>
+      <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Selesaikan instalasi dan restart komputer jika diminta. Wireshark siap digunakan.</div></div>
+
+      <div class="tip-box"><div class="box-icon">💡</div><div><strong>Npcap</strong> adalah library packet capture untuk Windows, pengganti WinPcap yang sudah tidak di-maintain. Npcap jauh lebih modern, mendukung Windows 10/11, dan bisa berjalan dalam mode loopback untuk menangkap traffic localhost.</div></div>
+
+      <h3 class="mb-16 mt-16 ws-inline-12">Common Installation Errors</h3>
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-btn">❌ Error: "No interfaces found" saat membuka Wireshark<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">Biasanya karena Npcap tidak terinstall dengan benar. Solusi: uninstall Npcap dari Control Panel → install ulang dari https://npcap.com/#download. Jika masih error, jalankan Wireshark as Administrator.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">❌ Wireshark tidak bisa capture di WiFi adapter<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">Tidak semua WiFi driver mendukung promiscuous mode. Solusi: gunakan USB WiFi adapter yang kompatibel (misalnya Alfa AWUS036ACH), atau gunakan wired Ethernet adapter untuk capture yang lebih reliable.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">❌ Permission denied / Access denied<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">Jalankan Wireshark sebagai Administrator (klik kanan → Run as administrator). Di Windows 10/11, packet capture membutuhkan privilege elevated.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Linux -->
+    <div class="tab-panel" id="install-lin">
+      <h3 class="mb-16 ws-inline-12">Ubuntu / Debian</h3>
+      <div class="terminal">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">terminal — bash</span></div>
+        <div class="terminal-body">
+          <div><span class="term-comment"># Update package list</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">sudo apt update</span></div>
+          <br>
+          <div><span class="term-comment"># Install Wireshark</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">sudo apt install wireshark -y</span></div>
+          <br>
+          <div><span class="term-comment"># Saat prompt "Should non-superusers be able to capture packets?" pilih YES</span></div>
+          <br>
+          <div><span class="term-comment"># Tambahkan user ke grup wireshark (agar tidak perlu sudo)</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">sudo usermod -aG wireshark $USER</span></div>
+          <br>
+          <div><span class="term-comment"># Logout lalu login kembali, atau jalankan:</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">newgrp wireshark</span></div>
+          <br>
+          <div><span class="term-comment"># Verifikasi instalasi</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">wireshark --version</span></div>
+          <div><span class="term-out">Wireshark 4.2.x (Git v4.2.x)</span></div>
+        </div>
+      </div>
+
+      <h3 class="mb-16 mt-16 ws-inline-12">Fedora / RHEL / CentOS</h3>
+      <div class="terminal">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">terminal — bash</span></div>
+        <div class="terminal-body">
+          <div><span class="term-prompt">$ </span><span class="term-cmd">sudo dnf install wireshark wireshark-qt -y</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">sudo usermod -aG wireshark $USER</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">sudo setcap cap_net_raw,cap_net_admin+eip /usr/bin/dumpcap</span></div>
+        </div>
+      </div>
+
+      <h3 class="mb-16 mt-16 ws-inline-12">tshark (CLI Version)</h3>
+      <div class="terminal">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">tshark — CLI capture</span></div>
+        <div class="terminal-body">
+          <div><span class="term-comment"># Install tshark saja (tanpa GUI)</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">sudo apt install tshark -y</span></div>
+          <br>
+          <div><span class="term-comment"># List interface tersedia</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">tshark -D</span></div>
+          <div><span class="term-out">1. eth0</span></div>
+          <div><span class="term-out">2. wlan0</span></div>
+          <div><span class="term-out">3. lo</span></div>
+          <br>
+          <div><span class="term-comment"># Capture 100 packet di eth0</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">sudo tshark -i eth0 -c 100 -w output.pcap</span></div>
+        </div>
+      </div>
+
+      <div class="tip-box mt-16"><div class="box-icon">💡</div><div>Di Linux, Wireshark menggunakan <strong>libpcap</strong> (bukan Npcap) untuk packet capture. Pastikan setcap sudah dikonfigurasi dengan benar agar tidak perlu sudo setiap kali.</div></div>
+    </div>
+
+    <!-- macOS -->
+    <div class="tab-panel" id="install-mac">
+      <h3 class="mb-16 ws-inline-12">Menggunakan Homebrew (Rekomendasi)</h3>
+      <div class="terminal">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">terminal — zsh</span></div>
+        <div class="terminal-body">
+          <div><span class="term-comment"># Install Homebrew jika belum ada</span></div>
+          <div><span class="term-prompt">% </span><span class="term-cmd">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span></div>
+          <br>
+          <div><span class="term-comment"># Install Wireshark via Homebrew Cask</span></div>
+          <div><span class="term-prompt">% </span><span class="term-cmd">brew install --cask wireshark</span></div>
+          <br>
+          <div><span class="term-comment"># Atau download DMG manual dari wireshark.org</span></div>
+          <div><span class="term-comment"># Pilih "macOS ARM Disk Image" (Apple Silicon) atau "macOS Intel Disk Image"</span></div>
+          <br>
+          <div><span class="term-comment"># Untuk capture tanpa sudo, install ChmodBPF</span></div>
+          <div><span class="term-prompt">% </span><span class="term-cmd">brew install wireshark-chmodbpf</span></div>
+        </div>
+      </div>
+
+      <div class="warn-box mt-16"><div class="box-icon">⚠️</div><div>Di macOS, kamu perlu memberikan permission ke Wireshark untuk mengakses network interface melalui <strong>System Preferences → Security & Privacy</strong>. Jika capture tidak berfungsi, jalankan: <code class="mono ws-inline-18">sudo chmod +r /dev/bpf*</code></div></div>
+
+      <div class="tip-box mt-16"><div class="box-icon">💡</div><div>Untuk Apple Silicon (M1/M2/M3), pastikan mengunduh versi <strong>ARM64</strong>. Versi Intel bisa berjalan via Rosetta tapi performa capture bisa terpengaruh.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     INTERFACE OVERVIEW
+     ============================================================ -->
+<section id="interface" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 03 — Interface</div>
+    <h2 class="section-title">Interface Wireshark</h2>
+    <p class="section-desc">Kenali setiap panel dan toolbar Wireshark sebelum mulai analisis. Hover pada area untuk melihat penjelasan.</p>
+  </div>
+
+  <!-- Mock Wireshark UI -->
+  <div class="ws-interface">
+    <div class="ws-toolbar">
+      <button class="ws-tool-btn">▶ Start</button>
+      <button class="ws-tool-btn">■ Stop</button>
+      <button class="ws-tool-btn">↺ Restart</button>
+      <div class="ws-inline-19"></div>
+      <button class="ws-tool-btn">📂 Open</button>
+      <button class="ws-tool-btn">💾 Save</button>
+      <div class="ws-inline-19"></div>
+      <button class="ws-tool-btn">🔍 Find</button>
+      <button class="ws-tool-btn">↓ Follow Stream</button>
+      <button class="ws-tool-btn">📊 Statistics</button>
+      <div class="ws-inline-20">Packets: 1,247 | Displayed: 847</div>
+    </div>
+    <div class="ws-inline-21">◄ TOOLBAR — Navigasi, capture control, analisis tools</div>
+
+    <div class="ws-filter-bar">
+      <span class="ws-inline-22">Display Filter:</span>
+      <input class="ws-filter-input" value="http or dns" readonly>
+      <button class="ws-apply-btn">Apply ▶</button>
+      <button class="ws-apply-btn">Clear ✕</button>
+    </div>
+    <div class="ws-inline-23">◄ DISPLAY FILTER BAR — Filter packet yang ditampilkan (bukan capture filter)</div>
+
+    <div class="ws-pane-label">PACKET LIST PANE — Daftar semua packet yang ditangkap</div>
+    <div class="ws-packet-list">
+      <div class="ws-pkt-header">
+        <span>No.</span><span>Time</span><span>Source</span><span>Destination</span><span>Proto</span><span>Info</span>
+      </div>
+      <div class="ws-packet selected"><span class="pno">1</span><span class="ptime">0.000</span><span class="psrc">192.168.1.105</span><span class="pdst">8.8.8.8</span><span class="pproto dns">DNS</span><span class="pinfo">Standard query A google.com</span></div>
+      <div class="ws-packet"><span class="pno">2</span><span class="ptime">0.023</span><span class="psrc">8.8.8.8</span><span class="pdst">192.168.1.105</span><span class="pproto dns">DNS</span><span class="pinfo">Standard query response A 142.250.185.46</span></div>
+      <div class="ws-packet"><span class="pno">3</span><span class="ptime">0.025</span><span class="psrc">192.168.1.105</span><span class="pdst">142.250.185.46</span><span class="pproto tcp">TCP</span><span class="pinfo">52341 → 443 [SYN] Seq=0 Win=65535 Len=0</span></div>
+      <div class="ws-packet"><span class="pno">4</span><span class="ptime">0.041</span><span class="psrc">142.250.185.46</span><span class="pdst">192.168.1.105</span><span class="pproto tcp">TCP</span><span class="pinfo">443 → 52341 [SYN, ACK] Seq=0 Ack=1 Win=65535</span></div>
+      <div class="ws-packet"><span class="pno">5</span><span class="ptime">0.042</span><span class="psrc">192.168.1.105</span><span class="pdst">142.250.185.46</span><span class="pproto tls">TLS</span><span class="pinfo">Client Hello, TLSv1.3 SNI=google.com</span></div>
+      <div class="ws-packet"><span class="pno">6</span><span class="ptime">0.058</span><span class="psrc">142.250.185.46</span><span class="pdst">192.168.1.105</span><span class="pproto tls">TLS</span><span class="pinfo">Server Hello, Certificate, Server Hello Done</span></div>
+      <div class="ws-packet"><span class="pno">7</span><span class="ptime">0.062</span><span class="psrc">192.168.1.105</span><span class="pdst">10.0.0.1</span><span class="pproto http">HTTP</span><span class="pinfo">GET /api/v1/users HTTP/1.1 (application/json)</span></div>
+      <div class="ws-packet"><span class="pno">8</span><span class="ptime">0.081</span><span class="psrc">10.0.0.1</span><span class="pdst">192.168.1.105</span><span class="pproto http">HTTP</span><span class="pinfo">HTTP/1.1 200 OK (application/json)</span></div>
+      <div class="ws-packet"><span class="pno">9</span><span class="ptime">0.090</span><span class="psrc">192.168.1.1</span><span class="pdst">ff:ff:ff:ff:ff:ff</span><span class="pproto arp">ARP</span><span class="pinfo">Who has 192.168.1.105? Tell 192.168.1.1</span></div>
+    </div>
+
+    <div class="ws-pane-label">PACKET DETAILS PANE — Struktur protokol dari packet yang dipilih</div>
+    <div class="ws-details-pane">
+      <div class="ws-tree-item expandable key">Frame 1: 74 bytes on wire, 74 bytes captured</div>
+      <div class="ws-tree-item expandable key ws-inline-24">Ethernet II, Src: Apple_a4:b3:22, Dst: Cisco_01:02:03</div>
+      <div class="ws-tree-item expandable key ws-inline-24">Internet Protocol Version 4, Src: 192.168.1.105, Dst: 8.8.8.8</div>
+      <div class="ws-tree-item key ws-inline-25">Version: <span class="val">4</span></div>
+      <div class="ws-tree-item key ws-inline-25">Total Length: <span class="val">60</span></div>
+      <div class="ws-tree-item key ws-inline-25">TTL: <span class="val">64</span></div>
+      <div class="ws-tree-item key ws-inline-25">Protocol: <span class="val">UDP (17)</span></div>
+      <div class="ws-tree-item expandable key ws-inline-24">User Datagram Protocol, Src Port: 52341, Dst Port: 53</div>
+      <div class="ws-tree-item expandable key ws-inline-24">Domain Name System (query)</div>
+      <div class="ws-tree-item key ws-inline-25">Transaction ID: <span class="val">0x1a2b</span></div>
+      <div class="ws-tree-item key ws-inline-25">Queries: <span class="val">google.com: type A, class IN</span></div>
+    </div>
+
+    <div class="ws-pane-label">PACKET BYTES PANE — Raw bytes dalam format hexadecimal dan ASCII</div>
+    <div class="ws-bytes-pane">
+      <div class="ws-hex">
+        0000: 00 50 56 c0 00 08 00 0c<br>
+        0010: 29 a4 b3 22 08 00 45 00<br>
+        0020: 00 3c 5d e4 40 00 40 11<br>
+        0030: 00 00 c0 a8 01 69 08 08
+      </div>
+      <div class="ws-ascii">
+        .PV.....)...".E.<br>
+        .&lt;].@.@.........<br>
+        .google.com.....
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <h3 class="mb-16 ws-inline-4">Penjelasan Setiap Panel</h3>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">📋 Packet List Pane</div>
+      <div class="card-body">Panel teratas yang menampilkan daftar semua packet. Setiap baris adalah satu packet dengan kolom: nomor urut, timestamp, source IP, destination IP, protokol, dan ringkasan info. Warna berbeda menandakan protokol berbeda.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔍 Packet Details Pane</div>
+      <div class="card-body">Panel tengah menampilkan struktur protokol packet yang diklik. Berupa tree yang bisa di-expand — dari Layer 2 (Ethernet) hingga Layer 7 (HTTP/DNS). Klik field untuk highlight bytes-nya di panel bawah.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔢 Packet Bytes Pane</div>
+      <div class="card-body">Panel bawah menampilkan raw bytes dalam format hexadecimal (kiri) dan ASCII yang dapat dibaca (kanan). Field yang dipilih di Details pane akan ter-highlight di sini.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🛠️ Toolbar</div>
+      <div class="card-body">Baris tombol di atas yang berisi shortcut untuk fungsi utama: start/stop capture, buka/simpan file, cari packet, follow TCP stream, dan akses statistik jaringan.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔎 Filter Bar</div>
+      <div class="card-body">Input field untuk Display Filter — memfilter packet yang DITAMPILKAN (bukan yang di-capture). Mendukung syntax Wireshark yang sangat powerful. Tombol bookmark menyimpan filter favorit.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Status Bar</div>
+      <div class="card-body">Bar di paling bawah menampilkan informasi capture: jumlah packet total, yang sedang ditampilkan, expert info alerts, dan profile yang aktif.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PACKET CAPTURE
+     ============================================================ -->
+<section id="capture" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 04 — Capture</div>
+    <h2 class="section-title">Packet Capture</h2>
+    <p class="section-desc">Cara memulai, menghentikan, dan mengelola sesi packet capture dengan efektif.</p>
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div>
+      <h3 class="mb-16 ws-inline-12">Memulai Capture</h3>
+      <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Buka Wireshark → akan tampil daftar network interface yang tersedia dengan grafik traffic real-time.</div></div>
+      <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Pilih interface yang ingin di-capture. <span class="text-secondary">eth0/Ethernet</span> untuk kabel, <span class="text-secondary">wlan0/Wi-Fi</span> untuk wireless.</div></div>
+      <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Double-click interface atau tekan tombol <span class="mono text-primary">▶ (Start)</span> di toolbar — capture langsung dimulai.</div></div>
+      <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Untuk menghentikan: tekan <span class="mono text-primary">■ (Stop)</span> atau keyboard shortcut <span class="mono text-secondary">Ctrl+E</span>.</div></div>
+      <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Simpan hasil: <span class="mono">File → Save As</span> dalam format <span class="text-primary">.pcap</span> atau <span class="text-primary">.pcapng</span>.</div></div>
+    </div>
+    <div>
+      <h3 class="mb-16 ws-inline-12">Capture Options</h3>
+      <div class="card">
+        <div class="ws-inline-26">
+          <div>
+            <div class="text-secondary fw-bold mb-4">Capture Filter</div>
+            <div class="text-muted ws-inline-27">Filter yang diterapkan SEBELUM capture — mengurangi packet yang di-simpan. Berbeda syntax dari Display Filter!</div>
+            <div class="code-block ws-inline-28">
+              <button class="copy-btn">copy</button>
+              <span class="ws-inline-18">tcp port 80</span>          <span class="ws-inline-29"># hanya HTTP</span><br>
+              <span class="ws-inline-18">host 192.168.1.1</span>      <span class="ws-inline-29"># satu host saja</span><br>
+              <span class="ws-inline-18">net 192.168.1.0/24</span>    <span class="ws-inline-29"># subnet tertentu</span><br>
+              <span class="ws-inline-18">not port 443</span>           <span class="ws-inline-29"># exclude HTTPS</span>
+            </div>
+          </div>
+          <div>
+            <div class="text-secondary fw-bold mb-4">Ring Buffer</div>
+            <div class="text-muted ws-inline-27">Untuk long-term capture, aktifkan ring buffer di Capture Options: simpan ke file terpisah setiap X MB atau X menit. Mencegah single file yang terlalu besar.</div>
+          </div>
+          <div>
+            <div class="text-secondary fw-bold mb-4">Promiscuous Mode</div>
+            <div class="text-muted ws-inline-27">Mode default yang menangkap semua packet di network — bukan hanya yang ditujukan ke komputer kamu. Sangat penting untuk analisis jaringan yang komprehensif.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box"><div class="box-icon">⚠️</div><div><strong>Capture di Jaringan Sibuk:</strong> Pada jaringan dengan traffic tinggi (data center, enterprise), sesi capture yang lama dapat menghasilkan file PCAP berukuran gigabyte. Gunakan capture filter untuk membatasi data, aktifkan ring buffer, dan pastikan disk storage mencukupi.</div></div>
+
+  <h3 class="mb-16 mt-24 ws-inline-12">Format File</h3>
+  <div class="grid-3">
+    <div class="card ws-inline-5">
+      <div class="card-title">.pcap</div>
+      <div class="card-body">Format klasik, kompatibilitas luas dengan semua tools. Mendukung satu data link type per file. Tidak mendukung komentar atau metadata tambahan.</div>
+    </div>
+    <div class="card ws-inline-7">
+      <div class="card-title">.pcapng (Rekomendasi)</div>
+      <div class="card-body">Format modern, next-generation. Mendukung multiple interfaces, komentar per-packet, statistik tambahan, dan metadata lebih lengkap. Default format Wireshark terbaru.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">.cap / .etl</div>
+      <div class="card-body">Format proprietary dari tools lain (Cisco, Microsoft). Wireshark bisa membuka banyak format ini via File → Open.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DISPLAY FILTERS
+     ============================================================ -->
+<section id="filters" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 05 — Filters</div>
+    <h2 class="section-title">Display Filter Guide</h2>
+    <p class="section-desc">Referensi lengkap filter Wireshark — cari, copy, dan terapkan langsung ke analisis kamu.</p>
+  </div>
+
+  <div class="filter-search-wrap">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM10.2 10.9l3.4 3.4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+    <input class="filter-search" id="filterSearch" type="text" placeholder="Cari filter... (contoh: tcp, dns, http, ip.addr)">
+  </div>
+
+  <div class="filter-grid" id="filterGrid">
+
+    <div class="filter-card" data-keywords="ip address source destination host">
+      <div class="filter-category">IP / Network</div>
+      <div class="filter-syntax">ip.addr == 192.168.1.1<span class="filter-copy" data-filter="ip.addr == 192.168.1.1">📋 copy</span></div>
+      <div class="filter-desc">Filter berdasarkan IP address (source atau destination).</div>
+      <div class="filter-example">Contoh: ip.addr == 10.0.0.5 | ip.src == 172.16.0.0/16</div>
+      <div class="filter-scenario">🎯 Kasus: Isolasi traffic dari/ke IP spesifik yang mencurigakan.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="ip source src">
+      <div class="filter-category">IP / Network</div>
+      <div class="filter-syntax">ip.src == 192.168.1.105<span class="filter-copy" data-filter="ip.src == 192.168.1.105">📋 copy</span></div>
+      <div class="filter-desc">Filter hanya packet dengan source IP tertentu.</div>
+      <div class="filter-example">Contoh: ip.src == 192.168.1.0/24</div>
+      <div class="filter-scenario">🎯 Kasus: Lihat semua traffic yang KELUAR dari host tertentu.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="ip destination dst">
+      <div class="filter-category">IP / Network</div>
+      <div class="filter-syntax">ip.dst == 8.8.8.8<span class="filter-copy" data-filter="ip.dst == 8.8.8.8">📋 copy</span></div>
+      <div class="filter-desc">Filter packet yang menuju destination IP tertentu.</div>
+      <div class="filter-example">Contoh: ip.dst == 8.8.8.8 (traffic ke Google DNS)</div>
+      <div class="filter-scenario">🎯 Kasus: Monitor traffic yang masuk ke server tertentu.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="tcp port">
+      <div class="filter-category">TCP</div>
+      <div class="filter-syntax">tcp.port == 443<span class="filter-copy" data-filter="tcp.port == 443">📋 copy</span></div>
+      <div class="filter-desc">Filter packet TCP pada port tertentu (source atau destination).</div>
+      <div class="filter-example">Contoh: tcp.port == 80 | tcp.port == 22 | tcp.port == 3306</div>
+      <div class="filter-scenario">🎯 Kasus: Analisis traffic HTTP, SSH, MySQL berdasarkan port.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="tcp flags syn ack fin rst handshake">
+      <div class="filter-category">TCP Flags</div>
+      <div class="filter-syntax">tcp.flags.syn == 1<span class="filter-copy" data-filter="tcp.flags.syn == 1">📋 copy</span></div>
+      <div class="filter-desc">Filter packet dengan flag SYN aktif — awal koneksi TCP.</div>
+      <div class="filter-example">Contoh: tcp.flags.syn == 1 and tcp.flags.ack == 0</div>
+      <div class="filter-scenario">🎯 Kasus: Deteksi SYN flood / port scan — banyak SYN tanpa ACK.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="tcp flags reset rst">
+      <div class="filter-category">TCP Flags</div>
+      <div class="filter-syntax">tcp.flags.reset == 1<span class="filter-copy" data-filter="tcp.flags.reset == 1">📋 copy</span></div>
+      <div class="filter-desc">Filter packet dengan RST flag — koneksi di-reset paksa.</div>
+      <div class="filter-example">Contoh: tcp.flags.reset == 1 and ip.src == 10.0.0.5</div>
+      <div class="filter-scenario">🎯 Kasus: Deteksi port scan (RST dari port tertutup), koneksi bermasalah.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="tcp stream follow">
+      <div class="filter-category">TCP</div>
+      <div class="filter-syntax">tcp.stream eq 5<span class="filter-copy" data-filter="tcp.stream eq 5">📋 copy</span></div>
+      <div class="filter-desc">Filter berdasarkan nomor stream TCP — isolasi satu session.</div>
+      <div class="filter-example">Contoh: tcp.stream eq 0 (stream pertama)</div>
+      <div class="filter-scenario">🎯 Kasus: Rekonstruksi satu sesi HTTP/FTP dari banyak packet.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="tcp retransmission problem error">
+      <div class="filter-category">TCP</div>
+      <div class="filter-syntax">tcp.analysis.retransmission<span class="filter-copy" data-filter="tcp.analysis.retransmission">📋 copy</span></div>
+      <div class="filter-desc">Tampilkan hanya packet yang merupakan retransmission.</div>
+      <div class="filter-example">Contoh: tcp.analysis.retransmission or tcp.analysis.lost_segment</div>
+      <div class="filter-scenario">🎯 Kasus: Diagnose packet loss, network congestion, connection issues.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="udp port">
+      <div class="filter-category">UDP</div>
+      <div class="filter-syntax">udp.port == 53<span class="filter-copy" data-filter="udp.port == 53">📋 copy</span></div>
+      <div class="filter-desc">Filter packet UDP pada port tertentu.</div>
+      <div class="filter-example">Contoh: udp.port == 53 (DNS) | udp.port == 67 (DHCP)</div>
+      <div class="filter-scenario">🎯 Kasus: Analisis DNS, DHCP, SNMP, VoIP (SIP/RTP).</div>
+    </div>
+
+    <div class="filter-card" data-keywords="http web get post request">
+      <div class="filter-category">HTTP</div>
+      <div class="filter-syntax">http<span class="filter-copy" data-filter="http">📋 copy</span></div>
+      <div class="filter-desc">Tampilkan semua traffic HTTP (port 80, non-encrypted).</div>
+      <div class="filter-example">Contoh: http.request.method == "GET"</div>
+      <div class="filter-scenario">🎯 Kasus: Analisis web traffic, credential sniffing pada HTTP.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="http request method get post put">
+      <div class="filter-category">HTTP</div>
+      <div class="filter-syntax">http.request.method == "POST"<span class="filter-copy" data-filter="http.request.method == \&quot;POST\&quot;">📋 copy</span></div>
+      <div class="filter-desc">Filter HTTP POST request — biasanya berisi form data, login, upload.</div>
+      <div class="filter-example">Contoh: http.request.method == "POST" and http contains "password"</div>
+      <div class="filter-scenario">🎯 Kasus: Deteksi credential submission via form login HTTP.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="http response code status">
+      <div class="filter-category">HTTP</div>
+      <div class="filter-syntax">http.response.code == 200<span class="filter-copy" data-filter="http.response.code == 200">📋 copy</span></div>
+      <div class="filter-desc">Filter berdasarkan HTTP status code response.</div>
+      <div class="filter-example">Contoh: http.response.code == 404 | http.response.code >= 500</div>
+      <div class="filter-scenario">🎯 Kasus: Troubleshoot error 404 (not found), 500 (server error).</div>
+    </div>
+
+    <div class="filter-card" data-keywords="dns query domain name resolution">
+      <div class="filter-category">DNS</div>
+      <div class="filter-syntax">dns<span class="filter-copy" data-filter="dns">📋 copy</span></div>
+      <div class="filter-desc">Tampilkan semua traffic DNS (query dan response).</div>
+      <div class="filter-example">Contoh: dns.flags.response == 0 (hanya query)</div>
+      <div class="filter-scenario">🎯 Kasus: Analisis resolusi domain, DNS tunneling, suspicious domains.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="dns query name domain">
+      <div class="filter-category">DNS</div>
+      <div class="filter-syntax">dns.qry.name == "evil.com"<span class="filter-copy" data-filter="dns.qry.name == \&quot;evil.com\&quot;">📋 copy</span></div>
+      <div class="filter-desc">Filter DNS query untuk domain name tertentu.</div>
+      <div class="filter-example">Contoh: dns.qry.name contains "malware" | dns.qry.name contains ".ru"</div>
+      <div class="filter-scenario">🎯 Kasus: Deteksi resolusi domain C2, phishing, malware.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="tls ssl https encrypted">
+      <div class="filter-category">TLS/SSL</div>
+      <div class="filter-syntax">tls<span class="filter-copy" data-filter="tls">📋 copy</span></div>
+      <div class="filter-desc">Tampilkan semua traffic TLS/SSL (HTTPS, SMTPS, dll).</div>
+      <div class="filter-example">Contoh: tls.handshake.type == 1 (Client Hello)</div>
+      <div class="filter-scenario">🎯 Kasus: Analisis TLS handshake, versi TLS yang digunakan.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="tls sni server name indication">
+      <div class="filter-category">TLS/SSL</div>
+      <div class="filter-syntax">tls.handshake.extensions_server_name<span class="filter-copy" data-filter="tls.handshake.extensions_server_name contains \&quot;evil\&quot;">📋 copy</span></div>
+      <div class="filter-desc">Filter berdasarkan SNI (Server Name Indication) dalam TLS handshake.</div>
+      <div class="filter-example">Contoh: tls.handshake.extensions_server_name contains "google"</div>
+      <div class="filter-scenario">🎯 Kasus: Lihat domain tujuan dari koneksi HTTPS meskipun terencrypt.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="arp address resolution protocol mac">
+      <div class="filter-category">ARP</div>
+      <div class="filter-syntax">arp<span class="filter-copy" data-filter="arp">📋 copy</span></div>
+      <div class="filter-desc">Tampilkan semua packet ARP (Address Resolution Protocol).</div>
+      <div class="filter-example">Contoh: arp.opcode == 1 (ARP request) | arp.opcode == 2 (ARP reply)</div>
+      <div class="filter-scenario">🎯 Kasus: Deteksi ARP spoofing / poisoning (MITM attack).</div>
+    </div>
+
+    <div class="filter-card" data-keywords="icmp ping echo request reply">
+      <div class="filter-category">ICMP</div>
+      <div class="filter-syntax">icmp<span class="filter-copy" data-filter="icmp">📋 copy</span></div>
+      <div class="filter-desc">Tampilkan semua packet ICMP (ping, traceroute, unreachable).</div>
+      <div class="filter-example">Contoh: icmp.type == 8 (Echo Request / ping)</div>
+      <div class="filter-scenario">🎯 Kasus: Analisis ICMP tunneling, ping flood, network reachability.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="frame contains string search payload">
+      <div class="filter-category">Payload Search</div>
+      <div class="filter-syntax">frame contains "password"<span class="filter-copy" data-filter="frame contains \&quot;password\&quot;">📋 copy</span></div>
+      <div class="filter-desc">Cari string tertentu dalam semua bytes packet (case-sensitive).</div>
+      <div class="filter-example">Contoh: frame contains "cmd.exe" | frame contains "SELECT"</div>
+      <div class="filter-scenario">🎯 Kasus: Cari credential, SQL injection, command execution dalam traffic.</div>
+    </div>
+
+    <div class="filter-card" data-keywords="not exclude combine and or">
+      <div class="filter-category">Logic Operators</div>
+      <div class="filter-syntax">ip.addr == 1.1.1.1 and tcp<span class="filter-copy" data-filter="ip.addr == 1.1.1.1 and tcp">📋 copy</span></div>
+      <div class="filter-desc">Kombinasikan filter dengan AND, OR, NOT (atau &amp;&amp;, ||, !).</div>
+      <div class="filter-example">Contoh: http or dns | not arp | tcp and not tcp.port == 443</div>
+      <div class="filter-scenario">🎯 Kasus: Buat filter kompleks untuk menyaring traffic spesifik.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     TCP ANALYSIS
+     ============================================================ -->
+<section id="tcp" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 06 — TCP Analysis</div>
+    <h2 class="section-title">TCP Analysis</h2>
+    <p class="section-desc">Memahami three-way handshake, TCP flags, dan cara menganalisis koneksi TCP di Wireshark.</p>
+  </div>
+
+  <h3 class="mb-16 ws-inline-4">Three-Way Handshake</h3>
+  <div class="tcp-diagram">
+    <div class="tcp-hosts">
+      <div class="tcp-host">Client (192.168.1.105)</div>
+      <div class="tcp-host">Server (10.0.0.1:80)</div>
+    </div>
+    <div class="tcp-packets">
+      <div class="tcp-pkt syn">
+        <div class="tcp-pkt-label">SYN [Seq=0, Win=65535]</div>
+        <div class="tcp-arrow"></div>
+      </div>
+      <div class="tcp-pkt right syn">
+        <div class="tcp-pkt-label">SYN-ACK [Seq=0, Ack=1, Win=8192]</div>
+        <div class="tcp-arrow ws-inline-30"></div>
+      </div>
+      <div class="tcp-pkt">
+        <div class="tcp-pkt-label">ACK [Seq=1, Ack=1]</div>
+        <div class="tcp-arrow"></div>
+      </div>
+      <div class="ws-inline-31">— CONNECTION ESTABLISHED —</div>
+      <div class="tcp-pkt">
+        <div class="tcp-pkt-label">HTTP GET /index.html [Data]</div>
+        <div class="tcp-arrow"></div>
+      </div>
+      <div class="tcp-pkt right">
+        <div class="tcp-pkt-label">HTTP 200 OK [Data]</div>
+        <div class="tcp-arrow ws-inline-30"></div>
+      </div>
+      <div class="ws-inline-32">— CONNECTION TERMINATION —</div>
+      <div class="tcp-pkt fin">
+        <div class="tcp-pkt-label">FIN-ACK [Seq=n, Ack=m]</div>
+        <div class="tcp-arrow"></div>
+      </div>
+      <div class="tcp-pkt right fin">
+        <div class="tcp-pkt-label">FIN-ACK [Seq=m, Ack=n+1]</div>
+        <div class="tcp-arrow ws-inline-33"></div>
+      </div>
+      <div class="tcp-pkt">
+        <div class="tcp-pkt-label">ACK [CLOSED]</div>
+        <div class="tcp-arrow"></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 mt-24 ws-inline-4">TCP Flags Reference</h3>
+  <div class="grid-3 mb-24">
+    <div class="card ws-inline-34">
+      <div class="card-title text-primary">SYN — Synchronize</div>
+      <div class="card-body">Flag untuk memulai koneksi TCP. SYN=1, ACK=0 berarti ini adalah permintaan koneksi pertama dari client. Filter: <code class="mono ws-inline-18">tcp.flags.syn==1 && tcp.flags.ack==0</code></div>
+    </div>
+    <div class="card ws-inline-35">
+      <div class="card-title text-secondary">ACK — Acknowledge</div>
+      <div class="card-body">Konfirmasi penerimaan data. Hampir semua packet TCP setelah handshake memiliki ACK=1. Filter: <code class="mono ws-inline-18">tcp.flags.ack==1</code></div>
+    </div>
+    <div class="card ws-inline-36">
+      <div class="card-title text-warn">FIN — Finish</div>
+      <div class="card-body">Mengakhiri koneksi TCP secara graceful. Proses 4-way: FIN→ACK→FIN→ACK. Filter: <code class="mono ws-inline-18">tcp.flags.fin==1</code></div>
+    </div>
+    <div class="card ws-inline-37">
+      <div class="card-title text-danger">RST — Reset</div>
+      <div class="card-body">Mengakhiri koneksi secara paksa dan abrupt. Sering muncul pada port scan (port tertutup) atau error. Filter: <code class="mono ws-inline-18">tcp.flags.reset==1</code></div>
+    </div>
+    <div class="card ws-inline-38">
+      <div class="card-title text-accent">PSH — Push</div>
+      <div class="card-body">Instruksi ke receiver untuk segera memproses data ke aplikasi tanpa menunggu buffer penuh. Filter: <code class="mono ws-inline-18">tcp.flags.push==1</code></div>
+    </div>
+    <div class="card">
+      <div class="card-title text-muted">URG — Urgent</div>
+      <div class="card-body">Menandakan data urgent yang harus diproses lebih dahulu. Jarang digunakan dalam praktik modern. Filter: <code class="mono ws-inline-18">tcp.flags.urg==1</code></div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 ws-inline-4">TCP Troubleshooting Cases</h3>
+  <div class="accordion">
+    <div class="accordion-item">
+      <button class="accordion-btn">🔴 Banyak Retransmission — Apa artinya?<span class="accordion-arrow">▾</span></button>
+      <div class="accordion-body"><div class="accordion-body-inner">
+        Retransmission terjadi ketika sender tidak menerima ACK dalam waktu yang ditentukan (RTO - Retransmission Timeout). Artinya packet sebelumnya kemungkinan hilang (packet loss). Penyebab: network congestion, kabel bermasalah, WiFi interference. Filter untuk cek: <code class="mono ws-inline-18">tcp.analysis.retransmission</code>. Jika retransmission &gt;1% dari total TCP packets, ada masalah serius di jaringan.
+      </div></div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-btn">🟡 TCP Window Full / Zero Window — Kenapa koneksi lambat?<span class="accordion-arrow">▾</span></button>
+      <div class="accordion-body"><div class="accordion-body-inner">
+        TCP Window Size mengontrol berapa banyak data yang bisa di-send sebelum menunggu ACK. Window Full berarti sender terkirim data sebesar window size tapi belum dapat ACK — harus tunggu. Zero Window berarti receiver memberi tahu sender untuk berhenti kirim (buffer penuh). Ini sering jadi bottleneck. Filter: <code class="mono ws-inline-18">tcp.analysis.window_full or tcp.analysis.zero_window</code>
+      </div></div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-btn">🔵 Banyak RST — Port Scan atau masalah lain?<span class="accordion-arrow">▾</span></button>
+      <div class="accordion-body"><div class="accordion-body-inner">
+        Banyak RST dari satu source IP ke berbagai port dalam waktu singkat = tanda kuat port scan (nmap, masscan). RST yang di-generate server berarti port tersebut tertutup. Cek dengan: <code class="mono ws-inline-18">tcp.flags.reset==1 and tcp.flags.ack==1</code> diikuti filtering per IP untuk melihat apakah ada pola scan. RST juga bisa muncul pada connection timeout atau firewall yang aktif drop connection.
+      </div></div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-btn">🟢 Cara Follow TCP Stream untuk rekonstruksi data<span class="accordion-arrow">▾</span></button>
+      <div class="accordion-body"><div class="accordion-body-inner">
+        Right-click packet TCP mana saja → <strong>Follow → TCP Stream</strong>. Wireshark akan menampilkan full conversation dalam satu jendela — data merah adalah client, biru adalah server. Ini sangat powerful untuk melihat isi HTTP request/response, credentials dalam plaintext, atau komunikasi malware. Kamu bisa save conversation ke file untuk analisis lebih lanjut.
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HTTP ANALYSIS
+     ============================================================ -->
+<section id="http" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 07 — HTTP Analysis</div>
+    <h2 class="section-title">HTTP Traffic Analysis</h2>
+    <p class="section-desc">Menganalisis request, response, headers, cookies, dan deteksi ancaman pada traffic HTTP.</p>
+  </div>
+
+  <div class="info-box"><div class="box-icon">ℹ️</div><div><strong>HTTP vs HTTPS:</strong> HTTP berjalan di port 80 dan tidak terenkripsi — semua data bisa dibaca di Wireshark. HTTPS (port 443) menggunakan TLS untuk enkripsi sehingga payload tidak terbaca tanpa private key. Bagian ini fokus pada HTTP plaintext.</div></div>
+
+  <div class="grid-2 mb-24 mt-16">
+    <div>
+      <h3 class="mb-16 ws-inline-12">HTTP GET Request</h3>
+      <div class="terminal">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">HTTP Request Packet</span></div>
+        <div class="terminal-body">
+          <div><span class="term-highlight">GET /login HTTP/1.1</span></div>
+          <div><span class="term-out">Host: victim-app.com</span></div>
+          <div><span class="term-out">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)</span></div>
+          <div><span class="term-out">Accept: text/html,application/xhtml+xml</span></div>
+          <div><span class="term-out">Accept-Language: en-US,en;q=0.5</span></div>
+          <div><span class="term-warn">Cookie: session=eyJhbGciOiJIUzI1NiJ9...</span></div>
+          <div><span class="term-out">Connection: keep-alive</span></div>
+          <div><span class="term-out">Referer: http://victim-app.com/</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 class="mb-16 ws-inline-12">HTTP POST Request (Login Form)</h3>
+      <div class="terminal">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">HTTP POST — Credential di Plaintext!</span></div>
+        <div class="terminal-body">
+          <div><span class="term-highlight">POST /authenticate HTTP/1.1</span></div>
+          <div><span class="term-out">Host: victim-app.com</span></div>
+          <div><span class="term-out">Content-Type: application/x-www-form-urlencoded</span></div>
+          <div><span class="term-out">Content-Length: 42</span></div>
+          <div><span class="term-out">Connection: keep-alive</span></div>
+          <br>
+          <div><span class="term-danger">username=admin&amp;password=S3cr3tP@ss!</span></div>
+          <br>
+          <div><span class="term-comment"># ↑ Visible in plaintext on HTTP! NEVER use HTTP for login</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="danger-box"><div class="box-icon">🚨</div><div><strong>CREDENTIAL SNIFFING AWARENESS:</strong> Jika aplikasi web menggunakan HTTP (bukan HTTPS), username dan password yang dikirim via form login akan terlihat dalam plaintext di Wireshark. Ini adalah contoh kenapa HTTPS wajib untuk semua aplikasi. Sebagai security analyst, ini adalah temuan kritis yang harus segera dilaporkan.</div></div>
+
+  <h3 class="mb-16 mt-24 ws-inline-4">Analisis HTTP di Wireshark</h3>
+  <div class="grid-3 mb-24">
+    <div class="card">
+      <div class="card-title">📊 HTTP Statistics</div>
+      <div class="card-body">Menu <code class="mono ws-inline-18">Statistics → HTTP → Requests</code> menampilkan summary semua HTTP request: domain yang dikunjungi, method, dan response code. Sangat berguna untuk get overview cepat.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📦 File Extraction</div>
+      <div class="card-body">Menu <code class="mono ws-inline-18">File → Export Objects → HTTP</code> memungkinkan ekstraksi file yang ditransfer via HTTP: gambar, dokumen, executable, dll. Berguna untuk malware analysis.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔍 Follow HTTP Stream</div>
+      <div class="card-body">Right-click HTTP packet → Follow → HTTP Stream untuk melihat full HTTP conversation termasuk request headers, body, response headers, dan response body dalam satu tampilan.</div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 ws-inline-4">HTTP Status Codes Quick Reference</h3>
+  <table class="cheat-table">
+    <thead><tr><th>Code</th><th>Status</th><th>Artinya di Wireshark</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">200</td><td>OK</td><td>Request berhasil — normal traffic</td></tr>
+      <tr><td class="mono">301/302</td><td>Redirect</td><td>Redirect ke URL lain — perhatikan Location header</td></tr>
+      <tr><td class="mono">400</td><td>Bad Request</td><td>Request malformed — bisa indikasi serangan atau bug</td></tr>
+      <tr><td class="mono">401</td><td>Unauthorized</td><td>Perlu autentikasi — bisa brute force attempt</td></tr>
+      <tr><td class="mono">403</td><td>Forbidden</td><td>Akses ditolak — cek apakah ini scan direktori</td></tr>
+      <tr><td class="mono">404</td><td>Not Found</td><td>Banyak 404 = web scanning/enumeration</td></tr>
+      <tr><td class="mono">500</td><td>Server Error</td><td>Error server — bisa jadi SQLi atau code injection berhasil</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="mb-16 mt-24 ws-inline-4">Useful HTTP Filters</h3>
+  <div class="code-block">
+    <button class="copy-btn">copy</button>
+    <span class="ws-inline-29"># Filter semua HTTP request</span><br>
+    <span class="ws-inline-18">http.request</span><br><br>
+    <span class="ws-inline-29"># Filter berdasarkan User-Agent (deteksi scanner)</span><br>
+    <span class="ws-inline-18">http.user_agent contains "sqlmap"</span><br>
+    <span class="ws-inline-18">http.user_agent contains "nikto"</span><br>
+    <span class="ws-inline-18">http.user_agent contains "nmap"</span><br><br>
+    <span class="ws-inline-29"># Cari cookie di traffic HTTP</span><br>
+    <span class="ws-inline-18">http.cookie</span><br><br>
+    <span class="ws-inline-29"># Filter berdasarkan Host header</span><br>
+    <span class="ws-inline-18">http.host == "internal-server.corp"</span><br><br>
+    <span class="ws-inline-29"># Tampilkan response dengan content tertentu</span><br>
+    <span class="ws-inline-18">http.response and frame contains "admin"</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     DNS ANALYSIS
+     ============================================================ -->
+<section id="dns" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 08 — DNS Analysis</div>
+    <h2 class="section-title">DNS Traffic Analysis</h2>
+    <p class="section-desc">Memahami DNS query/response, record types, deteksi DNS tunneling dan suspicious activity.</p>
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div>
+      <h3 class="mb-16 ws-inline-12">DNS Query & Response</h3>
+      <div class="terminal">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">DNS Query (Client → 8.8.8.8)</span></div>
+        <div class="terminal-body">
+          <div><span class="term-highlight">DNS Query</span></div>
+          <div><span class="term-out">Transaction ID: 0x1a2b</span></div>
+          <div><span class="term-out">Flags: 0x0100 (Standard query)</span></div>
+          <div><span class="term-out">Questions: 1</span></div>
+          <div><span class="term-out">Queries:</span></div>
+          <div><span class="term-highlight">  google.com: type A, class IN</span></div>
+        </div>
+      </div>
+      <div class="terminal ws-inline-39">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">DNS Response (8.8.8.8 → Client)</span></div>
+        <div class="terminal-body">
+          <div><span class="term-highlight">DNS Response</span></div>
+          <div><span class="term-out">Transaction ID: 0x1a2b</span></div>
+          <div><span class="term-out">Flags: 0x8180 (Standard query response)</span></div>
+          <div><span class="term-out">Answers: 2</span></div>
+          <div><span class="term-highlight">  google.com: type A, 142.250.185.46</span></div>
+          <div><span class="term-highlight">  google.com: type A, 142.250.185.78</span></div>
+          <div><span class="term-out">TTL: 300 seconds</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 class="mb-16 ws-inline-12">DNS Record Types</h3>
+      <table class="cheat-table">
+        <thead><tr><th>Type</th><th>Fungsi</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">A</td><td>IPv4 address dari domain</td></tr>
+          <tr><td class="mono">AAAA</td><td>IPv6 address dari domain</td></tr>
+          <tr><td class="mono">CNAME</td><td>Alias dari domain lain</td></tr>
+          <tr><td class="mono">MX</td><td>Mail server untuk domain</td></tr>
+          <tr><td class="mono">TXT</td><td>Teks bebas (SPF, DKIM, dll)</td></tr>
+          <tr><td class="mono">NS</td><td>Nameserver untuk domain</td></tr>
+          <tr><td class="mono">PTR</td><td>Reverse DNS (IP → domain)</td></tr>
+          <tr><td class="mono">SOA</td><td>Start of Authority</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3 class="mb-16 ws-inline-4">DNS Tunneling — Teknik Exfiltration yang Tersembunyi</h3>
+  <div class="ioc-card">
+    <div class="ioc-title">⚠️ DNS Tunneling Indicators</div>
+    <div class="ioc-body">
+      <p class="mb-8">DNS tunneling menyembunyikan data exfiltration dalam DNS query. Data dienkodekan dalam subdomain query yang sangat panjang dan dikirim ke attacker-controlled nameserver.</p>
+      <div class="terminal ws-inline-40">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">DNS Tunneling — suspicious queries</span></div>
+        <div class="terminal-body">
+          <div><span class="term-danger"># Normal DNS query:</span></div>
+          <div><span class="term-out">google.com → 142.250.185.46</span></div>
+          <br>
+          <div><span class="term-danger"># DNS Tunnel query (data exfiltration encoded):</span></div>
+          <div><span class="term-danger">dGhpcyBpcyBzZWNyZXQgZGF0YQ==.attacker-c2.xyz</span></div>
+          <div><span class="term-danger">aGhpcyBpcyBzZWNyZXQgZGF0YQ==.attacker-c2.xyz</span></div>
+          <div><span class="term-danger">c29tZW1vcmVkYXRhaGVyZQ==.attacker-c2.xyz</span></div>
+          <br>
+          <div><span class="term-comment"># Filter di Wireshark:</span></div>
+          <div><span class="term-highlight">dns.qry.name.len > 50</span><span class="term-comment">  # Query sangat panjang</span></div>
+          <div><span class="term-highlight">dns and frame.len > 300</span><span class="term-comment"> # DNS packet oversized</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="analyst-note">DNS tunneling menggunakan enkoding Base64 atau hex dalam subdomain. Tanda-tanda: query name sangat panjang (&gt;50 karakter), jumlah DNS query abnormal tinggi ke satu domain, domain random/tidak dikenal, TXT record yang besar.</div>
+
+  <h3 class="mb-16 mt-24 ws-inline-4">Suspicious DNS Indicators</h3>
+  <div class="grid-3">
+    <div class="card ws-inline-10">
+      <div class="card-title text-danger">🚨 DGA Domains</div>
+      <div class="card-body">Domain Generation Algorithm — malware membuat domain random: <code class="mono ws-inline-18">xkq7wf3nm.com, b4r9znq.net</code>. Filter: dns.qry.name matches "[a-z]{15,}\.(com|net|org)"</div>
+    </div>
+    <div class="card ws-inline-41">
+      <div class="card-title text-warn">⚠️ Excessive Queries</div>
+      <div class="card-body">Satu host melakukan ratusan DNS query per menit ke domain berbeda = indikator malware beaconing atau DNS tunneling. Gunakan Statistics → DNS untuk analisis.</div>
+    </div>
+    <div class="card ws-inline-8">
+      <div class="card-title text-accent">🔍 NXDOMAIN Flood</div>
+      <div class="card-body">Banyak response NXDOMAIN (domain tidak ada) = DGA malware mencoba menemukan C2 domain aktif. Filter: <code class="mono ws-inline-18">dns.flags.rcode == 3</code></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HTTPS / TLS
+     ============================================================ -->
+<section id="https" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 09 — HTTPS / TLS</div>
+    <h2 class="section-title">HTTPS & TLS Analysis</h2>
+    <p class="section-desc">Memahami TLS handshake, enkripsi, dan apa yang masih bisa dianalisis dari traffic HTTPS.</p>
+  </div>
+
+  <div class="info-box"><div class="box-icon">🔒</div><div><strong>Reality Check:</strong> Traffic HTTPS terenkripsi — kamu TIDAK bisa membaca payload (request body, response data) tanpa private key server. NAMUN, masih banyak informasi berharga yang bisa dianalisis: IP tujuan, SNI (domain name), versi TLS, cipher suite, ukuran packet, dan timing.</div></div>
+
+  <h3 class="mb-16 mt-24 ws-inline-4">TLS Handshake Flow</h3>
+  <div class="tcp-diagram">
+    <div class="tcp-hosts">
+      <div class="tcp-host">Browser (Client)</div>
+      <div class="tcp-host">Web Server (443)</div>
+    </div>
+    <div class="tcp-packets">
+      <div class="tcp-pkt"><div class="tcp-pkt-label">TCP SYN</div><div class="tcp-arrow"></div></div>
+      <div class="tcp-pkt right"><div class="tcp-pkt-label">TCP SYN-ACK</div><div class="tcp-arrow ws-inline-30"></div></div>
+      <div class="tcp-pkt"><div class="tcp-pkt-label">TCP ACK</div><div class="tcp-arrow"></div></div>
+      <div class="tcp-pkt syn"><div class="tcp-pkt-label">TLS Client Hello [SNI=google.com, TLS 1.3, Cipher Suites]</div><div class="tcp-arrow"></div></div>
+      <div class="tcp-pkt right syn"><div class="tcp-pkt-label">TLS Server Hello [Cert, Chosen Cipher]</div><div class="tcp-arrow ws-inline-42"></div></div>
+      <div class="tcp-pkt"><div class="tcp-pkt-label">Client Finished [Key Exchange]</div><div class="tcp-arrow"></div></div>
+      <div class="tcp-pkt right"><div class="tcp-pkt-label">Server Finished [Change Cipher Spec]</div><div class="tcp-arrow ws-inline-30"></div></div>
+      <div class="ws-inline-43">— 🔒 ENCRYPTED APPLICATION DATA —</div>
+      <div class="tcp-pkt"><div class="tcp-pkt-label">Application Data (Encrypted)</div><div class="tcp-arrow"></div></div>
+      <div class="tcp-pkt right"><div class="tcp-pkt-label">Application Data (Encrypted)</div><div class="tcp-arrow ws-inline-30"></div></div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 mt-24 ws-inline-4">Yang Masih Bisa Dianalisis dari HTTPS</h3>
+  <div class="grid-2 mb-24">
+    <div class="card ws-inline-5">
+      <div class="card-title text-primary">✅ Masih Terlihat</div>
+      <ul class="ws-inline-44">
+        <li><span class="flag-dot flag-green"></span><strong class="ws-inline-2">SNI</strong> — domain name tujuan di Client Hello</li>
+        <li><span class="flag-dot flag-green"></span><strong class="ws-inline-2">IP Address</strong> tujuan koneksi</li>
+        <li><span class="flag-dot flag-green"></span><strong class="ws-inline-2">TLS version</strong> (TLS 1.2 vs 1.3)</li>
+        <li><span class="flag-dot flag-green"></span><strong class="ws-inline-2">Cipher suite</strong> yang digunakan</li>
+        <li><span class="flag-dot flag-green"></span><strong class="ws-inline-2">Certificate info</strong> (Issuer, Subject, validity)</li>
+        <li><span class="flag-dot flag-green"></span><strong class="ws-inline-2">Packet size & timing</strong> patterns</li>
+        <li><span class="flag-dot flag-green"></span><strong class="ws-inline-2">Connection duration</strong> & data volume</li>
+      </ul>
+    </div>
+    <div class="card ws-inline-10">
+      <div class="card-title text-danger">❌ Tidak Terlihat (Encrypted)</div>
+      <ul class="ws-inline-44">
+        <li><span class="flag-dot flag-red"></span>HTTP request path (/login, /api/data)</li>
+        <li><span class="flag-dot flag-red"></span>HTTP headers (Cookie, Authorization)</li>
+        <li><span class="flag-dot flag-red"></span>Request body (POST data, credentials)</li>
+        <li><span class="flag-dot flag-red"></span>Response body (HTML, JSON, files)</li>
+        <li><span class="flag-dot flag-red"></span>Query strings (?user=admin)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="mb-16 ws-inline-4">Decrypt HTTPS dengan Pre-Master Secret Log</h3>
+  <div class="tip-box"><div class="box-icon">🔑</div><div>Jika kamu memiliki akses ke browser yang membuat koneksi, kamu bisa decrypt HTTPS dengan <strong>SSLKEYLOGFILE</strong>. Set environment variable ini sebelum membuka browser, lalu load key log di Wireshark melalui Edit → Preferences → Protocols → TLS → (Pre)-Master-Secret log filename.</div></div>
+  <div class="terminal">
+    <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">Setup SSL Key Log — Windows</span></div>
+    <div class="terminal-body">
+      <div><span class="term-comment"># Set environment variable</span></div>
+      <div><span class="term-prompt">PS> </span><span class="term-cmd">$env:SSLKEYLOGFILE = "C:\ssl-keys\keylog.log"</span></div>
+      <div><span class="term-comment"># Buka Chrome/Firefox setelah set variable ini</span></div>
+      <div><span class="term-prompt">PS> </span><span class="term-cmd">Start-Process chrome</span></div>
+      <br>
+      <div><span class="term-comment"># Di Wireshark: Edit → Preferences → Protocols → TLS</span></div>
+      <div><span class="term-comment"># Masukkan path keylog.log di "(Pre)-Master-Secret log filename"</span></div>
+      <div><span class="term-comment"># TLS traffic akan otomatis terdekripsi!</span></div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 mt-16 ws-inline-4">TLS Version Security</h3>
+  <table class="cheat-table">
+    <thead><tr><th>Versi TLS</th><th>Status</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">SSL 2.0 / 3.0</td><td class="ws-inline-11">❌ Deprecated</td><td>Rentan POODLE, BEAST. Jangan gunakan.</td></tr>
+      <tr><td class="mono">TLS 1.0</td><td class="ws-inline-11">❌ Deprecated</td><td>Rentan BEAST, POODLE. Dilarang PCI DSS.</td></tr>
+      <tr><td class="mono">TLS 1.1</td><td class="ws-inline-17">⚠️ Legacy</td><td>Deprecated 2020. Hindari.</td></tr>
+      <tr><td class="mono">TLS 1.2</td><td class="ws-inline-17">⚠️ Acceptable</td><td>Masih aman dengan cipher suite yang benar.</td></tr>
+      <tr><td class="mono">TLS 1.3</td><td class="ws-inline-18">✅ Recommended</td><td>Terbaru dan paling aman. Handshake lebih cepat.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================
+     MALWARE ANALYSIS
+     ============================================================ -->
+<section id="malware" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 10 — Malware Analysis</div>
+    <h2 class="section-title">Malware Traffic Analysis</h2>
+    <p class="section-desc">Identifikasi Indicators of Compromise (IOC), pola beaconing, C2 traffic, dan anomali jaringan yang mengindikasikan infeksi malware.</p>
+  </div>
+
+  <div class="danger-box"><div class="box-icon">🔬</div><div><strong>ANALYST NOTE:</strong> Selalu analisis PCAP malware di environment terisolasi (VM, sandbox). Jangan buka file yang ter-ekstrak dari PCAP malware di komputer utama. Gunakan REMnux atau FlareVM yang didesain untuk malware analysis.</div></div>
+
+  <h3 class="mb-16 mt-24 ws-inline-4">Indicators of Compromise (IOC) dalam Traffic</h3>
+
+  <div class="ioc-card">
+    <div class="ioc-title">🔴 C2 Beaconing Traffic</div>
+    <div class="ioc-body">
+      <p class="mb-8">Malware yang terinfeksi secara periodik "check-in" ke C2 server untuk menerima instruksi. Ciri khas beaconing:</p>
+      <ul class="ws-inline-45">
+        <li>• Interval yang sangat reguler (misalnya setiap 60 detik persis)</li>
+        <li>• Request ke IP/domain yang tidak dikenal</li>
+        <li>• Ukuran packet yang konsisten (beaconing payload seragam)</li>
+        <li>• Traffic di luar jam kerja (saat user tidak aktif)</li>
+      </ul>
+      <div class="terminal ws-inline-40">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">Beaconing Pattern</span></div>
+        <div class="terminal-body">
+          <div><span class="term-out">02:14:00.001  192.168.1.105 → 185.220.101.47:443  [TLS] 214 bytes</span></div>
+          <div><span class="term-out">02:15:00.003  192.168.1.105 → 185.220.101.47:443  [TLS] 214 bytes</span></div>
+          <div><span class="term-out">02:16:00.001  192.168.1.105 → 185.220.101.47:443  [TLS] 214 bytes</span></div>
+          <div><span class="term-danger">              ↑ Interval: exactly 60s, same payload size = BEACONING</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ioc-card">
+    <div class="ioc-title">🟠 Data Exfiltration</div>
+    <div class="ioc-body">
+      <p class="mb-8">Data exfiltration adalah proses pencurian data keluar dari jaringan. Tanda-tandanya:</p>
+      <ul class="ws-inline-45">
+        <li>• Upload yang sangat besar ke IP external yang tidak dikenal</li>
+        <li>• Outbound traffic ke cloud storage unusual (non-standard ports)</li>
+        <li>• DNS query dengan subdomain sangat panjang (DNS tunneling)</li>
+        <li>• ICMP packet yang sangat besar (ICMP tunneling)</li>
+      </ul>
+      <div class="code-block ws-inline-40">
+        <button class="copy-btn">copy</button>
+        <span class="ws-inline-29"># Filter traffic upload besar (data keluar)</span><br>
+        <span class="ws-inline-18">ip.src == 192.168.1.0/24 and frame.len > 1400</span><br><br>
+        <span class="ws-inline-29"># Cari DNS tunneling (query panjang)</span><br>
+        <span class="ws-inline-18">dns.qry.name.len > 50</span><br><br>
+        <span class="ws-inline-29"># ICMP dengan payload besar</span><br>
+        <span class="ws-inline-18">icmp and data.len > 64</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ioc-card">
+    <div class="ioc-title">🟡 Port Scan Detection</div>
+    <div class="ioc-body">
+      <p class="mb-8">Reconnaissance sebelum serangan — attacker memetakan port yang terbuka:</p>
+      <div class="terminal ws-inline-40">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">Port Scan Pattern (nmap -sS)</span></div>
+        <div class="terminal-body">
+          <div><span class="term-danger"># SYN scan — banyak SYN ke port berbeda dari satu source</span></div>
+          <div><span class="term-out">10.0.0.50 → 10.0.0.1:22   [SYN]</span></div>
+          <div><span class="term-out">10.0.0.50 → 10.0.0.1:23   [SYN]</span></div>
+          <div><span class="term-out">10.0.0.50 → 10.0.0.1:25   [SYN]</span></div>
+          <div><span class="term-out">10.0.0.50 → 10.0.0.1:80   [SYN]</span></div>
+          <div><span class="term-out">10.0.0.50 → 10.0.0.1:443  [SYN]</span></div>
+          <div><span class="term-out">10.0.0.1  → 10.0.0.50:22  [RST,ACK]  ← Port closed</span></div>
+          <div><span class="term-highlight">10.0.0.1  → 10.0.0.50:80  [SYN,ACK]  ← Port OPEN!</span></div>
+          <br>
+          <div><span class="term-comment"># Filter untuk deteksi: banyak SYN tanpa ACK dari satu IP</span></div>
+          <div><span class="term-primary ws-inline-18">tcp.flags.syn == 1 and tcp.flags.ack == 0 and ip.src == 10.0.0.50</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 mt-24 ws-inline-4">Malware Traffic Scenarios</h3>
+  <div class="tabs">
+    <div class="tab-list">
+      <button class="tab-btn active" data-tab="mal-emotet">Emotet-style</button>
+      <button class="tab-btn" data-tab="mal-ransomware">Ransomware</button>
+      <button class="tab-btn" data-tab="mal-rat">RAT / Backdoor</button>
+    </div>
+
+    <div class="tab-panel active" id="mal-emotet">
+      <h4 class="mb-8 ws-inline-17">Emotet-style Banking Trojan Traffic Pattern</h4>
+      <p class="text-muted mb-16">Emotet terkenal dengan multi-stage infection — initial dropper mengunduh payload tambahan, lalu C2 communication dimulai.</p>
+      <div class="terminal">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">Emotet Traffic IOCs</span></div>
+        <div class="terminal-body">
+          <div><span class="term-comment"># Stage 1: Initial dropper download via HTTP</span></div>
+          <div><span class="term-danger">GET /wp-content/uploads/2024/invoice.doc HTTP/1.1</span></div>
+          <div><span class="term-out">Host: compromised-wordpress.com</span></div>
+          <br>
+          <div><span class="term-comment"># Stage 2: Payload download (Emotet DLL)</span></div>
+          <div><span class="term-danger">GET /gate.php HTTP/1.1</span></div>
+          <div><span class="term-out">Host: 185.220.xx.xx</span></div>
+          <br>
+          <div><span class="term-comment"># Stage 3: C2 Beaconing</span></div>
+          <div><span class="term-danger">POST /gate.php HTTP/1.1</span></div>
+          <div><span class="term-out">Host: 185.220.xx.xx</span></div>
+          <div><span class="term-out">Content-Type: application/x-www-form-urlencoded</span></div>
+          <div><span class="term-danger">data=base64encodeddata...</span></div>
+        </div>
+      </div>
+      <div class="analyst-note">Cari HTTP POST ke IP addresses (bukan domain) — malware sering langsung ke IP untuk menghindari DNS blocking. Filter: <code class="mono ws-inline-18">http.request.method == "POST" and not http.host matches "[a-zA-Z]"</code></div>
+    </div>
+
+    <div class="tab-panel" id="mal-ransomware">
+      <h4 class="mb-8 ws-inline-11">Ransomware Network Indicators</h4>
+      <p class="text-muted mb-16">Ransomware modern sering melakukan reconnaissance dan lateral movement sebelum enkripsi.</p>
+      <div class="grid-2">
+        <div class="ioc-card">
+          <div class="ioc-title">Phase 1: Reconnaissance</div>
+          <div class="ioc-body ws-inline-46">
+            • SMB scanning (port 445) ke seluruh subnet<br>
+            • LDAP queries untuk enumerate domain users<br>
+            • RDP (port 3389) enumeration<br>
+            Filter: <code class="mono ws-inline-18">tcp.port == 445 and tcp.flags.syn==1</code>
+          </div>
+        </div>
+        <div class="ioc-card">
+          <div class="ioc-title">Phase 2: Lateral Movement</div>
+          <div class="ioc-body ws-inline-46">
+            • Pass-the-Hash via SMB (port 445)<br>
+            • Psexec traffic patterns<br>
+            • WMI remote execution<br>
+            Filter: <code class="mono ws-inline-18">smb or smb2</code>
+          </div>
+        </div>
+        <div class="ioc-card">
+          <div class="ioc-title">Phase 3: Exfiltration (pre-encrypt)</div>
+          <div class="ioc-body ws-inline-46">
+            • Large data transfer ke cloud/external IP<br>
+            • FTP/SFTP ke unknown destination<br>
+            • Mega, rclone traffic patterns<br>
+            Filter: <code class="mono ws-inline-18">ftp-data or tcp.port == 21</code>
+          </div>
+        </div>
+        <div class="ioc-card">
+          <div class="ioc-title">Phase 4: C2 & Ransom Note</div>
+          <div class="ioc-body ws-inline-46">
+            • Connection ke .onion via Tor<br>
+            • HTTP POST ke ransom payment site<br>
+            • Key exchange untuk enkripsi<br>
+            Filter: <code class="mono ws-inline-18">tcp.port == 9001 or tcp.port == 9030</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="mal-rat">
+      <h4 class="mb-8 ws-inline-47">RAT (Remote Access Trojan) Traffic</h4>
+      <p class="text-muted mb-16">RAT memberikan kontrol penuh attacker atas victim machine melalui koneksi persistent.</p>
+      <div class="terminal">
+        <div class="terminal-header"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div><span class="term-label">RAT Traffic Characteristics</span></div>
+        <div class="terminal-body">
+          <div><span class="term-comment"># RAT biasanya menggunakan TCP custom protocol</span></div>
+          <div><span class="term-comment"># atau HTTP/HTTPS untuk bypass firewall</span></div>
+          <br>
+          <div><span class="term-highlight"># Indikator umum RAT:</span></div>
+          <div><span class="term-out">1. Koneksi keluar pada port tidak biasa (4444, 1234, 31337)</span></div>
+          <div><span class="term-out">2. Koneksi ke IP address langsung (bukan domain)</span></div>
+          <div><span class="term-out">3. Persistent connection yang tidak putus (TCP keepalive)</span></div>
+          <div><span class="term-out">4. Interactive traffic (ketik perintah → response)</span></div>
+          <div><span class="term-out">5. Screenshot/keylogger data (regular upload)</span></div>
+          <br>
+          <div><span class="term-comment"># Filter port tidak biasa</span></div>
+          <div><span class="term-primary ws-inline-18">tcp.port == 4444 or tcp.port == 1234 or tcp.port == 31337</span></div>
+          <br>
+          <div><span class="term-comment"># Filter koneksi langsung ke IP (no DNS resolution)</span></div>
+          <div><span class="term-comment"># Analisis via Statistics → Endpoints → TCP</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LABS
+     ============================================================ -->
+<section id="labs" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 11 — Labs</div>
+    <h2 class="section-title">Hands-on Labs</h2>
+    <p class="section-desc">Latihan praktis dengan skenario nyata untuk mengasah kemampuan analisis jaringan kamu.</p>
+  </div>
+
+  <!-- Lab 1 -->
+  <div class="lab-card">
+    <div class="lab-header">
+      <div class="lab-num">1</div>
+      <div>
+        <div class="lab-title">Capture & Analisis HTTP Traffic</div>
+        <div class="ws-inline-48">Tangkap dan analisis traffic HTTP dari browser kamu sendiri</div>
+      </div>
+      <div class="lab-difficulty diff-beginner">Beginner</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-meta">
+        <div class="lab-meta-item">⏱️ 15-20 menit</div>
+        <div class="lab-meta-item">🛠️ Wireshark + Browser</div>
+        <div class="lab-meta-item">🌐 HTTP site (non-HTTPS)</div>
+      </div>
+      <p class="text-muted mb-16 ws-inline-49"><strong class="ws-inline-2">Tujuan:</strong> Memahami cara kerja HTTP request/response dan mengidentifikasi informasi sensitif dalam plaintext traffic.</p>
+      <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Buka Wireshark → pilih interface ethernet/wifi aktif → Start capture (Ctrl+E)</div></div>
+      <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Buka browser dan akses: <code class="mono text-secondary">http://neverssl.com</code> atau <code class="mono text-secondary">http://httpforever.com</code> — site HTTP murni</div></div>
+      <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Stop capture setelah halaman loading. Terapkan filter: <code class="mono text-primary">http</code> di filter bar</div></div>
+      <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Cari packet "HTTP GET" → klik → perhatikan Packet Details: Request URI, Host, User-Agent, Accept headers</div></div>
+      <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Cari HTTP response (status 200) → Follow → HTTP Stream untuk melihat full conversation</div></div>
+      <div class="lab-step"><div class="lab-step-num">6</div><div class="lab-step-content">Buka <code class="mono">File → Export Objects → HTTP</code> untuk melihat file apa saja yang ditransfer (HTML, CSS, gambar)</div></div>
+      <div class="tip-box mt-16"><div class="box-icon">🎯</div><div><strong>Expected Result:</strong> Kamu bisa membaca full HTTP request dan response dalam plaintext — URL yang dikunjungi, headers, cookies, dan konten HTML sepenuhnya terlihat. Ini membuktikan kenapa HTTP berbahaya untuk data sensitif.</div></div>
+    </div>
+  </div>
+
+  <!-- Lab 2 -->
+  <div class="lab-card">
+    <div class="lab-header">
+      <div class="lab-num">2</div>
+      <div>
+        <div class="lab-title">Analisis DNS Query & Response</div>
+        <div class="ws-inline-48">Pelajari proses resolusi DNS dan cara filter query mencurigakan</div>
+      </div>
+      <div class="lab-difficulty diff-beginner">Beginner</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-meta">
+        <div class="lab-meta-item">⏱️ 10-15 menit</div>
+        <div class="lab-meta-item">🛠️ Wireshark + Terminal</div>
+        <div class="lab-meta-item">🌐 Internet access</div>
+      </div>
+      <p class="text-muted mb-16 ws-inline-49"><strong class="ws-inline-2">Tujuan:</strong> Memahami struktur DNS packet dan mengidentifikasi informasi dalam query/response.</p>
+      <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Start Wireshark capture → terapkan display filter <code class="mono text-primary">dns</code> sebelum mulai (atau setelah)</div></div>
+      <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Buka terminal/cmd dan jalankan: <code class="mono text-secondary">nslookup google.com 8.8.8.8</code> dan <code class="mono text-secondary">nslookup -type=MX gmail.com</code></div></div>
+      <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Di Wireshark, cari DNS query untuk google.com → klik → expand "Domain Name System" di detail pane</div></div>
+      <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Perhatikan: Transaction ID (cocok antara query dan response), Questions section, Answers section (IP yang dikembalikan), TTL</div></div>
+      <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Gunakan <code class="mono">Statistics → DNS</code> untuk melihat statistik DNS secara keseluruhan dalam capture</div></div>
+      <div class="analyst-note">Perhatikan bahwa DNS transaction ID di query dan response harus sama — ini cara DNS mencocokkan request dengan response. Jika berbeda = DNS spoofing attack!</div>
+    </div>
+  </div>
+
+  <!-- Lab 3 -->
+  <div class="lab-card">
+    <div class="lab-header">
+      <div class="lab-num">3</div>
+      <div>
+        <div class="lab-title">Deteksi Port Scan (nmap)</div>
+        <div class="ws-inline-48">Capture dan analisis traffic port scan untuk latihan deteksi</div>
+      </div>
+      <div class="lab-difficulty diff-intermediate">Intermediate</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-meta">
+        <div class="lab-meta-item">⏱️ 20-30 menit</div>
+        <div class="lab-meta-item">🛠️ Wireshark + nmap + VM</div>
+        <div class="lab-meta-item">⚠️ Gunakan lab VM isolated!</div>
+      </div>
+      <div class="danger-box mb-16"><div class="box-icon">⚠️</div><div>Lab ini HANYA dilakukan di environment isolated (VM lokal). JANGAN scan network atau IP yang bukan milikmu!</div></div>
+      <p class="text-muted mb-16 ws-inline-49"><strong class="ws-inline-2">Tujuan:</strong> Belajar mengenali pola traffic port scan di Wireshark.</p>
+      <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Siapkan 2 VM dalam network yang sama (attacker + target). Contoh: Kali Linux sebagai attacker, Metasploitable sebagai target.</div></div>
+      <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Di VM target atau host, start Wireshark capture di interface yang sama dengan network VM</div></div>
+      <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Di VM attacker, jalankan: <code class="mono text-secondary">nmap -sS 192.168.x.x</code> (ganti dengan IP target)</div></div>
+      <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Stop capture. Filter: <code class="mono text-primary">tcp.flags.syn == 1 and ip.src == [IP attacker]</code></div></div>
+      <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Perhatikan pola: banyak SYN ke port berbeda dalam waktu sangat singkat. Port terbuka mendapat SYN-ACK, port tertutup mendapat RST.</div></div>
+      <div class="lab-step"><div class="lab-step-num">6</div><div class="lab-step-content">Bandingkan dengan scan lain: <code class="mono text-secondary">nmap -sU</code> (UDP scan) dan <code class="mono text-secondary">nmap -sV</code> (version detection) — perbedaan traffic pattern-nya.</div></div>
+    </div>
+  </div>
+
+  <!-- Lab 4 -->
+  <div class="lab-card">
+    <div class="lab-header">
+      <div class="lab-num">4</div>
+      <div>
+        <div class="lab-title">Analisis PCAP Malware Sample</div>
+        <div class="ws-inline-48">Investigasi traffic dari sample PCAP malware yang sudah tersedia publik</div>
+      </div>
+      <div class="lab-difficulty diff-advanced">Advanced</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-meta">
+        <div class="lab-meta-item">⏱️ 45-60 menit</div>
+        <div class="lab-meta-item">🛠️ Wireshark + REMnux</div>
+        <div class="lab-meta-item">📁 PCAP dari malware-traffic-analysis.net</div>
+      </div>
+      <p class="text-muted mb-16 ws-inline-49"><strong class="ws-inline-2">Tujuan:</strong> Mengidentifikasi C2 communication, IOC, dan timeline infeksi dari PCAP malware nyata.</p>
+      <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Download PCAP sample dari <code class="mono text-secondary">malware-traffic-analysis.net</code> (free educational PCAP). Gunakan VM isolated untuk analisis.</div></div>
+      <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Buka di Wireshark → lihat <code class="mono">Statistics → Endpoints</code> untuk melihat semua IP yang terlibat. Cari IP external yang mencurigakan.</div></div>
+      <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Cek <code class="mono">Statistics → Protocol Hierarchy</code> untuk overview protokol yang digunakan. Protokol tidak biasa = red flag.</div></div>
+      <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Filter HTTP: <code class="mono text-primary">http.request</code> → cari POST ke IP langsung, GET file executable (.exe, .dll, .bat)</div></div>
+      <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Gunakan <code class="mono">File → Export Objects → HTTP</code> untuk ekstrak file yang didownload. Cek hash di VirusTotal.</div></div>
+      <div class="lab-step"><div class="lab-step-num">6</div><div class="lab-step-content">Dokumentasikan IOC: IP C2, domain, URL, file hash, user-agent strings unik, dan timeline kejadian.</div></div>
+      <div class="analyst-note">Setelah analisis, buat laporan IOC yang bisa dimasukkan ke firewall atau SIEM untuk blocking. Format: IP, domain, URL pattern, file hash (MD5/SHA256).</div>
+    </div>
+  </div>
+
+  <!-- Lab 5 -->
+  <div class="lab-card">
+    <div class="lab-header">
+      <div class="lab-num">5</div>
+      <div>
+        <div class="lab-title">Follow TCP Stream & Rekonstruksi Data</div>
+        <div class="ws-inline-48">Rekonstruksi sesi FTP dan ekstrak file dari traffic capture</div>
+      </div>
+      <div class="lab-difficulty diff-intermediate">Intermediate</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-meta">
+        <div class="lab-meta-item">⏱️ 20-30 menit</div>
+        <div class="lab-meta-item">🛠️ Wireshark</div>
+        <div class="lab-meta-item">📁 FTP PCAP sample</div>
+      </div>
+      <p class="text-muted mb-16 ws-inline-49"><strong class="ws-inline-2">Tujuan:</strong> Menggunakan Follow Stream untuk merekonstruksi sesi komunikasi dan mengekstrak credentials dan data yang ditransfer.</p>
+      <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Download PCAP yang mengandung FTP traffic dari <code class="mono text-secondary">packetslife.net</code> atau Wireshark sample captures page.</div></div>
+      <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Buka di Wireshark → filter <code class="mono text-primary">ftp</code> → lihat FTP control channel traffic (port 21)</div></div>
+      <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Klik packet FTP → Right-click → Follow → TCP Stream → perhatikan credentials FTP (USER dan PASS dalam plaintext!)</div></div>
+      <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Filter <code class="mono text-primary">ftp-data</code> untuk melihat file transfer data. Right-click → Follow → TCP Stream untuk melihat isi file.</div></div>
+      <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Gunakan <code class="mono">File → Export Objects → FTP</code> untuk ekstrak file yang ditransfer via FTP.</div></div>
+      <div class="tip-box mt-16"><div class="box-icon">🎯</div><div><strong>Expected Result:</strong> Kamu bisa melihat username, password FTP dalam plaintext, dan bahkan mengekstrak file yang ditransfer — ini contoh nyata kenapa FTP berbahaya dan harus diganti SFTP/FTPS.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHEAT SHEET
+     ============================================================ -->
+<section id="cheatsheet" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 12 — Cheat Sheet</div>
+    <h2 class="section-title">Wireshark Cheat Sheet</h2>
+    <p class="section-desc">Referensi cepat filter, shortcut keyboard, dan tips essential untuk analisis sehari-hari.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab-list">
+      <button class="tab-btn active" data-tab="cs-filters">Quick Filters</button>
+      <button class="tab-btn" data-tab="cs-shortcuts">Keyboard Shortcuts</button>
+      <button class="tab-btn" data-tab="cs-protocols">Protocol Ports</button>
+      <button class="tab-btn" data-tab="cs-tcpflags">TCP Flags</button>
+    </div>
+
+    <div class="tab-panel active" id="cs-filters">
+      <table class="cheat-table">
+        <thead><tr><th>Filter</th><th>Fungsi</th><th>Contoh</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ip.addr</td><td>Filter IP (src atau dst)</td><td class="mono">ip.addr == 10.0.0.1</td></tr>
+          <tr><td class="mono">ip.src</td><td>Filter source IP</td><td class="mono">ip.src == 192.168.1.0/24</td></tr>
+          <tr><td class="mono">ip.dst</td><td>Filter destination IP</td><td class="mono">ip.dst == 8.8.8.8</td></tr>
+          <tr><td class="mono">tcp.port</td><td>Filter TCP port (src/dst)</td><td class="mono">tcp.port == 443</td></tr>
+          <tr><td class="mono">udp.port</td><td>Filter UDP port</td><td class="mono">udp.port == 53</td></tr>
+          <tr><td class="mono">http</td><td>Semua traffic HTTP</td><td class="mono">http</td></tr>
+          <tr><td class="mono">dns</td><td>Semua traffic DNS</td><td class="mono">dns</td></tr>
+          <tr><td class="mono">tls</td><td>Semua traffic TLS/SSL</td><td class="mono">tls</td></tr>
+          <tr><td class="mono">arp</td><td>Semua traffic ARP</td><td class="mono">arp</td></tr>
+          <tr><td class="mono">icmp</td><td>Semua traffic ICMP</td><td class="mono">icmp</td></tr>
+          <tr><td class="mono">tcp.flags.syn == 1</td><td>SYN packets saja</td><td class="mono">tcp.flags.syn==1 && tcp.flags.ack==0</td></tr>
+          <tr><td class="mono">tcp.flags.reset == 1</td><td>RST packets</td><td class="mono">tcp.flags.reset==1</td></tr>
+          <tr><td class="mono">tcp.analysis.retransmission</td><td>TCP retransmissions</td><td class="mono">tcp.analysis.retransmission</td></tr>
+          <tr><td class="mono">frame contains</td><td>Cari string di payload</td><td class="mono">frame contains "password"</td></tr>
+          <tr><td class="mono">http.request.method</td><td>HTTP method tertentu</td><td class="mono">http.request.method == "POST"</td></tr>
+          <tr><td class="mono">http.response.code</td><td>HTTP status code</td><td class="mono">http.response.code == 404</td></tr>
+          <tr><td class="mono">dns.qry.name</td><td>DNS query domain</td><td class="mono">dns.qry.name contains ".ru"</td></tr>
+          <tr><td class="mono">tcp.stream eq N</td><td>Isolasi TCP stream ke-N</td><td class="mono">tcp.stream eq 0</td></tr>
+          <tr><td class="mono">!arp</td><td>Exclude ARP traffic</td><td class="mono">not arp</td></tr>
+          <tr><td class="mono">ip.ttl < 5</td><td>TTL sangat rendah</td><td class="mono">ip.ttl < 5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-panel" id="cs-shortcuts">
+      <div class="grid-2">
+        <div>
+          <h4 class="mb-16 ws-inline-18">Capture Control</h4>
+          <table class="cheat-table">
+            <thead><tr><th>Shortcut</th><th>Aksi</th></tr></thead>
+            <tbody>
+              <tr><td class="key">Ctrl + E</td><td>Start / Stop Capture</td></tr>
+              <tr><td class="key">Ctrl + K</td><td>Capture Options</td></tr>
+              <tr><td class="key">Ctrl + R</td><td>Restart Capture</td></tr>
+              <tr><td class="key">Ctrl + S</td><td>Save Capture File</td></tr>
+              <tr><td class="key">Ctrl + O</td><td>Open Capture File</td></tr>
+              <tr><td class="key">Ctrl + W</td><td>Close Capture File</td></tr>
+            </tbody>
+          </table>
+
+          <h4 class="mb-16 mt-24 ws-inline-18">Navigation</h4>
+          <table class="cheat-table">
+            <thead><tr><th>Shortcut</th><th>Aksi</th></tr></thead>
+            <tbody>
+              <tr><td class="key">Ctrl + F</td><td>Find Packet</td></tr>
+              <tr><td class="key">Ctrl + G</td><td>Go to Packet by Number</td></tr>
+              <tr><td class="key">Ctrl + ↑/↓</td><td>Next/Prev Packet Same Conversation</td></tr>
+              <tr><td class="key">Ctrl + Home</td><td>First Packet</td></tr>
+              <tr><td class="key">Ctrl + End</td><td>Last Packet</td></tr>
+              <tr><td class="key">Backspace</td><td>Previous Packet in History</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h4 class="mb-16 ws-inline-18">Analysis</h4>
+          <table class="cheat-table">
+            <thead><tr><th>Shortcut</th><th>Aksi</th></tr></thead>
+            <tbody>
+              <tr><td class="key">Ctrl + Alt + T</td><td>Follow TCP Stream</td></tr>
+              <tr><td class="key">Ctrl + Alt + U</td><td>Follow UDP Stream</td></tr>
+              <tr><td class="key">Ctrl + Shift + I</td><td>Conversations</td></tr>
+              <tr><td class="key">Ctrl + Shift + E</td><td>Endpoints</td></tr>
+              <tr><td class="key">Ctrl + /</td><td>Expert Information</td></tr>
+              <tr><td class="key">Ctrl + M</td><td>Mark / Unmark Packet</td></tr>
+              <tr><td class="key">Ctrl + T</td><td>Time Reference</td></tr>
+            </tbody>
+          </table>
+
+          <h4 class="mb-16 mt-24 ws-inline-18">Display</h4>
+          <table class="cheat-table">
+            <thead><tr><th>Shortcut</th><th>Aksi</th></tr></thead>
+            <tbody>
+              <tr><td class="key">Ctrl + +</td><td>Zoom In (font size)</td></tr>
+              <tr><td class="key">Ctrl + -</td><td>Zoom Out</td></tr>
+              <tr><td class="key">Ctrl + 0</td><td>Reset Zoom</td></tr>
+              <tr><td class="key">F11</td><td>Toggle Fullscreen</td></tr>
+              <tr><td class="key">Ctrl + Shift + O</td><td>Collapse All in Details</td></tr>
+              <tr><td class="key">Ctrl + Shift + F</td><td>Expand All in Details</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="cs-protocols">
+      <div class="grid-2">
+        <table class="cheat-table">
+          <thead><tr><th>Protocol</th><th>Port</th><th>Transport</th></tr></thead>
+          <tbody>
+            <tr><td>HTTP</td><td class="mono">80</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>HTTPS</td><td class="mono">443</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>FTP Control</td><td class="mono">21</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>FTP Data</td><td class="mono">20</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>SSH</td><td class="mono">22</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>Telnet</td><td class="mono">23</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>SMTP</td><td class="mono">25</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>DNS</td><td class="mono">53</td><td><span class="proto-badge proto-udp">UDP</span>/<span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>DHCP</td><td class="mono">67/68</td><td><span class="proto-badge proto-udp">UDP</span></td></tr>
+            <tr><td>HTTP Alt</td><td class="mono">8080</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+          </tbody>
+        </table>
+        <table class="cheat-table">
+          <thead><tr><th>Protocol</th><th>Port</th><th>Transport</th></tr></thead>
+          <tbody>
+            <tr><td>POP3</td><td class="mono">110</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>IMAP</td><td class="mono">143</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>SMB</td><td class="mono">445</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>RDP</td><td class="mono">3389</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>MySQL</td><td class="mono">3306</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>MSSQL</td><td class="mono">1433</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>PostgreSQL</td><td class="mono">5432</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>LDAP</td><td class="mono">389</td><td><span class="proto-badge proto-tcp">TCP</span></td></tr>
+            <tr><td>SNMP</td><td class="mono">161</td><td><span class="proto-badge proto-udp">UDP</span></td></tr>
+            <tr><td>NTP</td><td class="mono">123</td><td><span class="proto-badge proto-udp">UDP</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="cs-tcpflags">
+      <table class="cheat-table">
+        <thead><tr><th>Flag</th><th>Bit</th><th>Nama</th><th>Fungsi</th><th>Filter</th></tr></thead>
+        <tbody>
+          <tr><td class="mono text-primary">SYN</td><td class="mono">0x002</td><td>Synchronize</td><td>Mulai koneksi baru</td><td class="mono">tcp.flags.syn==1</td></tr>
+          <tr><td class="mono text-secondary">ACK</td><td class="mono">0x010</td><td>Acknowledge</td><td>Konfirmasi penerimaan</td><td class="mono">tcp.flags.ack==1</td></tr>
+          <tr><td class="mono text-warn">FIN</td><td class="mono">0x001</td><td>Finish</td><td>Akhiri koneksi graceful</td><td class="mono">tcp.flags.fin==1</td></tr>
+          <tr><td class="mono text-danger">RST</td><td class="mono">0x004</td><td>Reset</td><td>Akhiri koneksi paksa</td><td class="mono">tcp.flags.reset==1</td></tr>
+          <tr><td class="mono text-accent">PSH</td><td class="mono">0x008</td><td>Push</td><td>Kirim data ke aplikasi segera</td><td class="mono">tcp.flags.push==1</td></tr>
+          <tr><td class="mono text-muted">URG</td><td class="mono">0x020</td><td>Urgent</td><td>Data urgent priority</td><td class="mono">tcp.flags.urg==1</td></tr>
+          <tr><td class="mono text-muted">ECE</td><td class="mono">0x040</td><td>ECN Echo</td><td>Explicit congestion notification</td><td class="mono">tcp.flags.ece==1</td></tr>
+          <tr><td class="mono text-muted">CWR</td><td class="mono">0x080</td><td>Congestion Window</td><td>Congestion window reduced</td><td class="mono">tcp.flags.cwr==1</td></tr>
+          <tr><td class="mono ws-inline-18">SYN+ACK</td><td class="mono">0x012</td><td>Synchronize Acknowledge</td><td>Response handshake (server)</td><td class="mono">tcp.flags==0x012</td></tr>
+          <tr><td class="mono text-danger">RST+ACK</td><td class="mono">0x014</td><td>Reset Acknowledge</td><td>Reset dengan ACK</td><td class="mono">tcp.flags==0x014</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BEST PRACTICES
+     ============================================================ -->
+<section id="bestpractices" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 13 — Best Practices</div>
+    <h2 class="section-title">Best Practices</h2>
+    <p class="section-desc">Panduan etika, legalitas, dan workflow profesional dalam menggunakan Wireshark.</p>
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div>
+      <h3 class="mb-16 ws-inline-12">Penggunaan Legal & Etis</h3>
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-btn">⚖️ Dapatkan Izin Tertulis<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">Sebelum melakukan packet capture di jaringan manapun selain milik pribadi, dapatkan izin tertulis dari pemilik jaringan atau atasan yang berwenang. Dalam konteks profesional, ini termasuk Rules of Engagement (RoE) yang mendefinisikan scope dan batasan aktivitas.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">🔒 Lindungi Data yang Di-capture<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">File PCAP bisa mengandung informasi sangat sensitif: password, cookies, email, dokumen. Simpan di lokasi yang aman, enkripsi jika perlu, dan hapus setelah tidak dibutuhkan sesuai kebijakan retensi data organisasi.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">🏢 Ketahui Regulasi yang Berlaku<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">Berbagai regulasi mengatur intercepting network traffic: GDPR (EU), CFAA (US), UU ITE (Indonesia). Packet capture traffic orang lain tanpa izin bisa melanggar hukum pidana. Dalam enterprise, biasanya ada kebijakan IT yang mengatur penggunaan network analyzer.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">🔬 Gunakan Isolated Lab Environment<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">Untuk pembelajaran dan testing, selalu gunakan VM atau jaringan terisolasi. GNS3, VirtualBox, VMware Workstation bisa membuat virtual network lab yang sepenuhnya aman untuk bereksperimen tanpa risiko.</div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 class="mb-16 ws-inline-12">Workflow Profesional</h3>
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-btn">📋 Dokumentasi yang Baik<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">Selalu catat: tanggal/waktu capture, interface yang digunakan, capture filter yang diterapkan, tujuan capture, dan siapa yang melakukan. Ini penting untuk bukti forensik dan laporan. Tambahkan komentar pada packet penting menggunakan Edit → Packet Comment.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">💾 Manajemen File PCAP<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">File PCAP bisa sangat besar — gunakan ring buffer untuk capture panjang, pisahkan berdasarkan waktu atau ukuran, dan beri nama file yang deskriptif (tanggal_interface_tujuan.pcapng). Kompresi dengan gzip bisa mengurangi ukuran file hingga 90%.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">🔍 Mulai dengan Big Picture<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">Selalu mulai analisis dari Statistics: Protocol Hierarchy → Conversations → Endpoints → I/O Graph. Ini memberikan gambaran besar sebelum masuk ke analisis packet individual. Cari anomali yang menonjol sebelum drilling down.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">📊 Gunakan Coloring Rules<span class="accordion-arrow">▾</span></button>
+          <div class="accordion-body"><div class="accordion-body-inner">Wireshark punya built-in coloring rules — packet error berwarna merah/hitam, TCP problems kuning, dsb. Kamu bisa customisasi via View → Coloring Rules untuk highlight IOC tertentu secara otomatis. Ini sangat membantu saat analisis PCAP besar.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 ws-inline-4">Performance Tips</h3>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">⚡ Gunakan Capture Filter</div>
+      <div class="card-body">Capture filter mengurangi data yang disimpan sebelum masuk Wireshark — lebih efisien dari display filter. Gunakan saat kamu tahu protocol/IP yang mau dicapture. Contoh: <code class="mono ws-inline-18">tcp port 80</code></div>
+    </div>
+    <div class="card">
+      <div class="card-title">💾 Aktifkan Ring Buffer</div>
+      <div class="card-body">Untuk capture jangka panjang, aktifkan ring buffer (Capture Options → Output) dengan batas ukuran per file. Wireshark akan overwrite file lama, menjaga storage terkontrol.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🛑 Stop Resolusi Nama</div>
+      <div class="card-body">View → Name Resolution → matikan "Resolve Network Addresses" jika tidak diperlukan. DNS reverse lookup untuk setiap IP bisa sangat memperlambat Wireshark pada traffic padat.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     RESOURCES
+     ============================================================ -->
+<section id="resources" class="section reveal">
+  <div class="section-header">
+    <div class="section-tag">// 14 — Resources</div>
+    <h2 class="section-title">Learning Resources</h2>
+    <p class="section-desc">Koleksi resource terbaik untuk memperdalam kemampuan network analysis dan cybersecurity.</p>
+  </div>
+
+  <div class="grid-2 mb-24">
+    <div>
+      <h3 class="mb-16 ws-inline-50">📚 Buku Rekomendasi</h3>
+      <div class="resource-card mb-16">
+        <div class="resource-type ws-inline-18">Book</div>
+        <div class="resource-name">Practical Packet Analysis</div>
+        <div class="resource-desc">Oleh Chris Sanders — buku terbaik untuk belajar Wireshark dari dasar hingga advanced. Dilengkapi praktik langsung dengan sample PCAP.</div>
+        <a class="resource-link" href="#">→ No Starch Press</a>
+      </div>
+      <div class="resource-card mb-16">
+        <div class="resource-type ws-inline-51">Book</div>
+        <div class="resource-name">The Tao of Network Security Monitoring</div>
+        <div class="resource-desc">Oleh Richard Bejtlich — filosofi dan teknik NSM (Network Security Monitoring) yang komprehensif.</div>
+        <a class="resource-link" href="#">→ Addison-Wesley</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-type ws-inline-47">Book</div>
+        <div class="resource-name">Network Forensics</div>
+        <div class="resource-desc">Oleh Sherri Davidoff — panduan komprehensif investigasi insiden melalui analisis traffic jaringan.</div>
+        <a class="resource-link" href="#">→ Prentice Hall</a>
+      </div>
+    </div>
+    <div>
+      <h3 class="mb-16 ws-inline-52">🌐 Online Labs & Practice</h3>
+      <div class="resource-card mb-16">
+        <div class="resource-type ws-inline-11">Free Resource</div>
+        <div class="resource-name">Malware Traffic Analysis</div>
+        <div class="resource-desc">malware-traffic-analysis.net — ratusan PCAP sample dari malware nyata dengan tutorial analisis detail. Resource terbaik untuk belajar malware traffic.</div>
+        <a class="resource-link" href="https://malware-traffic-analysis.net" target="_blank">→ malware-traffic-analysis.net</a>
+      </div>
+      <div class="resource-card mb-16">
+        <div class="resource-type ws-inline-18">Free Resource</div>
+        <div class="resource-name">Wireshark Sample Captures</div>
+        <div class="resource-desc">Official Wireshark wiki berisi ratusan PCAP sample untuk berbagai protokol dan skenario — perfect untuk latihan.</div>
+        <a class="resource-link" href="https://wiki.wireshark.org/SampleCaptures" target="_blank">→ wiki.wireshark.org/SampleCaptures</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-type ws-inline-17">Platform</div>
+        <div class="resource-name">Blue Team Labs Online</div>
+        <div class="resource-desc">Platform hands-on dengan lab SOC analyst, incident response, dan network forensics. Ada challenge khusus Wireshark dan PCAP analysis.</div>
+        <a class="resource-link" href="https://blueteamlabs.online" target="_blank">→ blueteamlabs.online</a>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 ws-inline-4">Certification Roadmap</h3>
+  <div class="card">
+    <div class="ws-inline-53">
+      <div class="ws-inline-54">
+        <div class="ws-inline-55">
+          <div class="ws-inline-56">Entry</div>
+        </div>
+        <div>
+          <div class="ws-inline-57">CompTIA Network+</div>
+          <div class="ws-inline-58">Fondasi jaringan yang solid — prerequisite untuk semua sertifikasi cybersecurity. Mencakup protokol, troubleshooting, dan dasar network security.</div>
+        </div>
+      </div>
+      <div class="ws-inline-54">
+        <div class="ws-inline-55">
+          <div class="ws-inline-59">Mid</div>
+        </div>
+        <div>
+          <div class="ws-inline-57">CompTIA Security+ / CySA+</div>
+          <div class="ws-inline-58">Security+ untuk dasar security, CySA+ (Cybersecurity Analyst) untuk blue team & threat hunting — keduanya relevan dengan network analysis.</div>
+        </div>
+      </div>
+      <div class="ws-inline-54">
+        <div class="ws-inline-55">
+          <div class="ws-inline-60">Advanced</div>
+        </div>
+        <div>
+          <div class="ws-inline-57">GCFE / GCIA (GIAC)</div>
+          <div class="ws-inline-58">GCIA (Certified Intrusion Analyst) fokus pada network forensics dan intrusion detection. Sangat relevan dengan Wireshark analysis. GCFE untuk forensik digital.</div>
+        </div>
+      </div>
+      <div class="ws-inline-61">
+        <div class="ws-inline-55">
+          <div class="ws-inline-62">Expert</div>
+        </div>
+        <div>
+          <div class="ws-inline-57">OSCP / OSED / GREM</div>
+          <div class="ws-inline-58">GREM (Reverse Engineering Malware) dari GIAC — advanced malware analysis termasuk network traffic. OSCP untuk offensive skills yang melengkapi defensive knowledge.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mb-16 mt-24 ws-inline-4">Community & Forums</h3>
+  <div class="grid-4">
+    <div class="resource-card">
+      <div class="resource-type ws-inline-18">Community</div>
+      <div class="resource-name">Wireshark Q&A</div>
+      <div class="resource-desc">ask.wireshark.org — forum official Wireshark. Ribuan pertanyaan dan jawaban dari expert.</div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-type ws-inline-51">Forum</div>
+      <div class="resource-name">Reddit r/netsec</div>
+      <div class="resource-desc">Komunitas network security yang aktif. Diskusi teknis dan berbagi resource.</div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-type ws-inline-17">Discord</div>
+      <div class="resource-name">TryHackMe / HTB Discord</div>
+      <div class="resource-desc">Komunitas aktif untuk belajar CTF dan cybersecurity dengan banyak channel khusus network analysis.</div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-type ws-inline-47">PCAP Repo</div>
+      <div class="resource-name">PacketLife.net</div>
+      <div class="resource-desc">Koleksi PCAP captures untuk berbagai protokol — bagus untuk belajar analisis protokol spesifik.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="ws-inline-63">
+    <span class="ws-inline-64">VeloraSec </span>
+    <span class="ws-inline-65">|</span>
+    <span>Wireshark Interactive Guide v2.0</span>
+    <span class="ws-inline-65">|</span>
+    <span>For educational purposes only</span>
+  </div>
+  <div class="ws-inline-66">
+    ⚠️ Gunakan pengetahuan ini secara bertanggung jawab dan legal. Selalu dapatkan izin sebelum melakukan packet capture pada jaringan yang bukan milikmu.
+  </div>
+</footer>
+
+</main><!-- end .main -->
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script src="./wireshark-guide.js"></script>
+</body>
+</html>

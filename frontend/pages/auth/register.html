@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Register — VeloraSec</title>
+<link rel="icon" type="image/png" sizes="32x32" rel="icon" href="../../assets/icons/icons8-register-32.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="../../assets/css/style.css"/>
+<link rel="stylesheet" href="auth.css"/>
+</head>
+<body>
+
+<div class="cyber-grid" aria-hidden="true"></div>
+<div id="particles" aria-hidden="true"></div>
+
+<div class="auth-wrap">
+  <div class="auth-card" style="max-width:460px">
+
+    <!-- Logo -->
+    <div class="auth-logo">
+      <i class="fas fa-shield-halved" style="color:var(--primary);font-size:24px"></i>
+      <div>
+        <div style="font-size:15px;font-weight:900;letter-spacing:2px;color:var(--primary)">VeloraSec</div>
+        <div style="font-size:8px;color:var(--muted);letter-spacing:3px">LEARNING HUB</div>
+      </div>
+    </div>
+
+    <div class="auth-title">Create Account</div>
+    <div class="auth-sub">&gt; Initialize your operator profile</div>
+
+    <!-- Username -->
+    <div class="input-group">
+      <label class="input-label">Username</label>
+      <div class="input-icon-wrap">
+        <i class="fas fa-user ii"></i>
+        <input type="text" class="cyber-input" placeholder="operator_handle"
+               id="reg-username" autocomplete="username"/>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="input-group">
+      <label class="input-label">Email</label>
+      <div class="input-icon-wrap">
+        <i class="fas fa-at ii"></i>
+        <input type="email" class="cyber-input" placeholder="operator@velorasec.io"
+               id="reg-email" autocomplete="email"/>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="input-group">
+      <label class="input-label">Password</label>
+      <div class="input-icon-wrap" style="position:relative">
+        <i class="fas fa-lock ii"></i>
+        <input type="password" class="cyber-input" placeholder="Min. 8 characters"
+               id="reg-pw" oninput="updatePwStrength(this.value)" autocomplete="new-password"/>
+        <button class="pw-toggle" onclick="togglePw('reg-pw',this)"
+                tabindex="-1" aria-label="Toggle password">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+      <!-- Strength bar -->
+      <div style="margin-top:8px">
+        <div class="progress-wrap">
+          <div id="pw-strength-bar" class="progress-fill"
+               style="width:0%;transition:width 0.4s,background 0.4s"></div>
+        </div>
+        <div id="pw-strength-label"
+             style="font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:1px"> </div>
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="input-group">
+      <label class="input-label">Confirm Password</label>
+      <div class="input-icon-wrap" style="position:relative">
+        <i class="fas fa-lock ii"></i>
+        <input type="password" class="cyber-input" placeholder="Repeat password"
+               id="reg-pw2" autocomplete="new-password"/>
+        <button class="pw-toggle" onclick="togglePw('reg-pw2',this)"
+                tabindex="-1" aria-label="Toggle password">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ToS -->
+    <label style="display:flex;align-items:flex-start;gap:12px;font-size:12px;color:var(--muted);cursor:pointer;margin-bottom:22px;line-height:1.6">
+  <input type="checkbox" id="reg-tos" style="accent-color:var(--primary);margin-top:2px;flex-shrink:0"/>
+  
+  <span>
+    I agree to use this platform for <strong style="color:var(--primary)">ethical, educational purposes only</strong>. Unauthorized access is illegal.
+  </span>
+</label>
+
+    <button id="reg-btn" class="cyber-btn btn-primary auth-btn-full" onclick="handleRegister()">
+      <i class="fas fa-user-plus"></i> CREATE ACCOUNT
+    </button>
+
+    <div class="auth-footer" style="margin-top:18px">
+      Already have an account? <a class="auth-link" href="login.html">Login →</a>
+    </div>
+
+    <div id="reg-msg" style="display:none;margin-top:14px"></div>
+
+  </div>
+</div>
+
+<script src="../../assets/js/config.js"></script>
+<script src="../../assets/js/token.js"></script>
+<script src="../../assets/js/api.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>

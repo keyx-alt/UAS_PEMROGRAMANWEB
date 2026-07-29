@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OWASP ZAP Ethical Guide — VeloraSec</title>
+  <meta name="description" content="Panduan lengkap OWASP ZAP untuk web application security testing secara legal dan etis. Termasuk instalasi, spider scan, active scan, alert analysis, dan praktik terbaik.">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../assets/icons/icons8-eye-32.png">
+  <link rel="stylesheet" href="./owasp-zap-guide.css">
+</head>
+
+<body>
+
+  <!-- PROGRESS -->
+  <div id="progress-bar"></div>
+
+  <!-- TOAST -->
+  <div id="toast">✓ Copied to clipboard</div>
+
+  <!-- MOBILE TOGGLE -->
+  <button class="menu-toggle" id="menuToggleBtn">☰</button>
+  <div class="overlay" id="overlay"></div>
+
+  <!-- ============================================================
+       SIDEBAR
+       ============================================================ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="8" fill="rgba(0,255,198,0.12)" />
+          <!-- ZAP spider/web icon -->
+          <circle cx="14" cy="14" r="4" fill="none" stroke="#00FFC6" stroke-width="1.8"/>
+          <path d="M14 5v4M14 19v4M5 14h4M19 14h4M7.6 7.6l2.8 2.8M17.6 17.6l2.8 2.8M7.6 20.4l2.8-2.8M17.6 10.4l2.8-2.8" stroke="#00FFC6" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        OWASP ZAP Guide
+      </div>
+      <div class="sidebar-subtitle">VeloraSec v4.1.0</div>
+      <a href="../../../index.html#hero" class="home-btn">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 1L1 7h2v7h4v-4h2v4h4V7h2L8 1z" />
+        </svg>
+        Home
+      </a>
+      <a href="../../../index.html#tools" class="home-btn">
+        &lt; Back
+      </a>
+    </div>
+
+    <span class="nav-section-title">Dasar</span>
+    <a class="nav-item" href="#s1">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2.5a1 1 0 110 2 1 1 0 010-2zm-.5 3h1v5h-1V6.5z" /></svg>
+      Apa itu OWASP ZAP
+    </a>
+    <a class="nav-item" href="#s2">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v8M5 6l3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" /></svg>
+      Instalasi
+    </a>
+    <a class="nav-item" href="#s3">
+      <svg viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.5" /><path d="M2 6h12" stroke="currentColor" stroke-width="1.5" /></svg>
+      Konfigurasi Proxy
+    </a>
+
+    <span class="nav-section-title">Scanning</span>
+    <a class="nav-item" href="#s4">
+      <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5" /><circle cx="8" cy="8" r="3" fill="currentColor" /></svg>
+      Spider Scan
+    </a>
+    <a class="nav-item" href="#s5">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" /></svg>
+      Active Scan
+    </a>
+    <a class="nav-item" href="#s6">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 8 Q5 2 8 8 Q11 14 14 8" stroke="currentColor" stroke-width="1.5" fill="none" /></svg>
+      Passive Scan
+    </a>
+    <a class="nav-item" href="#s7">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 5h10M3 8h7M3 11h5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" /></svg>
+      Alert Analysis
+    </a>
+
+    <span class="nav-section-title">Lanjutan</span>
+    <a class="nav-item" href="#s8">
+      <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5" /><path d="M2 8h12M8 2Q5 5 5 8Q5 11 8 14" stroke="currentColor" stroke-width="1.2" fill="none" /></svg>
+      Authentication Testing
+    </a>
+    <a class="nav-item" href="#s9">
+      <svg viewBox="0 0 16 16" fill="currentColor"><rect x="4" y="7" width="8" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.5" /><path d="M5.5 7V5.5a2.5 2.5 0 015 0V7" stroke="currentColor" stroke-width="1.5" fill="none" /></svg>
+      ZAP Scripting (Zest)
+    </a>
+    <a class="nav-item" href="#s10">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 2L2 6v7l6 1 6-1V6L8 2z" fill="none" stroke="currentColor" stroke-width="1.5" /><path d="M8 9V6M8 11v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+      Etika &amp; Risiko
+    </a>
+    <a class="nav-item" href="#s11">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 2l1.5 4h4.5l-3.5 2.5 1.5 4L8 10l-4 2.5 1.5-4L2 6h4.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /></svg>
+      Best Practice
+    </a>
+    <a class="nav-item" href="#s12">
+      <svg viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="2" width="10" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.5" /><path d="M6 6h4M6 9h4M6 12h2" stroke="currentColor" stroke-width="1.2" fill="none" /></svg>
+      Cheat Sheet
+    </a>
+    <a class="nav-item" href="#s13">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6 2v6L3 12h10l-3-4V2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" /><path d="M6 2h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+      Latihan Praktik
+    </a>
+  </aside>
+
+  <!-- ============================================================
+       MAIN
+       ============================================================ -->
+  <main class="main">
+
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <canvas class="hero-canvas" id="heroCanvas"></canvas>
+      <div class="hero-content">
+        <div class="hero-badge">Cybersecurity Learning Path</div>
+        <h1 class="hero-title">Panduan Lengkap<br>OWASP ZAP Ethical Use</h1>
+        <p class="hero-sub">Pelajari web application security testing secara legal, aman, dan etis menggunakan OWASP ZAP — tool open-source terkemuka untuk menemukan kerentanan di aplikasi web.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" data-scroll-target="s1">Mulai Belajar 🚀</button>
+          <button class="btn-ghost" data-scroll-target="s13">Latihan Praktik</button>
+          <button class="btn-ghost" data-scroll-target="s12">Cheat Sheet</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-num" data-target="100">0</div>
+            <div class="stat-label">Alert Categories</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-target="40000">0</div>
+            <div class="stat-label">CVE Detectable</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-target="10">0</div>
+            <div class="stat-label">Scan Modules</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" data-target="5">0</div>
+            <div class="stat-label">Hands-on Labs</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="content">
+
+      <!-- SECTION 1: APA ITU OWASP ZAP -->
+      <section class="section reveal" id="s1">
+        <div class="section-header">
+          <span class="section-number">// 01 &mdash; Apa itu OWASP ZAP?</span>
+          <h2 class="section-title">Apa itu OWASP ZAP?</h2>
+          <p class="section-desc">OWASP ZAP (Zed Attack Proxy) adalah security scanner open-source yang dirancang khusus untuk menemukan kerentanan di aplikasi web. Dikembangkan oleh OWASP (Open Web Application Security Project) dan dikelola oleh komunitas global.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🕷️</span> Spider/Crawler</div>
+            <div class="card-body">Menjelajahi seluruh halaman dan endpoint dari aplikasi web secara otomatis untuk membangun site map yang komprehensif.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🔍</span> Active Scanner</div>
+            <div class="card-body">Mengirimkan request berbahaya ke target untuk mendeteksi kerentanan seperti SQL Injection, XSS, SSRF, dan ratusan lainnya.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">👁️</span> Passive Scanner</div>
+            <div class="card-body">Menganalisis request/response HTTP yang lewat tanpa mengirim request tambahan — tidak invasif dan aman untuk production.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🔄</span> Intercepting Proxy</div>
+            <div class="card-body">Bertindak sebagai man-in-the-middle untuk intercept, inspect, dan modify request/response HTTP/HTTPS secara real-time.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">📜</span> Zest Scripting</div>
+            <div class="card-body">Bahasa scripting JSON-based untuk mengotomatiskan pengujian keamanan — bisa digunakan untuk custom attack rules dan automation.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">📊</span> Report Generator</div>
+            <div class="card-body">Menghasilkan laporan kerentanan dalam format HTML, JSON, XML, dan Markdown dengan detail CVSS scoring dan rekomendasi remediasi.</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <span class="box-icon">ℹ️</span>
+          <p><strong>Konteks Penggunaan Legal:</strong> ZAP adalah tool yang sah dan diakui oleh industri keamanan siber. Tool ini digunakan oleh ribuan penguji keamanan profesional (penetration tester) di seluruh dunia. Yang menentukan legalitasnya adalah <em>siapa yang menjadi target pengujian</em> dan apakah ada <em>izin eksplisit</em> dari pemilik sistem.</p>
+        </div>
+
+        <hr class="divider">
+
+        <h3 class="mb-16">Komponen Utama OWASP ZAP</h3>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🖥️ ZAP Desktop (GUI)</div>
+            <div class="card-body">Aplikasi desktop dengan antarmuka grafis lengkap — ideal untuk pengujian manual dan eksplorasi interaktif. Tersedia untuk Windows, Linux, dan macOS.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">💻 ZAP CLI / API</div>
+            <div class="card-body">REST API dan command-line interface untuk mengotomatiskan pengujian keamanan dalam pipeline CI/CD. Sempurna untuk DevSecOps workflow.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">🐳 ZAP Docker</div>
+            <div class="card-body">Image Docker resmi untuk menjalankan ZAP dalam container — memudahkan integrasi dengan GitHub Actions, Jenkins, GitLab CI, dan platform CI/CD lainnya.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">🔌 Add-ons</div>
+            <div class="card-body">Marketplace add-on untuk memperluas kemampuan ZAP: Active Scan Rules, GraphQL Scanner, OpenAPI Support, JWT Analyzer, dan puluhan lainnya.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: INSTALASI -->
+      <section class="section reveal" id="s2">
+        <div class="section-header">
+          <span class="section-number">// 02 &mdash; Instalasi OWASP ZAP</span>
+          <h2 class="section-title">Instalasi OWASP ZAP</h2>
+        </div>
+
+        <div class="tabs">
+          <div class="tab-list">
+            <button class="tab-btn active" data-tab="install-win">🪟 Windows</button>
+            <button class="tab-btn" data-tab="install-lin">🐧 Linux</button>
+            <button class="tab-btn" data-tab="install-mac">🍎 macOS</button>
+            <button class="tab-btn" data-tab="install-docker">🐳 Docker</button>
+          </div>
+
+          <!-- Windows -->
+          <div class="tab-panel active" id="install-win">
+            <h3 class="mb-16">Download & Instalasi</h3>
+            <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Buka <strong>zaproxy.org/download</strong> dan unduh <strong>ZAP 2.x.x Windows (64) Installer</strong>.</div></div>
+            <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Jalankan installer sebagai <strong>Administrator</strong> dan ikuti wizard instalasi.</div></div>
+            <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">ZAP memerlukan <strong>Java 11+</strong> — installer sudah menyertakan bundled JRE, namun bisa install manual jika perlu.</div></div>
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+                <span class="term-label">Command Prompt / PowerShell</span>
+                <button class="copy-btn">copy</button>
+              </div>
+              <div class="terminal-body">
+                <span class="comment"># Verifikasi Java tersedia</span><br>
+                <span class="term-prompt">C:\> </span><span class="term-cmd">java <span class="term-highlight">-version</span></span>
+                <span class="output-line">openjdk version "17.0.x"</span><br>
+                <span class="comment"># Jalankan ZAP dari CLI (opsional)</span><br>
+                <span class="term-prompt">C:\> </span><span class="term-cmd">"C:\Program Files\ZAP\Zed Attack Proxy\zap.bat" <span class="term-highlight">-daemon -port 8080</span></span>
+              </div>
+            </div>
+            <div class="tip-box">
+              <span class="box-icon">💡</span>
+              <p>Di Windows, ZAP juga dapat diinstal via <strong>Chocolatey</strong>: <code>choco install zap</code> atau via <strong>Winget</strong>: <code>winget install ZAP.ZAP</code></p>
+            </div>
+          </div>
+
+          <!-- Linux -->
+          <div class="tab-panel" id="install-lin">
+            <h3 class="mb-16">🐧 Linux (Debian/Ubuntu)</h3>
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+                <span class="term-label">Terminal — bash</span>
+                <button class="copy-btn">copy</button>
+              </div>
+              <div class="terminal-body">
+                <span class="comment"># Install Java 17+ terlebih dahulu</span><br>
+                <span class="term-prompt">$ </span><span class="term-cmd">sudo apt update && sudo apt install <span class="term-highlight">default-jdk</span> -y</span><br><br>
+                <span class="comment"># Download ZAP package</span><br>
+                <span class="term-prompt">$ </span><span class="term-cmd">wget <span class="term-out">https://github.com/zaproxy/zaproxy/releases/latest/download/ZAP_Linux.tar.gz</span></span><br><br>
+                <span class="comment"># Ekstrak</span><br>
+                <span class="term-prompt">$ </span><span class="term-cmd">tar -xzf ZAP_Linux.tar.gz</span><br><br>
+                <span class="comment"># Jalankan ZAP</span><br>
+                <span class="term-prompt">$ </span><span class="term-cmd">./ZAP_*/zap.sh</span><br><br>
+                <span class="comment"># Atau jalankan headless (daemon mode)</span><br>
+                <span class="term-prompt">$ </span><span class="term-cmd">./zap.sh <span class="term-highlight">-daemon -host 0.0.0.0 -port 8080</span></span>
+              </div>
+            </div>
+            <div class="tip-box">
+              <span class="box-icon">💡</span>
+              <p>Di Kali Linux, ZAP sudah tersedia di repository: <code>sudo apt install zaproxy</code></p>
+            </div>
+          </div>
+
+          <!-- macOS -->
+          <div class="tab-panel" id="install-mac">
+            <h3 class="mb-16">🍎 macOS via Homebrew</h3>
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+                <span class="term-label">Terminal — zsh</span>
+                <button class="copy-btn">copy</button>
+              </div>
+              <div class="terminal-body">
+                <span class="comment"># Install via Homebrew Cask</span><br>
+                <span class="term-prompt">% </span><span class="term-cmd">brew install --cask <span class="term-out">owasp-zap</span></span><br><br>
+                <span class="comment"># Verifikasi instalasi</span><br>
+                <span class="term-prompt">% </span><span class="term-cmd">zap.sh <span class="term-highlight">-version</span></span>
+                <span class="output-line">ZAP 2.x.x</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Docker -->
+          <div class="tab-panel" id="install-docker">
+            <h3 class="mb-16">🐳 Docker (Rekomendasi untuk CI/CD)</h3>
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+                <span class="term-label">Terminal — Docker</span>
+                <button class="copy-btn">copy</button>
+              </div>
+              <div class="terminal-body">
+                <span class="comment"># Pull image ZAP terbaru</span><br>
+                <span class="term-prompt">$ </span><span class="term-cmd">docker pull <span class="term-out">ghcr.io/zaproxy/zaproxy:stable</span></span><br><br>
+                <span class="comment"># Jalankan ZAP sebagai daemon</span><br>
+                <span class="term-prompt">$ </span><span class="term-cmd">docker run -d -p 8080:8080 ghcr.io/zaproxy/zaproxy:stable <span class="term-highlight">zap.sh -daemon -host 0.0.0.0 -port 8080</span></span><br><br>
+                <span class="comment"># Jalankan Baseline Scan langsung</span><br>
+                <span class="term-prompt">$ </span><span class="term-cmd">docker run --rm ghcr.io/zaproxy/zaproxy:stable <span class="term-highlight">zap-baseline.py -t</span> <span class="term-out">https://target.example.com</span></span><br><br>
+                <span class="comment"># Full scan dengan laporan HTML</span><br>
+                <span class="term-prompt">$ </span><span class="term-cmd">docker run -v $(pwd):/zap/wrk/:rw ghcr.io/zaproxy/zaproxy:stable <span class="term-highlight">zap-full-scan.py -t</span> <span class="term-out">https://target.example.com</span> <span class="term-highlight">-r report.html</span></span>
+              </div>
+            </div>
+            <div class="info-box">
+              <span class="box-icon">ℹ️</span>
+              <p><strong>Tiga jenis scan script Docker ZAP:</strong><br>
+              • <code>zap-baseline.py</code> — Passive scan saja, aman untuk production<br>
+              • <code>zap-api-scan.py</code> — Scan REST/GraphQL API via OpenAPI spec<br>
+              • <code>zap-full-scan.py</code> — Active + Passive scan, jangan di production!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="warn-box">
+          <span class="box-icon">⚠️</span>
+          <p><strong>Kebutuhan Java:</strong> ZAP memerlukan Java 11 atau lebih baru. Gunakan perintah <code>java -version</code> untuk memverifikasi. Jika belum ada, download dari <strong>adoptium.net</strong> (Eclipse Temurin JDK).</p>
+        </div>
+      </section>
+
+      <!-- SECTION 3: KONFIGURASI PROXY -->
+      <section class="section reveal" id="s3">
+        <div class="section-header">
+          <span class="section-number">// 03 &mdash; Konfigurasi Proxy Browser</span>
+          <h2 class="section-title">Konfigurasi Proxy Browser</h2>
+          <p class="section-desc">ZAP bekerja sebagai intercepting proxy — browser harus dikonfigurasi untuk mengirim traffic melalui ZAP agar request/response dapat dianalisis.</p>
+        </div>
+
+        <h3>🔧 Setup Manual Browser</h3>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🦊 Firefox</div>
+            <div class="card-body">
+              <p>Settings → Network Settings → Manual proxy configuration:</p>
+              <br>
+              <p><strong>HTTP Proxy:</strong> <code>127.0.0.1</code> &nbsp; <strong>Port:</strong> <code>8080</code></p>
+              <p><strong>Atau gunakan:</strong> FoxyProxy Extension untuk toggle cepat</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🌐 Chrome / Edge</div>
+            <div class="card-body">
+              <p>Chrome menggunakan proxy sistem. Gunakan flag startup:</p>
+              <br>
+              <p><code>chrome --proxy-server="http://127.0.0.1:8080"</code></p>
+              <p><strong>Atau gunakan:</strong> SwitchyOmega Extension</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mt-16 mb-16">📜 Install ZAP Root Certificate (untuk HTTPS)</h3>
+        <p class="mb-16">Agar ZAP bisa mendekripsi HTTPS traffic, browser harus mempercayai sertifikat CA ZAP:</p>
+        <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Di ZAP: <strong>Tools → Options → Network → Server Certificates → Save</strong> → simpan file <code>zap_root_ca.cer</code></div></div>
+        <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content"><strong>Firefox:</strong> Settings → Privacy & Security → View Certificates → Import → pilih file cert ZAP</div></div>
+        <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content"><strong>Chrome/Windows:</strong> Klik kanan file .cer → Install Certificate → Local Machine → Trusted Root CAs</div></div>
+        <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Buka browser yang sudah dikonfigurasi proxy, akses <code>http://zap</code> untuk memverifikasi koneksi ke ZAP berhasil.</div></div>
+
+        <div class="info-box">
+          <span class="box-icon">💡</span>
+          <p><strong>Tip Cepat:</strong> ZAP menyediakan shortcut URL khusus: browse ke <code>http://zap</code> (bukan www.zap.com) dan ZAP akan otomatis menawarkan download sertifikat CA-nya untuk browser Anda.</p>
+        </div>
+
+        <h3 class="mt-16 mb-16">🔧 ZAP Default Ports</h3>
+        <table class="cheat-table">
+          <tr>
+            <th>Komponen</th>
+            <th>Port Default</th>
+            <th>Keterangan</th>
+          </tr>
+          <tr>
+            <td class="flag-col">HTTP/HTTPS Proxy</td>
+            <td>8080</td>
+            <td>Port utama untuk traffic dari browser — bisa diubah di Options → Network → Local Servers</td>
+          </tr>
+          <tr>
+            <td class="flag-col">ZAP API</td>
+            <td>8080</td>
+            <td>REST API untuk automasi — aktifkan di Options → API (butuh API key di production)</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Ajax Spider</td>
+            <td>—</td>
+            <td>Menggunakan browser lokal (Selenium) — tidak perlu port terpisah</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- SECTION 4: SPIDER SCAN -->
+      <section class="section reveal" id="s4">
+        <div class="section-header">
+          <span class="section-number">// 04 &mdash; Spider Scan</span>
+          <h2 class="section-title">Spider Scan — Site Discovery</h2>
+          <p class="section-desc">Spider adalah crawler yang menjelajahi aplikasi web secara otomatis untuk membangun site map. ZAP memiliki dua jenis spider: Traditional Spider dan AJAX Spider.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🕸️ Traditional Spider</div>
+            <div class="card-body">Mengikuti link HTML statis (href, form action, srcset). Cepat tapi tidak bisa mengeksekusi JavaScript — melewatkan SPA/React/Vue apps. Cocok untuk aplikasi web tradisional.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">⚡ AJAX Spider</div>
+            <div class="card-body">Menggunakan browser headless (Selenium/ChromeDriver) untuk mengeksekusi JavaScript dan menemukan link yang di-render secara dinamis. Lebih lambat tapi jauh lebih komprehensif untuk SPA.</div>
+          </div>
+        </div>
+
+        <h3 class="mt-16 mb-16">🕷️ Menjalankan Spider via ZAP GUI</h3>
+        <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Klik kanan URL di Sites tree (panel kiri ZAP) → <strong>Attack → Spider</strong></div></div>
+        <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Set <strong>Starting Point</strong> ke URL target (contoh: <code>http://testapp.local</code>)</div></div>
+        <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Atur <strong>Max Depth</strong> (rekomendasi: 5) dan <strong>Max Children</strong> untuk membatasi scope</div></div>
+        <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Klik <strong>Start Scan</strong> → pantau progres di tab Spider bawah ZAP</div></div>
+
+        <h3 class="mt-16 mb-16">💻 Spider via ZAP CLI/API</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+            <span class="term-label">Terminal — ZAP CLI</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Jalankan Spider via ZAP API (ZAP harus sudah berjalan)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">curl <span class="term-highlight">"http://localhost:8080/JSON/spider/action/scan/?apikey=yourApiKey&url=http://target.local"</span></span><br><br>
+            <span class="comment"># Cek status Spider scan</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">curl <span class="term-highlight">"http://localhost:8080/JSON/spider/view/status/?scanId=0"</span></span>
+            <span class="output-line">{"status": "75"}</span><br>
+            <span class="comment"># Lihat hasil URLs yang ditemukan</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">curl <span class="term-highlight">"http://localhost:8080/JSON/spider/view/results/?scanId=0"</span></span>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <span class="box-icon">✅</span>
+          <p><strong>Tips Spider Efektif:</strong> Untuk aplikasi yang memerlukan login, lakukan <em>manual browse</em> terlebih dahulu (buka browser, login manual dengan ZAP proxy aktif), baru jalankan Spider. ZAP akan menyertakan session cookies secara otomatis.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 5: ACTIVE SCAN -->
+      <section class="section reveal" id="s5">
+        <div class="section-header">
+          <span class="section-number">// 05 &mdash; Active Scan</span>
+          <h2 class="section-title">Active Scan — Vulnerability Detection</h2>
+          <p class="section-desc">Active Scan secara aktif mengirim payload pengujian ke target untuk mendeteksi kerentanan nyata. Ini adalah fase invasif — HANYA jalankan di sistem yang Anda miliki atau ada izin tertulis.</p>
+        </div>
+
+        <div class="danger-box">
+          <span class="box-icon">🚫</span>
+          <p><strong>PERINGATAN KERAS:</strong> Active Scan MENGIRIM payload berbahaya (SQLi, XSS, dll) ke target. Ini dapat merusak data, menyebabkan downtime, dan jelas ILEGAL jika dilakukan tanpa izin. Selalu gunakan di lab/staging environment atau dengan izin tertulis pemilik sistem.</p>
+        </div>
+
+        <h3 class="mb-16">⚙️ Jenis Kerentanan yang Dideteksi Active Scan</h3>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title"><span class="risk-badge risk-high">HIGH</span></div>
+            <div class="card-body" style="margin-top: 8px;">
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted);">
+                <li><span class="flag-dot flag-red"></span>SQL Injection</li>
+                <li><span class="flag-dot flag-red"></span>Remote Code Execution</li>
+                <li><span class="flag-dot flag-red"></span>Path Traversal</li>
+                <li><span class="flag-dot flag-red"></span>Server-Side Request Forgery</li>
+                <li><span class="flag-dot flag-red"></span>XML External Entity (XXE)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="risk-badge risk-medium">MEDIUM</span></div>
+            <div class="card-body" style="margin-top: 8px;">
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted);">
+                <li><span class="flag-dot flag-yellow"></span>Cross-Site Scripting (XSS)</li>
+                <li><span class="flag-dot flag-yellow"></span>CSRF (Cross-Site Request Forgery)</li>
+                <li><span class="flag-dot flag-yellow"></span>Insecure Direct Object Reference</li>
+                <li><span class="flag-dot flag-yellow"></span>Open Redirect</li>
+                <li><span class="flag-dot flag-yellow"></span>Command Injection</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="risk-badge risk-low">LOW</span></div>
+            <div class="card-body" style="margin-top: 8px;">
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted);">
+                <li><span class="flag-dot flag-blue"></span>Missing Security Headers</li>
+                <li><span class="flag-dot flag-blue"></span>Insecure Cookie Flags</li>
+                <li><span class="flag-dot flag-blue"></span>Information Disclosure</li>
+                <li><span class="flag-dot flag-blue"></span>Verbose Error Messages</li>
+                <li><span class="flag-dot flag-blue"></span>Outdated Libraries (passive)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mt-16 mb-16">🔥 Menjalankan Active Scan</h3>
+        <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Pastikan site sudah di-spider terlebih dahulu — Active Scan membutuhkan site map yang lengkap.</div></div>
+        <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Klik kanan node di Sites tree → <strong>Attack → Active Scan</strong></div></div>
+        <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Di dialog Active Scan, pilih <strong>Policy</strong> (Default Policy atau custom) dan <strong>Recurse</strong> untuk scan seluruh subtree.</div></div>
+        <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Klik <strong>Start Scan</strong> — pantau progress di tab Active Scan dan Alerts.</div></div>
+
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+            <span class="term-label">Active Scan via ZAP API</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># Mulai Active Scan</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">curl <span class="term-highlight">"http://localhost:8080/JSON/ascan/action/scan/?apikey=yourKey&url=http://target.local&recurse=true"</span></span>
+            <span class="output-line">{"scan": "0"}</span><br>
+            <span class="comment"># Monitor progress Active Scan (0-100%)</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">curl <span class="term-highlight">"http://localhost:8080/JSON/ascan/view/status/?scanId=0"</span></span>
+            <span class="output-line">{"status": "42"}</span><br>
+            <span class="comment"># Lihat alerts yang ditemukan</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">curl <span class="term-highlight">"http://localhost:8080/JSON/core/view/alerts/?baseurl=http://target.local"</span></span>
+          </div>
+        </div>
+
+        <h3 class="mt-16 mb-16">⚙️ Scan Policy — Mengatur Agresivitas</h3>
+        <table class="cheat-table">
+          <tr>
+            <th>Policy Level</th>
+            <th>Deskripsi</th>
+            <th>Rekomendasi</th>
+          </tr>
+          <tr>
+            <td class="flag-col">Default Policy</td>
+            <td>Semua rules aktif dengan threshold default. Komprehensif untuk kebanyakan kebutuhan.</td>
+            <td>✅ Penggunaan umum</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Light (custom)</td>
+            <td>Hanya rules risiko tinggi, strength rendah. Cepat, false positive minimal.</td>
+            <td>✅ Production/staging sensitif</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Insane (custom)</td>
+            <td>Semua rules, strength maksimal. Sangat lambat, banyak request.</td>
+            <td>⚠️ Lab environment saja</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- SECTION 6: PASSIVE SCAN -->
+      <section class="section reveal" id="s6">
+        <div class="section-header">
+          <span class="section-number">// 06 &mdash; Passive Scan</span>
+          <h2 class="section-title">Passive Scan — Non-Invasive Analysis</h2>
+        </div>
+
+        <p class="mb-16">Passive Scan menganalisis setiap request/response HTTP yang melewati ZAP proxy <strong>tanpa mengirim request tambahan</strong>. Ini berarti tidak ada risiko merusak aplikasi atau data.</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">✅ Yang Dideteksi Passive Scan</div>
+            <div class="card-body">
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted);">
+                <li><span class="flag-dot flag-green"></span>Missing X-Frame-Options header</li>
+                <li><span class="flag-dot flag-green"></span>Missing Content-Security-Policy</li>
+                <li><span class="flag-dot flag-green"></span>Cookie tanpa HttpOnly/Secure flag</li>
+                <li><span class="flag-dot flag-green"></span>Penggunaan HTTP (non-HTTPS)</li>
+                <li><span class="flag-dot flag-green"></span>Versi library yang expose di header</li>
+                <li><span class="flag-dot flag-green"></span>MIME type sniffing issues</li>
+                <li><span class="flag-dot flag-green"></span>Timestamp disclosure</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">ℹ️ Cara Menggunakan</div>
+            <div class="card-body">
+              <p>Passive Scan berjalan <strong>otomatis</strong> setiap saat saat ada traffic melewati ZAP. Untuk memaksimalkan coverage:</p>
+              <br>
+              <ol style="color: var(--muted); font-size: 13px; padding-left: 16px; display: flex; flex-direction: column; gap: 8px;">
+                <li>Konfigurasi browser menggunakan ZAP sebagai proxy</li>
+                <li>Browse aplikasi secara manual — klik semua fitur, login, logout</li>
+                <li>Cek tab <strong>Alerts</strong> di ZAP untuk melihat temuan</li>
+                <li>Export laporan ke HTML/JSON</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <span class="box-icon">✅</span>
+          <p><strong>Passive Scan aman untuk production:</strong> Karena tidak mengirim request tambahan, Passive Scan bisa digunakan di environment production tanpa risiko merusak data atau menyebabkan downtime. Ini adalah cara paling aman untuk memulai security testing.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 7: ALERT ANALYSIS -->
+      <section class="section reveal" id="s7">
+        <div class="section-header">
+          <span class="section-number">// 07 &mdash; Alert Analysis</span>
+          <h2 class="section-title">Memahami Alert ZAP</h2>
+          <p class="section-desc">ZAP mengategorikan temuan kerentanan sebagai "Alerts" dengan level risiko dari High hingga Informational. Berikut panduan interpretasi setiap alert.</p>
+        </div>
+
+        <h3 class="mb-16">Tingkat Risiko Alert</h3>
+        <div class="status-grid">
+          <div class="status-card status-open">
+            <div class="status-label">HIGH</div>
+            <p>Kerentanan kritis yang harus segera diperbaiki. Bisa menyebabkan akses tidak sah, pencurian data, atau eksekusi kode. Contoh: SQL Injection, RCE, XXE.</p>
+          </div>
+          <div class="status-card status-medium">
+            <div class="status-label">MEDIUM</div>
+            <p>Kerentanan signifikan yang perlu ditangani. Bisa dieksploitasi dalam kondisi tertentu. Contoh: XSS Reflected, CSRF, Open Redirect.</p>
+          </div>
+          <div class="status-card status-low">
+            <div class="status-label">LOW / INFO</div>
+            <p>Masalah konfigurasi atau informational. Tidak langsung berbahaya tapi bisa membantu attacker. Contoh: Missing headers, verbose error messages.</p>
+          </div>
+        </div>
+
+        <div class="filter-search-wrap" style="margin-top: 32px;">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM10.2 10.9l3.4 3.4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          <input class="filter-search" id="filterSearch" type="text" placeholder="Cari alert... (contoh: SQL, XSS, header, cookie)">
+        </div>
+
+        <div class="filter-grid" id="filterGrid">
+
+          <div class="filter-card" data-keywords="sql injection database sqli high">
+            <div class="filter-category">SQL Injection — HIGH</div>
+            <div class="filter-syntax">SQL Injection<span class="filter-copy" data-filter="SQL Injection">📋 copy</span></div>
+            <div class="filter-desc">Attacker bisa menyisipkan SQL query berbahaya melalui input field untuk membaca/memodifikasi database.</div>
+            <div class="filter-example">Payload: ' OR 1=1-- | 1' AND SLEEP(5)-- | UNION SELECT ...</div>
+            <div class="filter-scenario">🎯 Temuan: Cek URL params, form fields, search boxes, login forms.</div>
+          </div>
+
+          <div class="filter-card" data-keywords="xss cross site scripting reflected stored medium">
+            <div class="filter-category">Cross-Site Scripting — MEDIUM</div>
+            <div class="filter-syntax">Cross Site Scripting (Reflected)<span class="filter-copy" data-filter="XSS">📋 copy</span></div>
+            <div class="filter-desc">Script berbahaya dieksekusi di browser korban. Reflected: dari URL. Stored: tersimpan di database.</div>
+            <div class="filter-example">Payload: &lt;script&gt;alert(1)&lt;/script&gt; | &lt;img src=x onerror=alert(1)&gt;</div>
+            <div class="filter-scenario">🎯 Temuan: Input yang di-reflect ke halaman tanpa encoding yang tepat.</div>
+          </div>
+
+          <div class="filter-card" data-keywords="csrf cross site request forgery medium token">
+            <div class="filter-category">CSRF — MEDIUM</div>
+            <div class="filter-syntax">Absence of Anti-CSRF Tokens<span class="filter-copy" data-filter="CSRF">📋 copy</span></div>
+            <div class="filter-desc">Form aksi penting (transfer, ganti password) tidak memiliki CSRF token — rentan terhadap serangan cross-site request.</div>
+            <div class="filter-example">Fix: Tambahkan CSRF token pada setiap form yang mengubah state.</div>
+            <div class="filter-scenario">🎯 Cek: Form POST tanpa token tersembunyi atau header X-CSRF-Token.</div>
+          </div>
+
+          <div class="filter-card" data-keywords="path traversal directory traversal lfi high">
+            <div class="filter-category">Path Traversal — HIGH</div>
+            <div class="filter-syntax">Path Traversal<span class="filter-copy" data-filter="Path Traversal">📋 copy</span></div>
+            <div class="filter-desc">Attacker dapat mengakses file di luar direktori web root dengan manipulasi path seperti ../../etc/passwd.</div>
+            <div class="filter-example">Payload: /../../../etc/passwd | ..%2F..%2Fetc%2Fshadow</div>
+            <div class="filter-scenario">🎯 Cek: Parameter filename, include, path di URL/form.</div>
+          </div>
+
+          <div class="filter-card" data-keywords="header x-frame-options clickjacking low medium">
+            <div class="filter-category">Missing Header — LOW</div>
+            <div class="filter-syntax">X-Frame-Options Header Not Set<span class="filter-copy" data-filter="X-Frame-Options">📋 copy</span></div>
+            <div class="filter-desc">Halaman dapat dimuat dalam iframe oleh website lain — rentan terhadap serangan Clickjacking.</div>
+            <div class="filter-example">Fix: Header X-Frame-Options: DENY atau Content-Security-Policy: frame-ancestors 'none'</div>
+            <div class="filter-scenario">🎯 Berlaku untuk semua halaman sensitif (login, transaksi).</div>
+          </div>
+
+          <div class="filter-card" data-keywords="cookie httponly secure flag low medium">
+            <div class="filter-category">Cookie Security — LOW</div>
+            <div class="filter-syntax">Cookie Without HttpOnly Flag<span class="filter-copy" data-filter="Cookie HttpOnly">📋 copy</span></div>
+            <div class="filter-desc">Cookie sensitif (session) bisa dibaca oleh JavaScript — memungkinkan pencurian session via XSS.</div>
+            <div class="filter-example">Fix: Set-Cookie: session=abc; HttpOnly; Secure; SameSite=Strict</div>
+            <div class="filter-scenario">🎯 Cek semua cookie yang mengandung session/auth token.</div>
+          </div>
+
+          <div class="filter-card" data-keywords="csp content security policy low medium header">
+            <div class="filter-category">Missing Header — MEDIUM</div>
+            <div class="filter-syntax">Content Security Policy Not Set<span class="filter-copy" data-filter="CSP">📋 copy</span></div>
+            <div class="filter-desc">Tanpa CSP, browser tidak tahu script mana yang boleh dieksekusi — memudahkan eksploitasi XSS.</div>
+            <div class="filter-example">Fix: Content-Security-Policy: default-src 'self'; script-src 'self'</div>
+            <div class="filter-scenario">🎯 Berlaku untuk semua halaman aplikasi web.</div>
+          </div>
+
+          <div class="filter-card" data-keywords="information disclosure server version header low info">
+            <div class="filter-category">Information Disclosure — INFO</div>
+            <div class="filter-syntax">Server Leaks Information via "X-Powered-By"<span class="filter-copy" data-filter="X-Powered-By">📋 copy</span></div>
+            <div class="filter-desc">Header response mengungkapkan teknologi/versi server — membantu attacker mencari CVE yang sesuai.</div>
+            <div class="filter-example">Contoh: X-Powered-By: PHP/7.4.3 | Server: Apache/2.4.41</div>
+            <div class="filter-scenario">🎯 Fix: Hapus atau samarkan header Server dan X-Powered-By.</div>
+          </div>
+
+          <div class="filter-card" data-keywords="open redirect url redirection medium">
+            <div class="filter-category">Open Redirect — MEDIUM</div>
+            <div class="filter-syntax">URL Redirection to Untrusted Site<span class="filter-copy" data-filter="Open Redirect">📋 copy</span></div>
+            <div class="filter-desc">Parameter URL dapat dialihkan ke domain eksternal tanpa validasi — bisa digunakan untuk phishing.</div>
+            <div class="filter-example">Contoh: /redirect?url=http://evil.com | ?next=//evil.com</div>
+            <div class="filter-scenario">🎯 Cek: Parameter redirect, return_url, next, callback di URL.</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 8: AUTHENTICATION TESTING -->
+      <section class="section reveal" id="s8">
+        <div class="section-header">
+          <span class="section-number">// 08 &mdash; Authentication Testing</span>
+          <h2 class="section-title">Authentication &amp; Session Testing</h2>
+          <p class="section-desc">Menguji keamanan mekanisme autentikasi, manajemen sesi, dan kontrol akses — area yang paling sering memiliki kerentanan kritis.</p>
+        </div>
+
+        <h3 class="mb-16">🔐 Setup Authentication di ZAP</h3>
+        <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Buka <strong>Sites → klik kanan target → Context → Include in Context</strong> untuk membuat context baru.</div></div>
+        <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Di Context, buka <strong>Authentication</strong> → pilih type: Form-Based Authentication, JSON Authentication, atau Script-Based.</div></div>
+        <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Isi <strong>Login URL</strong>, <strong>Username Parameter</strong>, dan <strong>Password Parameter</strong> sesuai form login target.</div></div>
+        <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Set <strong>Logged In Indicator</strong> (string yang hanya muncul saat login, misal "Logout") dan <strong>Logged Out Indicator</strong>.</div></div>
+        <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Tambahkan <strong>User</strong> di Context → Users dengan username dan password yang valid.</div></div>
+        <div class="lab-step"><div class="lab-step-num">6</div><div class="lab-step-content">Jalankan Spider/Active Scan dengan <strong>User</strong> yang telah dikonfigurasi — ZAP akan otomatis login ulang jika sesi expired.</div></div>
+
+        <h3 class="mt-16 mb-16">🎯 Kerentanan Autentikasi yang Umum</h3>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🔑 Broken Authentication</div>
+            <div class="card-body">
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted);">
+                <li><span class="flag-dot flag-red"></span>Password tidak ada rate limiting → brute force</li>
+                <li><span class="flag-dot flag-red"></span>Session ID mudah diprediksi</li>
+                <li><span class="flag-dot flag-red"></span>Session tidak di-invalidate saat logout</li>
+                <li><span class="flag-dot flag-yellow"></span>Session tidak expire otomatis</li>
+                <li><span class="flag-dot flag-yellow"></span>Session ID dikirim via URL (bukan cookie)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🚪 Broken Access Control</div>
+            <div class="card-body">
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted);">
+                <li><span class="flag-dot flag-red"></span>IDOR — akses resource orang lain via ID</li>
+                <li><span class="flag-dot flag-red"></span>Privilege escalation horizontal/vertikal</li>
+                <li><span class="flag-dot flag-yellow"></span>Endpoint admin accessible tanpa login</li>
+                <li><span class="flag-dot flag-yellow"></span>Directory listing enabled</li>
+                <li><span class="flag-dot flag-blue"></span>Missing function level access control</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 9: ZAP SCRIPTING -->
+      <section class="section reveal" id="s9">
+        <div class="section-header">
+          <span class="section-number">// 09 &mdash; ZAP Scripting (Zest)</span>
+          <h2 class="section-title">ZAP Scripting &amp; Automation</h2>
+          <p class="section-desc">ZAP mendukung beberapa jenis skrip untuk mengotomatiskan dan mengustomisasi pengujian keamanan. Zest adalah bahasa scripting JSON-based milik ZAP, namun juga mendukung JavaScript, Groovy, Python, dan Ruby.</p>
+        </div>
+
+        <h3 class="mb-16">📜 Jenis Skrip ZAP</h3>
+        <table class="cheat-table">
+          <tr>
+            <th>Jenis Skrip</th>
+            <th>Fungsi</th>
+            <th>Use Case</th>
+          </tr>
+          <tr>
+            <td class="flag-col">Active Rules</td>
+            <td>Tambahkan rules custom untuk Active Scan</td>
+            <td>Deteksi kerentanan spesifik aplikasi yang tidak ada di default rules</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Passive Rules</td>
+            <td>Analisis response tanpa kirim request</td>
+            <td>Deteksi informasi sensitif dalam response headers/body</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Authentication</td>
+            <td>Custom login flow</td>
+            <td>MFA, CAPTCHA, OAuth, SSO dengan flow kompleks</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Proxy</td>
+            <td>Intercept dan modify request/response</td>
+            <td>Tambah header, modifikasi parameter, inject token</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Standalone</td>
+            <td>Script yang dijalankan manual</td>
+            <td>Automasi tugas berulang, setup environment</td>
+          </tr>
+        </table>
+
+        <h3 class="mt-16 mb-16">🐍 Contoh Python Script via ZAP API</h3>
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+            <span class="term-label">Python — ZAP API Automation</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="comment">#!/usr/bin/env python3</span><br>
+            <span class="comment"># pip install python-owasp-zap-v2.4</span><br>
+            <span class="term-prompt">$ </span><span class="term-cmd">pip install <span class="term-highlight">python-owasp-zap-v2.4</span></span><br><br>
+            <span class="output-line">from zapv2 import ZAPv2</span>
+            <span class="output-line">import time</span>
+            <span class="output-line"></span>
+            <span class="output-line">target = 'http://testapp.local'</span>
+            <span class="output-line">apiKey = 'your-api-key'</span>
+            <span class="output-line">zap = ZAPv2(apikey=apiKey, proxies={'http': 'http://127.0.0.1:8080'})</span>
+            <span class="output-line"></span>
+            <span class="comment"># Akses target untuk memastikan sudah ada di Sites</span>
+            <span class="output-line">zap.urlopen(target)</span>
+            <span class="output-line"></span>
+            <span class="comment"># Jalankan Spider</span>
+            <span class="output-line">scanId = zap.spider.scan(target)</span>
+            <span class="output-line">while int(zap.spider.status(scanId)) < 100:</span>
+            <span class="open-port">    print(f"Spider: {zap.spider.status(scanId)}%")</span>
+            <span class="output-line">    time.sleep(2)</span>
+            <span class="output-line"></span>
+            <span class="comment"># Jalankan Active Scan</span>
+            <span class="output-line">scanId = zap.ascan.scan(target)</span>
+            <span class="output-line">while int(zap.ascan.status(scanId)) < 100:</span>
+            <span class="open-port">    print(f"Scan: {zap.ascan.status(scanId)}%")</span>
+            <span class="output-line">    time.sleep(5)</span>
+            <span class="output-line"></span>
+            <span class="comment"># Export laporan HTML</span>
+            <span class="output-line">with open('report.html', 'w') as f:</span>
+            <span class="output-line">    f.write(zap.core.htmlreport())</span>
+            <span class="open-port">print("Selesai! Laporan disimpan di report.html")</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 10: ETIKA & RISIKO -->
+      <section class="section reveal" id="s10">
+        <div class="section-header">
+          <span class="section-number">// 10 &mdash; Etika &amp; Risiko Penggunaan</span>
+          <h2 class="section-title">Etika &amp; Risiko Penggunaan</h2>
+        </div>
+
+        <div class="danger-box">
+          <span class="box-icon">🚫</span>
+          <p><strong>ILEGAL — JANGAN LAKUKAN:</strong> Menggunakan ZAP atau tool security testing lainnya pada aplikasi web, server, atau sistem yang bukan milik Anda tanpa izin eksplisit adalah tindakan ILEGAL di Indonesia (UU ITE No. 19 Tahun 2016 Pasal 30) dan bisa dikenakan pidana penjara hingga 8 tahun dan denda hingga 800 juta rupiah.</p>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 40px;">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">✅</span> BOLEH dilakukan</div>
+            <div class="card-body">
+              <ul>
+                <li>Scan aplikasi web <strong>milik sendiri</strong> yang Anda kembangkan</li>
+                <li>Scan di lingkungan lab virtual (DVWA, WebGoat, Juice Shop)</li>
+                <li>Scan dengan <strong>izin tertulis</strong> dari pemilik sistem</li>
+                <li>Bug bounty program yang mengizinkan automated scanning</li>
+                <li>Scan di platform legal: HackTheBox, TryHackMe, PortSwigger Labs</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">❌</span> TIDAK BOLEH dilakukan</div>
+            <div class="card-body">
+              <ul>
+                <li>Scan website/aplikasi orang lain tanpa izin</li>
+                <li>Scan aplikasi perusahaan dari luar tanpa kontrak resmi</li>
+                <li>Scan infrastruktur pemerintah atau perbankan</li>
+                <li>Menggunakan hasil scan untuk eksploitasi atau pencurian data</li>
+                <li>Menjual data kerentanan kepada pihak ketiga tanpa izin pemilik</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>⚡ Risiko Teknis yang Perlu Diketahui</h3>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title"><span class="box-icon">💥</span> DoS Tidak Disengaja</div>
+            <div class="card-body">Active Scan yang agresif bisa menyebabkan server kewalahan (overload) karena mengirim ratusan request per detik. Selalu batasi thread dan delay di Scan Policy.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🗄️</span> Data Corruption</div>
+            <div class="card-body">Payload SQL Injection atau form manipulation bisa memodifikasi atau menghapus data di database. JANGAN scan production tanpa backup yang verified.</div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="box-icon">🚨</span> Memicu WAF/IDS Alert</div>
+            <div class="card-body">Active Scan akan terdeteksi oleh WAF, IDS/IPS, dan monitoring system. Di lingkungan dengan tim security aktif, ini bisa menyebabkan incident response yang tidak perlu.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 11: BEST PRACTICE -->
+      <section class="section reveal" id="s11">
+        <div class="section-header">
+          <span class="section-number">// 11 &mdash; Best Practice Security Testing</span>
+          <h2 class="section-title">Best Practice — Pengujian yang Bertanggung Jawab</h2>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+            <span class="term-label">Checklist Sebelum Testing</span>
+            <button class="copy-btn">copy</button>
+          </div>
+          <div class="terminal-body">
+            <span class="open-port">✅ Dapatkan izin tertulis (Rules of Engagement) dari pemilik sistem</span>
+            <span class="open-port">✅ Definisikan scope: URL apa yang boleh/tidak boleh di-test</span>
+            <span class="open-port">✅ Gunakan environment testing/staging, bukan production</span>
+            <span class="open-port">✅ Backup database/data sebelum Active Scan</span>
+            <span class="open-port">✅ Koordinasikan jadwal testing dengan tim ops/dev</span>
+            <span class="open-port">✅ Gunakan akun test yang terpisah, bukan akun production</span>
+            <span class="open-port">✅ Simpan log semua activity untuk dokumentasi</span>
+            <span class="open-port">✅ Siapkan procedure untuk melaporkan critical finding segera</span>
+          </div>
+        </div>
+
+        <h3 class="mt-16 mb-16">⚙️ Konfigurasi ZAP yang Aman</h3>
+        <table class="cheat-table">
+          <tr>
+            <th>Setting</th>
+            <th>Nilai Rekomendasi</th>
+            <th>Keterangan</th>
+          </tr>
+          <tr>
+            <td class="flag-col">Active Scan Threads</td>
+            <td>2-5</td>
+            <td>Default 2 cukup untuk kebanyakan kasus. Tingkatkan hanya di lab environment.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Delay Between Requests</td>
+            <td>100-500ms</td>
+            <td>Mencegah overload server target. Set di Scan Policy → Options.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Request Timeout</td>
+            <td>20 detik</td>
+            <td>Jangan terlalu pendek — beberapa endpoint memang lambat.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Max Alerts Per Rule</td>
+            <td>10-50</td>
+            <td>Membatasi duplikat alert untuk jenis kerentanan yang sama.</td>
+          </tr>
+          <tr>
+            <td class="flag-col">Spider Max Depth</td>
+            <td>5</td>
+            <td>Mencegah crawling yang terlalu dalam dan memakan waktu lama.</td>
+          </tr>
+        </table>
+
+        <div class="tip-box" style="margin-top: 24px;">
+          <span class="box-icon">🎯</span>
+          <p><strong>Responsible Disclosure:</strong> Setelah menemukan kerentanan, laporkan ke pemilik sistem secara private (bukan publik) dan berikan waktu yang cukup (biasanya 90 hari) untuk perbaikan sebelum dipublikasikan. Ini adalah praktik <em>coordinated vulnerability disclosure</em> yang etis.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 12: CHEAT SHEET -->
+      <section class="section reveal" id="s12">
+        <div class="section-header">
+          <span class="section-number">// 12 &mdash; Cheat Sheet ZAP</span>
+          <h2 class="section-title">Cheat Sheet Command &amp; Shortcut ZAP</h2>
+        </div>
+
+        <h3 class="mb-16">⌨️ Keyboard Shortcuts ZAP Desktop</h3>
+        <table class="cheat-table">
+          <thead>
+            <tr>
+              <th>Shortcut</th>
+              <th>Fungsi</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mono">Ctrl+B</span></td>
+              <td><span class="key">Toggle Breakpoints</span></td>
+              <td>Aktifkan/nonaktifkan intercept mode untuk setiap request</td>
+            </tr>
+            <tr>
+              <td><span class="mono">Ctrl+S</span></td>
+              <td><span class="key">Submit Request</span></td>
+              <td>Teruskan request yang sedang di-intercept</td>
+            </tr>
+            <tr>
+              <td><span class="mono">Ctrl+R</span></td>
+              <td><span class="key">Resend Request</span></td>
+              <td>Kirim ulang request terpilih dari History</td>
+            </tr>
+            <tr>
+              <td><span class="mono">Ctrl+F</span></td>
+              <td><span class="key">Find</span></td>
+              <td>Cari string dalam request/response History</td>
+            </tr>
+            <tr>
+              <td><span class="mono">Ctrl+Alt+N</span></td>
+              <td><span class="key">New Spider Scan</span></td>
+              <td>Mulai Spider Scan baru</td>
+            </tr>
+            <tr>
+              <td><span class="mono">Ctrl+Alt+A</span></td>
+              <td><span class="key">Active Scan</span></td>
+              <td>Mulai Active Scan pada target terpilih</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="mt-24 mb-16">🐳 Docker ZAP Commands</h3>
+        <table class="cheat-table">
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>Jenis Scan</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mono">zap-baseline.py -t URL</span></td>
+              <td><span class="key">Baseline (Passive)</span></td>
+              <td>Passive scan saja — aman untuk production</td>
+            </tr>
+            <tr>
+              <td><span class="mono">zap-full-scan.py -t URL</span></td>
+              <td><span class="key">Full (Active)</span></td>
+              <td>Passive + Active scan — HANYA di lab/staging</td>
+            </tr>
+            <tr>
+              <td><span class="mono">zap-api-scan.py -t spec.json -f openapi</span></td>
+              <td><span class="key">API Scan</span></td>
+              <td>Scan REST API berdasarkan OpenAPI/Swagger spec</td>
+            </tr>
+            <tr>
+              <td><span class="mono">zap-baseline.py -t URL -r report.html</span></td>
+              <td><span class="key">Dengan Report</span></td>
+              <td>Simpan laporan HTML ke file lokal</td>
+            </tr>
+            <tr>
+              <td><span class="mono">zap-baseline.py -t URL -J report.json</span></td>
+              <td><span class="key">JSON Report</span></td>
+              <td>Export laporan dalam format JSON untuk parsing</td>
+            </tr>
+            <tr>
+              <td><span class="mono">zap-baseline.py -t URL -a</span></td>
+              <td><span class="key">AJAX Spider</span></td>
+              <td>Gunakan AJAX Spider untuk SPA/JavaScript-heavy apps</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="mt-24 mb-16">🔗 ZAP API Endpoints Penting</h3>
+        <table class="cheat-table">
+          <thead>
+            <tr>
+              <th>Endpoint</th>
+              <th>Fungsi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mono">/JSON/spider/action/scan/</span></td>
+              <td>Mulai Spider Scan</td>
+            </tr>
+            <tr>
+              <td><span class="mono">/JSON/ascan/action/scan/</span></td>
+              <td>Mulai Active Scan</td>
+            </tr>
+            <tr>
+              <td><span class="mono">/JSON/core/view/alerts/</span></td>
+              <td>Lihat semua alerts</td>
+            </tr>
+            <tr>
+              <td><span class="mono">/JSON/core/action/htmlreport/</span></td>
+              <td>Generate laporan HTML</td>
+            </tr>
+            <tr>
+              <td><span class="mono">/JSON/core/action/jsonreport/</span></td>
+              <td>Generate laporan JSON</td>
+            </tr>
+            <tr>
+              <td><span class="mono">/JSON/pscan/view/recordsToScan/</span></td>
+              <td>Status Passive Scan queue</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 13: LATIHAN PRAKTIK -->
+      <section class="section reveal" id="s13">
+        <div class="section-header">
+          <span class="section-number">// 13 &mdash; Latihan Praktik</span>
+          <h2 class="section-title">Mini Latihan Praktik Bertahap</h2>
+        </div>
+
+        <div class="info-box">
+          <span class="box-icon">🏗️</span>
+          <p><strong>Lab Environment:</strong> Semua latihan di bawah menggunakan aplikasi web yang memang dirancang untuk diuji. JANGAN gunakan teknik ini di aplikasi nyata tanpa izin. Install lab di lokal: <strong>DVWA</strong> (Docker), <strong>OWASP Juice Shop</strong> (Docker), atau gunakan <strong>portswigger.net/web-security</strong> (online, gratis).</p>
+        </div>
+
+        <!-- LAB 1 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">1</div>
+            <div>
+              <div class="lab-title">Passive Scan &amp; Report — Juice Shop</div>
+            </div>
+            <div class="lab-difficulty diff-beginner">Beginner</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Kenali interface ZAP dan lakukan Passive Scan pertama menggunakan OWASP Juice Shop.</p>
+            <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Install OWASP Juice Shop: <code>docker run -d -p 3000:3000 bkimminich/juice-shop</code></div></div>
+            <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Buka ZAP → pastikan proxy aktif di port 8080. Konfigurasi browser menggunakan proxy ZAP.</div></div>
+            <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Browse Juice Shop (<code>http://localhost:3000</code>) secara manual — klik semua menu, login sebagai guest.</div></div>
+            <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Lihat tab <strong>Alerts</strong> di ZAP — catat semua alert yang sudah ditemukan Passive Scan.</div></div>
+            <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Generate laporan: <strong>Report → Generate Report → HTML</strong> → simpan dan buka di browser.</div></div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Anda bisa menghasilkan laporan HTML dengan setidaknya 5 alert dan memahami arti masing-masing.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 2 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">2</div>
+            <div>
+              <div class="lab-title">Spider Scan — Menemukan Semua Endpoint</div>
+            </div>
+            <div class="lab-difficulty diff-beginner">Beginner</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Gunakan Spider untuk menemukan semua endpoint di Juice Shop.</p>
+            <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Di ZAP, klik kanan <code>http://localhost:3000</code> di Sites tree → <strong>Attack → Spider</strong></div></div>
+            <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Jalankan Spider dengan Max Depth: 5, biarkan berjalan hingga selesai.</div></div>
+            <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Lihat tab <strong>Spider</strong> — catat berapa URL yang ditemukan. Bandingkan dengan manual browse.</div></div>
+            <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Coba juga <strong>AJAX Spider</strong> (Tools → AJAX Spider) — bandingkan hasilnya dengan Traditional Spider.</div></div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Anda bisa membandingkan hasil Traditional vs AJAX Spider dan memahami kapan menggunakan masing-masing.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 3 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">3</div>
+            <div>
+              <div class="lab-title">Temukan SQL Injection di DVWA</div>
+            </div>
+            <div class="lab-difficulty diff-intermediate">Intermediate</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Gunakan Active Scan ZAP untuk mendeteksi SQL Injection di DVWA (Damn Vulnerable Web App).</p>
+            <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Install DVWA: <code>docker run -d -p 8888:80 vulnerables/web-dvwa</code> → akses <code>http://localhost:8888</code></div></div>
+            <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Login ke DVWA (admin/password) → set Security Level ke <strong>Low</strong> di DVWA Security.</div></div>
+            <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Buka halaman SQL Injection di DVWA melalui browser yang terkonfigurasi proxy ZAP.</div></div>
+            <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Di ZAP, klik kanan URL DVWA SQL Injection → <strong>Attack → Active Scan</strong>.</div></div>
+            <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Tunggu scan selesai → lihat alert <strong>SQL Injection</strong> di tab Alerts dengan detail evidence-nya.</div></div>
+            <div class="lab-step"><div class="lab-step-num">6</div><div class="lab-step-content">Baca alert detail: Evidence, Solution, dan Reference. Dokumentasikan temuan Anda.</div></div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> ZAP menemukan alert SQL Injection HIGH dengan evidence payload dan Anda bisa menjelaskan cara remediasinya.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 4 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">4</div>
+            <div>
+              <div class="lab-title">Authentication Context &amp; Authenticated Scan</div>
+            </div>
+            <div class="lab-difficulty diff-intermediate">Intermediate</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Setup authentication di ZAP dan lakukan scan pada area yang memerlukan login.</p>
+            <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Browse Juice Shop, lakukan login manual dengan proxy ZAP aktif. Catat URL login form dan parameter.</div></div>
+            <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Di ZAP: <strong>Manage Contexts → New Context</strong> → include URL <code>http://localhost:3000/*</code></div></div>
+            <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Di Context → Authentication: pilih <strong>Form-based Authentication</strong> → isi Login URL dan parameter.</div></div>
+            <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Tambahkan User dengan email/password valid → set Logged In Indicator (misal: "Your Basket").</div></div>
+            <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Jalankan Spider dengan context ini → ZAP akan otomatis login dan menjelajahi area authenticated.</div></div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Spider berhasil menemukan endpoint authenticated (basket, profile, orders) yang tidak ditemukan tanpa login.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB 5 -->
+        <div class="lab-card">
+          <div class="lab-header">
+            <div class="lab-num">5</div>
+            <div>
+              <div class="lab-title">Docker CI/CD Integration — Automated Security Pipeline</div>
+            </div>
+            <div class="lab-difficulty diff-advanced">Advanced</div>
+          </div>
+          <div class="lab-body">
+            <p class="text-muted mb-16"><strong>Tujuan:</strong> Integrasikan ZAP ke dalam pipeline CI/CD menggunakan Docker dan GitHub Actions.</p>
+            <div class="lab-step"><div class="lab-step-num">1</div><div class="lab-step-content">Buat file <code>.github/workflows/zap-scan.yml</code> di repository Anda.</div></div>
+            <div class="lab-step"><div class="lab-step-num">2</div><div class="lab-step-content">Tambahkan job yang menjalankan Juice Shop Docker, lalu ZAP Baseline Scan terhadapnya.</div></div>
+            <div class="lab-step"><div class="lab-step-num">3</div><div class="lab-step-content">Konfigurasi ZAP untuk upload laporan sebagai artifact GitHub Actions.</div></div>
+            <div class="lab-step"><div class="lab-step-num">4</div><div class="lab-step-content">Set threshold: jika ada alert HIGH, pipeline fails (non-zero exit code).</div></div>
+            <div class="lab-step"><div class="lab-step-num">5</div><div class="lab-step-content">Jalankan workflow dan review laporan HTML yang dihasilkan secara otomatis.</div></div>
+            <div class="tip-box mt-16">
+              <div class="box-icon">🎯</div>
+              <div><strong>Sukses jika</strong> Pipeline CI/CD Anda otomatis menjalankan ZAP scan pada setiap PR/push dan menghasilkan laporan keamanan.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box" style="margin-top: 30px;">
+          <span class="box-icon">🎓</span>
+          <p><strong>Langkah Selanjutnya:</strong> Setelah menguasai ZAP, pelajari lebih dalam di <strong>portswigger.net/web-security</strong> (Web Security Academy oleh Burp Suite), praktikkan di <strong>TryHackMe.com</strong> dan <strong>HackTheBox.com</strong>, atau mulai bug bounty di <strong>HackerOne</strong> atau <strong>Bugcrowd</strong> untuk pengalaman nyata dalam lingkungan legal.</p>
+        </div>
+      </section>
+
+    </div><!-- /content -->
+  </main>
+
+  <script src="./owasp-zap-guide.js"></script>
+</body>
+</html>

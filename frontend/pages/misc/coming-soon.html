@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeloraSec - System Maintenance</title>
+    <link rel="icon" type="image/png" sizes="32x32" rel="icon" href="../../assets/icons/icons8-maintenance-32.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6.5.0 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#050a0f',
+                        neonCyan: '#00ffcc',
+                        darkBorder: '#1a2e35',
+                        panelBg: '#0a1218',
+                        neonPurple: '#9966ff'
+                    },
+                    fontFamily: {
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050a0f;
+            color: #d1d5db;
+            /* gray-300 */
+        }
+
+        .bg-grid-pattern {
+            background-image:
+                linear-gradient(to right, #1a2e35 1px, transparent 1px),
+                linear-gradient(to bottom, #1a2e35 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.4), 0 0 30px rgba(0, 255, 204, 0.2);
+        }
+
+        .maintenance-warning {
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+        
+    </style>
+</head>
+
+<body class="min-h-screen font-mono relative overflow-hidden flex flex-col selection:bg-neonCyan selection:text-black">
+
+    <!-- Background Grid & Particles -->
+    <div class="absolute inset-0 z-0 opacity-20 bg-grid-pattern pointer-events-none"></div>
+
+    <!-- Subtle background glow -->
+    <div
+        class="absolute top-1/4 left-1/4 w-96 h-96 bg-neonCyan rounded-full blur-[150px] opacity-5 z-0 pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neonPurple rounded-full blur-[150px] opacity-5 z-0 pointer-events-none">
+    </div>
+
+    <!-- Navbar/Header -->
+    <header
+        class="relative z-10 w-full p-6 flex justify-between items-center border-b border-darkBorder bg-darkBg/80 backdrop-blur-sm">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-shield-halved text-3xl text-neonCyan"
+                style="filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.6))"></i>
+            <div>
+                <h1 class="text-xl font-bold tracking-wider text-white">VeloraSec</h1>
+                <p class="text-[10px] text-gray-500 tracking-[0.2em] uppercase">Learning Hub</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-gray-500">
+            <span class="hidden sm:inline-block">System / Status</span>
+            <div class="flex items-center gap-2 border border-darkBorder rounded-full px-3 py-1 bg-panelBg">
+                <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                <span class="text-red-400">MAINTENANCE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex-grow flex flex-col items-center justify-center p-6 w-full max-w-5xl mx-auto">
+        <div class="w-full text-left md:text-center flex flex-col items-start md:items-center">
+
+            <!-- Badge -->
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full border border-neonCyan/30 bg-neonCyan/5">
+                <i class="fa-solid fa-terminal text-base text-neonCyan"></i>
+                <span class="text-xs text-neonCyan tracking-widest font-semibold uppercase">
+                    System Alert
+                </span>
+            </div>
+
+            <!-- Maintenance Text Added Here -->
+            <div
+                class="mb-4 px-4 py-2 bg-red-500/10 border border-red-500/30 rounded text-red-400 text-sm font-bold tracking-widest uppercase flex items-center gap-2 maintenance-warning">
+                <i class="fa-solid fa-triangle-exclamation text-base"></i>
+                PAGE UNDER MAINTENANCE
+            </div>
+
+            <!-- Headline -->
+            <h2 class="text-5xl md:text-7xl font-bold mb-4 tracking-tight">
+                <span class="block text-neonCyan mb-2 glow-text">
+                    Cybersecurity
+                </span>
+                <span class="block text-white">
+                    Learning Hub
+                </span>
+            </h2>
+
+            <!-- Terminal Text -->
+            <div
+                class="mt-6 mb-12 h-16 md:h-8 max-w-2xl text-sm md:text-base text-gray-400 leading-relaxed text-left md:text-center">
+                <span id="typing-text"></span><span class="animate-pulse text-neonCyan">_</span>
+            </div>
+
+            <!-- Success Message (Hidden by default) -->
+            <div id="success-message"
+                class="hidden w-full max-w-md mx-auto mb-16 p-4 border border-neonCyan/30 bg-neonCyan/10 text-neonCyan rounded-lg text-center flex items-center justify-center gap-3">
+                <i class="fa-solid fa-lock text-xl"></i>
+                <span>Akses prioritas terkunci. Kami akan menghubungi Anda saat sistem online.</span>
+            </div>
+
+            <!-- Badge Back -->
+            <a href="../index.html"
+                class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full border border-neonCyan/30 bg-neonCyan/5 hover:bg-neonCyan/10 transition">
+                <i class="fa-solid fa-terminal text-base text-neonCyan"></i>
+                <span class="text-xs text-neonCyan tracking-widest font-semibold uppercase">
+                    BACK
+                </span>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+        class="relative z-10 w-full p-6 border-t border-darkBorder flex justify-between items-center text-xs text-gray-600 bg-darkBg/80 backdrop-blur-sm">
+        <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_5px_#ef4444] animate-pulse"></div>
+            <span>SYSTEM UPGRADE IN PROGRESS</span>
+        </div>
+        <div>
+            v3.0.0 | Ethical Hacking Only
+        </div>
+    </footer>
+
+    <script>
+        // Typing Effect with Looping & Erasing
+        const textElement = document.getElementById('typing-text');
+        const fullText = "> Sistem sedang dalam perbaikan dan peningkatan (maintenance). Kami sedang mengkalibrasi ulang kurikulum keamanan siber. Harap tunggu.";
+        let i = 0;
+        let isDeleting = false;
+
+        function typeWriter() {
+            if (!isDeleting) {
+                // Proses Mengetik
+                if (i <= fullText.length) {
+                    textElement.innerHTML = fullText.substring(0, i);
+                    i++;
+                    setTimeout(typeWriter, 50); // Kecepatan mengetik
+                } else {
+                    // Selesai mengetik, jeda sebelum menghapus
+                    isDeleting = true;
+                    setTimeout(typeWriter, 3000); // Tahan teks selama 3 detik
+                }
+            } else {
+                // Proses Menghapus
+                if (i > 0) {
+                    i--;
+                    textElement.innerHTML = fullText.substring(0, i);
+                    setTimeout(typeWriter, 20); // Kecepatan menghapus (lebih cepat dari mengetik)
+                } else {
+                    // Selesai menghapus, jeda sebelum mengetik ulang
+                    isDeleting = false;
+                    setTimeout(typeWriter, 500); // Tahan kosong selama 0.5 detik
+                }
+            }
+        }
+
+        // Start typing effect after a short delay
+        setTimeout(typeWriter, 500);
+
+        // Form Handling (jika diperlukan di masa depan)
+        const form = document.getElementById('notify-form');
+        const emailInput = document.getElementById('email-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+        const formContainer = document.getElementById('form-container');
+        const successMessage = document.getElementById('success-message');
+
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                if (!emailInput.value) return;
+
+                emailInput.disabled = true;
+                submitBtn.disabled = true;
+                btnText.innerText = 'MENYIMPAN...';
+                btnIcon.style.display = 'none';
+
+                setTimeout(() => {
+                    formContainer.style.display = 'none';
+                    successMessage.classList.remove('hidden');
+                    successMessage.classList.add('flex');
+                }, 1500);
+            });
+        }
+    </script>
+</body>
+
+</html>
