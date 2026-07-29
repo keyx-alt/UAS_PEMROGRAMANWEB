@@ -83,8 +83,9 @@
     <a class="nav-item" data-section="career" href="#career" onclick="showSection('career');return false;"><i class="fas fa-briefcase"></i> Career Path</a>
     <a class="nav-item" data-section="certs" href="#certs" onclick="showSection('certs');return false;"><i class="fas fa-certificate"></i> Certifications</a>
     <div class="nav-group">Account</div>
-    <a class="nav-item" data-section="login" href="auth/login.html" ><i class="fas fa-right-to-bracket"></i> Login</a>
-    <a class="nav-item" data-section="register" href="auth/register.html" ><i class="fas fa-user-plus"></i> Register</a>
+    <a class="nav-item" id="nav-login" data-section="login" href="/pages/auth/login.html"><i class="fas fa-right-to-bracket"></i> Login</a>
+    <a class="nav-item" id="nav-register" data-section="register" href="auth/register.html"><i class="fas fa-user-plus"></i> Register</a>
+    <a class="nav-item" id="nav-logout" style="display:none;" onclick="handleLogout(); return false;" href="#"><i class="fas fa-right-from-bracket"></i> Logout</a>
     <a class="nav-item" data-section="about" href="misc/about.html"><i class="fas fa-circle-info"></i> About</a>
     <div class="nav-group">Growth</div>
     <a class="nav-item" data-section="mindset" href="#mindset" onclick="showSection('mindset');return false;"><i class="fas fa-brain"></i> Mindset</a>
@@ -328,6 +329,23 @@
       © 2025 VeloraSec - Cybersecurity Learning Hub — Hack Responsibly | For Educational Use Only
     </div>
   </footer>
+</div>
+
+<!-- ============================== LOGOUT MODAL ============================== -->
+<div id="logout-modal" onclick="closeLogoutModal(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-title">
+      <i class="fas fa-triangle-exclamation"></i> TERMINATE SESSION
+    </div>
+    <div class="modal-body">
+      Your secure session will be terminated.<br>
+      Access Token and Refresh Token will be removed from this browser.
+    </div>
+    <div class="modal-actions">
+      <button class="cyber-btn btn-outline" onclick="closeLogoutModal()">Cancel</button>
+      <button class="cyber-btn btn-danger" onclick="executeLogout()">Logout</button>
+    </div>
+  </div>
 </div>
 
 <!-- Service layer: config → token → api (harus sebelum script.js) -->

@@ -1,20 +1,10 @@
 /**
  * api.js — VeloraSec API Service Layer
  * ============================================================
- * PLACEHOLDER FILE — Semua fungsi API di sini adalah STUB.
+ * Menghubungkan frontend ke Flask backend via HTTP requests.
  *
- * Saat DEMO_MODE = true (default):
- *   → Fungsi-fungsi ini TIDAK dipanggil; data berasal dari
- *     konstanta hardcoded di script.js.
- *
- * Saat DEMO_MODE = false (setelah Phase 11 — Integrasi):
- *   → Fungsi-fungsi ini akan dipanggil dan mengirim request
- *     HTTP ke backend Flask via fetch().
- *
- * CARA MENGIMPLEMENTASIKAN (per fungsi):
- *   1. Hapus `_notImplemented(...)` dari dalam fungsi
- *   2. Ganti dengan `return _request(endpoint, options)`
- *   3. Pastikan endpoint Flask sudah tersedia dan diuji
+ * Semua fungsi mengirim request ke endpoint Flask yang sebenarnya
+ * menggunakan _request() wrapper dengan JWT authentication.
  *
  * Depends on: config.js, token.js
  * Load order: config.js → token.js → api.js
@@ -122,22 +112,6 @@ async function _request(endpoint, options = {}) {
 }
 
 
-/**
- * _notImplemented() — penanda stub yang belum diimplementasikan.
- * Dipanggil oleh setiap fungsi stub. Mengembalikan Promise.reject
- * agar error handling di caller tetap bekerja dengan async/await.
- *
- * @param {string} fnName - nama fungsi yang belum diimplementasikan
- * @returns {Promise<never>}
- */
-function _notImplemented(fnName) {
-  const msg = `[api.js] ${fnName}() belum diimplementasikan. `
-    + `Set DEMO_MODE=false dan implementasikan request ke Flask.`;
-  console.warn(msg);
-  return Promise.reject(new ApiError(501, msg));
-}
-
-
 // ===========================================================
 //  AUTH API
 // ===========================================================
@@ -153,22 +127,25 @@ const AuthAPI = (() => {
    *
    * Flask endpoint: POST /api/auth/login
    * Request body:   { email: string, password: string }
-   * Response:       { access_token: string, refresh_token: string, user: UserObject }
+   * Response:       { access_token, refresh_token, user }
    *
    * @param {string} email
    * @param {string} password
-   * @returns {Promise<{ access_token: string, refresh_token: string, user: Object }>}
+   * @returns {Promise<Object>} parsed JSON response dari Flask
    */
   async function login(email, password) {
-    // TODO (Phase 11): Implementasikan dengan kode di bawah
-    // const data = await _request('/api/auth/login', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ email, password }),
-    // });
-    // TokenManager.save(data.access_token, data.refresh_token);
-    // SessionManager.save(data.user);
-    // return data;
-    return _notImplemented('AuthAPI.login');
+    const resp = await _request('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+
+    // Flask response flat JSON: { access_token, refresh_token, user }
+    if (resp.access_token) {
+      TokenManager.save(resp.access_token, resp.refresh_token);
+      if (resp.user) SessionManager.save(resp.user);
+    }
+
+    return resp;
   }
 
   /**
@@ -181,39 +158,32 @@ const AuthAPI = (() => {
    * @param {string} username
    * @param {string} email
    * @param {string} password
-   * @returns {Promise<{ message: string, user: Object }>}
+   * @returns {Promise<Object>}
    */
   async function register(username, email, password) {
-    // TODO (Phase 11):
-    // return _request('/api/auth/register', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ username, email, password }),
-    // });
-    return _notImplemented('AuthAPI.register');
+    return _request('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ username, email, password }),
+    });
   }
 
   /**
-   * Logout user — menghapus token dari localStorage.
-   * Opsional: bisa call ke server untuk blacklist token.
+   * Logout user — invalidate token di server lalu hapus lokal.
    *
-   * Flask endpoint: POST /api/auth/logout  (opsional)
+   * Flask endpoint: POST /api/auth/logout
    * Headers:        Authorization: Bearer <access_token>
-   * Response:       { message: 'Logout successful' }
+   * Response:       { message: string }
    *
    * @returns {Promise<void>}
    */
   async function logout() {
-    // TODO (Phase 11): Opsional — invalidate token di server
-    // try {
-    //   await _request('/api/auth/logout', { method: 'POST' });
-    // } catch { /* ignore server error saat logout */ }
-    // finally {
-    //   SessionManager.clearAll();
-    // }
-
-    // Saat ini: cukup hapus token lokal
-    SessionManager.clearAll();
-    return Promise.resolve();
+    try {
+      await _request('/api/auth/logout', { method: 'POST' });
+    } catch {
+      // Ignore server error saat logout — tetap bersihkan lokal
+    } finally {
+      SessionManager.clearAll();
+    }
   }
 
   /**
@@ -224,19 +194,23 @@ const AuthAPI = (() => {
    * Headers:        Authorization: Bearer <refresh_token>
    * Response:       { access_token: string }
    *
-   * @returns {Promise<{ access_token: string }>}
+   * @returns {Promise<Object>}
    */
   async function refreshToken() {
-    // TODO (Phase 11):
-    // const refreshTok = TokenManager.getRefresh();
-    // if (!refreshTok) throw new ApiError(401, 'No refresh token');
-    // const data = await _request('/api/auth/refresh', {
-    //   method: 'POST',
-    //   headers: { 'Authorization': `Bearer ${refreshTok}` },
-    // });
-    // TokenManager.save(data.access_token);
-    // return data;
-    return _notImplemented('AuthAPI.refreshToken');
+    const refreshTok = TokenManager.getRefresh();
+    if (!refreshTok) throw new ApiError(401, 'No refresh token');
+
+    const resp = await _request('/api/auth/refresh', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${refreshTok}` },
+    });
+
+    // Flask response flat JSON: { access_token }
+    if (resp.access_token) {
+      TokenManager.save(resp.access_token);
+    }
+
+    return resp;
   }
 
   /**
@@ -247,15 +221,13 @@ const AuthAPI = (() => {
    * Response:       { message: string }
    *
    * @param {string} email
-   * @returns {Promise<{ message: string }>}
+   * @returns {Promise<Object>}
    */
   async function forgotPassword(email) {
-    // TODO (Phase 11):
-    // return _request('/api/auth/forgot-password', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ email }),
-    // });
-    return _notImplemented('AuthAPI.forgotPassword');
+    return _request('/api/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
   }
 
   return Object.freeze({ login, register, logout, refreshToken, forgotPassword });
@@ -277,33 +249,29 @@ const UserAPI = (() => {
    *
    * Flask endpoint: GET /api/users/me
    * Headers:        Authorization: Bearer <token>
-   * Response:       UserObject { id, username, email, created_at, ... }
+   * Response:       { user: UserObject }
    *
    * @returns {Promise<Object>}
    */
   async function getMe() {
-    // TODO (Phase 11):
-    // return _request('/api/users/me');
-    return _notImplemented('UserAPI.getMe');
+    return _request('/api/users/me');
   }
 
   /**
    * Memperbarui profil user yang sedang login.
    *
    * Flask endpoint: PUT /api/users/me
-   * Request body:   { username?: string, email?: string, password?: string }
+   * Request body:   { full_name?, bio?, avatar_url?, current_password?, new_password? }
    * Response:       { message: string, user: UserObject }
    *
-   * @param {{ username?: string, email?: string, password?: string }} payload
+   * @param {Object} payload
    * @returns {Promise<Object>}
    */
   async function updateMe(payload) {
-    // TODO (Phase 11):
-    // return _request('/api/users/me', {
-    //   method: 'PUT',
-    //   body: JSON.stringify(payload),
-    // });
-    return _notImplemented('UserAPI.updateMe');
+    return _request('/api/users/me', {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    });
   }
 
   return Object.freeze({ getMe, updateMe });
@@ -323,49 +291,43 @@ const ProgressAPI = (() => {
   /**
    * Mendapatkan semua progress modul user yang sedang login.
    *
-   * Flask endpoint: GET /api/progress
-   * Response:       { progress: [{ module_id, is_completed, completed_at }] }
+   * Flask endpoint: GET /api/progress/
+   * Response:       { progress: [ProgressObject] }
    *
-   * @returns {Promise<{ progress: Array }>}
+   * @returns {Promise<Object>}
    */
   async function getAll() {
-    // TODO (Phase 11):
-    // return _request('/api/progress');
-    return _notImplemented('ProgressAPI.getAll');
+    return _request('/api/progress/');
   }
 
   /**
-   * Menandai sebuah modul sebagai selesai atau belum selesai.
+   * Membuat atau memperbarui progress entry untuk sebuah modul.
    *
-   * Flask endpoint: POST /api/progress
+   * Flask endpoint: POST /api/progress/
    * Request body:   { module_id: string, is_completed: boolean }
    * Response:       { message: string, progress: ProgressObject }
    *
-   * @param {string}  moduleId
-   * @param {boolean} isCompleted
+   * @param {string} moduleId - identifier modul
+   * @param {boolean} isCompleted - status selesai
    * @returns {Promise<Object>}
    */
   async function update(moduleId, isCompleted) {
-    // TODO (Phase 11):
-    // return _request('/api/progress', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ module_id: moduleId, is_completed: isCompleted }),
-    // });
-    return _notImplemented('ProgressAPI.update');
+    return _request('/api/progress/', {
+      method: 'POST',
+      body: JSON.stringify({ module_id: moduleId, is_completed: isCompleted }),
+    });
   }
 
   /**
    * Mereset semua progress user.
    *
-   * Flask endpoint: DELETE /api/progress
+   * Flask endpoint: DELETE /api/progress/
    * Response:       { message: string }
    *
-   * @returns {Promise<{ message: string }>}
+   * @returns {Promise<Object>}
    */
   async function resetAll() {
-    // TODO (Phase 11):
-    // return _request('/api/progress', { method: 'DELETE' });
-    return _notImplemented('ProgressAPI.resetAll');
+    return _request('/api/progress/', { method: 'DELETE' });
   }
 
   return Object.freeze({ getAll, update, resetAll });
@@ -386,38 +348,31 @@ const QuizAPI = (() => {
    * Mendapatkan riwayat hasil quiz user yang sedang login.
    *
    * Flask endpoint: GET /api/quiz/results
-   * Query params:   ?category=<string> (opsional, untuk filter per kategori)
-   * Response:       { results: [{ id, category, score, total, taken_at }] }
+   * Response:       { results: [QuizResultObject] }
    *
-   * @param {string} [category] - filter berdasarkan kategori (opsional)
-   * @returns {Promise<{ results: Array }>}
+   * @returns {Promise<Object>}
    */
-  async function getResults(category) {
-    // TODO (Phase 11):
-    // const qs = category ? `?category=${encodeURIComponent(category)}` : '';
-    // return _request(`/api/quiz/results${qs}`);
-    return _notImplemented('QuizAPI.getResults');
+  async function getResults() {
+    return _request('/api/quiz/results');
   }
 
   /**
    * Menyimpan hasil quiz yang baru diselesaikan.
    *
    * Flask endpoint: POST /api/quiz/results
-   * Request body:   { category: string, score: number, total: number }
+   * Request body:   { category: string, score: int, total: int }
    * Response:       { message: string, result: QuizResultObject }
    *
-   * @param {string} category - nama kategori quiz
-   * @param {number} score    - jumlah jawaban benar
-   * @param {number} total    - jumlah total soal
+   * @param {string} category - kategori quiz
+   * @param {number} score - skor
+   * @param {number} total - total pertanyaan
    * @returns {Promise<Object>}
    */
   async function saveResult(category, score, total) {
-    // TODO (Phase 11):
-    // return _request('/api/quiz/results', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ category, score, total }),
-    // });
-    return _notImplemented('QuizAPI.saveResult');
+    return _request('/api/quiz/results', {
+      method: 'POST',
+      body: JSON.stringify({ category, score, total }),
+    });
   }
 
   return Object.freeze({ getResults, saveResult });
@@ -436,51 +391,41 @@ const PlannerAPI = (() => {
 
   /**
    * Mendapatkan semua task planner user yang sedang login.
-   * Menggantikan localStorage 'cyb-planner' saat DEMO_MODE = false.
    *
-   * Flask endpoint: GET /api/planner
-   * Response:       { tasks: [{ task_key, is_done, updated_at }] }
+   * Flask endpoint: GET /api/planner/
+   * Response:       { tasks: [PlannerTaskObject] }
    *
-   * @returns {Promise<{ tasks: Array }>}
+   * @returns {Promise<Object>}
    */
   async function getAll() {
-    // TODO (Phase 11):
-    // return _request('/api/planner');
-    return _notImplemented('PlannerAPI.getAll');
+    return _request('/api/planner/');
   }
 
   /**
    * Toggle status selesai/belum selesai untuk satu task planner.
    *
-   * Flask endpoint: POST /api/planner/:taskKey
-   * Request body:   { is_done: boolean }
+   * Flask endpoint: POST /api/planner/<task_key>
    * Response:       { message: string, task: PlannerTaskObject }
    *
-   * @param {string}  taskKey  - format: 'w0d0', 'w1d3', dst.
-   * @param {boolean} isDone
+   * @param {string} taskKey - identifier task (misal: 'task_1', 'w0d0')
    * @returns {Promise<Object>}
    */
-  async function updateTask(taskKey, isDone) {
-    // TODO (Phase 11):
-    // return _request(`/api/planner/${encodeURIComponent(taskKey)}`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({ is_done: isDone }),
-    // });
-    return _notImplemented('PlannerAPI.updateTask');
+  async function updateTask(taskKey) {
+    return _request(`/api/planner/${encodeURIComponent(taskKey)}`, {
+      method: 'POST',
+    });
   }
 
   /**
-   * Mereset semua task planner user ke kondisi awal (belum selesai).
+   * Mereset semua task planner user (hapus semua dari database).
    *
-   * Flask endpoint: DELETE /api/planner
+   * Flask endpoint: DELETE /api/planner/
    * Response:       { message: string }
    *
-   * @returns {Promise<{ message: string }>}
+   * @returns {Promise<Object>}
    */
   async function resetAll() {
-    // TODO (Phase 11):
-    // return _request('/api/planner', { method: 'DELETE' });
-    return _notImplemented('PlannerAPI.resetAll');
+    return _request('/api/planner/', { method: 'DELETE' });
   }
 
   return Object.freeze({ getAll, updateTask, resetAll });
@@ -499,28 +444,21 @@ const DashboardAPI = (() => {
 
   /**
    * Mendapatkan ringkasan dashboard user (aggregated data).
-   * Menggantikan data hardcoded di buildDashboard() di script.js.
    *
    * Flask endpoint: GET /api/dashboard/summary
    * Response:
    * {
-   *   completion_pct: number,    // persentase modul selesai
-   *   streak_days: number,       // streak login hari berturut-turut
-   *   total_xp: number,          // total XP user
-   *   recent_activity: Array,    // 5 aktivitas terakhir
-   *   quiz_stats: {              // statistik quiz
-   *     total_attempts: number,
-   *     avg_score_pct: number,
-   *     best_category: string,
-   *   },
+   *   completion_pct: float,
+   *   streak_days: int,
+   *   total_xp: int,
+   *   recent_activity: [...],
+   *   quiz_stats: {...}
    * }
    *
    * @returns {Promise<Object>}
    */
   async function getSummary() {
-    // TODO (Phase 11):
-    // return _request('/api/dashboard/summary');
-    return _notImplemented('DashboardAPI.getSummary');
+    return _request('/api/dashboard/summary');
   }
 
   return Object.freeze({ getSummary });

@@ -23,8 +23,10 @@ const VELORASEC_CONFIG = Object.freeze({
   // ----------------------------------------------------------
   // Development : 'http://localhost:5000'
   // Staging     : 'https://staging-api.velorasec.io'
-  // Production  : 'https://api.velorasec.io'
-  API_BASE_URL: 'http://localhost:5000',
+  // Production  : window.location.origin
+  API_BASE_URL: window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" 
+      ? "http://localhost:5000" 
+      : window.location.origin,
 
   // ----------------------------------------------------------
   // Demo Mode
@@ -34,7 +36,7 @@ const VELORASEC_CONFIG = Object.freeze({
   //
   // Ubah ke false HANYA setelah backend live dan semua endpoint
   // di api.js sudah diimplementasikan.
-  DEMO_MODE: true,
+  DEMO_MODE: false,
 
   // ----------------------------------------------------------
   // Versi Aplikasi
@@ -65,7 +67,7 @@ const VELORASEC_CONFIG = Object.freeze({
     QUIZ_ENABLED:    true,
     PLANNER_ENABLED: true,
     XP_ENABLED:      true,
-    AUTH_REQUIRED:   false,           // true saat backend auth sudah live
+    AUTH_REQUIRED:   true,            // backend auth sudah live
   }),
 
 });

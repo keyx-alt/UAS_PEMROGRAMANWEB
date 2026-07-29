@@ -270,25 +270,25 @@ const LABS = [
 
 const TOOLS = {
   "Networking": [
-    { name: "Wireshark", func: "Network packet capture & analysis", diff: 2, use: "Analisis traffic, debugging protokol, deteksi intrusi", pros: "GUI-based, filter canggih, dissector protokol lengkap", cons: "Bisa overwhelming karena volume data", url: "https://wireshark.org", url1: "pages/Wireshark/wireshark-guide.html" },
-    { name: "Nmap", func: "Network discovery & security auditing", diff: 2, use: "Port scanning, OS detection, enumerasi service", pros: "Standar industri, NSE scripts, sangat versatile", cons: "Bisa trigger IDS alert jika tidak hati-hati", url: "https://nmap.org", url1: "pages/Nmap/nmap-ethical-guide.html" },
-    { name: "tcpdump", func: "Command-line packet capture", diff: 3, use: "Headless server, scripting, quick capture", pros: "Ringan, scriptable, tersedia hampir di semua sistem", cons: "Tidak ada GUI, learning curve cukup tinggi", url: "https://tcpdump.org", url1: "pages/Tcpdump/tcpdump-guide.html" }
+    { name: "Wireshark", func: "Network packet capture & analysis", diff: 2, use: "Analisis traffic, debugging protokol, deteksi intrusi", pros: "GUI-based, filter canggih, dissector protokol lengkap", cons: "Bisa overwhelming karena volume data", url: "https://wireshark.org", url1: "guides/Wireshark/wireshark-guide.html" },
+    { name: "Nmap", func: "Network discovery & security auditing", diff: 2, use: "Port scanning, OS detection, enumerasi service", pros: "Standar industri, NSE scripts, sangat versatile", cons: "Bisa trigger IDS alert jika tidak hati-hati", url: "https://nmap.org", url1: "guides/Nmap/nmap-ethical-guide.html" },
+    { name: "tcpdump", func: "Command-line packet capture", diff: 3, use: "Headless server, scripting, quick capture", pros: "Ringan, scriptable, tersedia hampir di semua sistem", cons: "Tidak ada GUI, learning curve cukup tinggi", url: "https://tcpdump.org", url1: "guides/Tcpdump/tcpdump-guide.html" }
   ],
   "Web Security": [
     { name: "Burp Suite", func: "Web application security testing proxy", diff: 3, use: "Intercept HTTP, fuzzing, testing SQLi/XSS", pros: "Standar industri untuk web pentest, scanner canggih", cons: "Versi Pro mahal ($449/yr), UI kompleks untuk pemula", url: "https://portswigger.net/burp", url1: "pages/coming-soon.html" },
-    { name: "OWASP ZAP", func: "Open-source web application scanner", diff: 2, use: "Automated scanning, spidering, analisis pasif", pros: "Gratis, dikembangkan aktif, bagus untuk pemula", cons: "Lebih banyak false positives vs Burp Pro", url: "https://zaproxy.org", url1: "pages/OwaspZap/owasp-zap-guide.html" }
+    { name: "OWASP ZAP", func: "Open-source web application scanner", diff: 2, use: "Automated scanning, spidering, analisis pasif", pros: "Gratis, dikembangkan aktif, bagus untuk pemula", cons: "Lebih banyak false positives vs Burp Pro", url: "https://zaproxy.org", url1: "guides/OwaspZap/owasp-zap-guide.html" }
   ],
   "Forensics": [
-    { name: "Autopsy", func: "Digital forensics investigation platform", diff: 3, use: "Analisis disk, recovery file, pembuatan timeline", pros: "Gratis, GUI-based, extensible via plugin", cons: "Bisa lambat di image disk yang besar", url: "https://sleuthkit.org/autopsy", url1: "pages/coming-soon.html" },
-    { name: "Volatility3", func: "Memory forensics framework", diff: 4, use: "Analisis dump RAM untuk malware dan artifact", pros: "Gold standard memory forensics, aktif dikembangkan", cons: "CLI-only, memerlukan pengetahuan Python", url: "https://volatilityfoundation.org", url1: "pages/coming-soon.html" }
+    { name: "Autopsy", func: "Digital forensics investigation platform", diff: 3, use: "Analisis disk, recovery file, pembuatan timeline", pros: "Gratis, GUI-based, extensible via plugin", cons: "Bisa lambat di image disk yang besar", url: "https://sleuthkit.org/autopsy", url1: "misc/coming-soon.html" },
+    { name: "Volatility3", func: "Memory forensics framework", diff: 4, use: "Analisis dump RAM untuk malware dan artifact", pros: "Gold standard memory forensics, aktif dikembangkan", cons: "CLI-only, memerlukan pengetahuan Python", url: "https://volatilityfoundation.org", url1: "misc/coming-soon.html" }
   ],
   "Reverse Engineering": [
-    { name: "Ghidra", func: "Software reverse engineering framework (NSA)", diff: 4, use: "Disassembly, decompilation, analisis malware", pros: "Gratis, powerful, fitur kolaborasi tim", cons: "Berbasis Java (agak lambat), learning curve tinggi", url: "https://ghidra-sre.org", url1: "pages/Ghidra/ghidra-reference-guide.html" },
-    { name: "x64dbg", func: "Open-source Windows debugger", diff: 4, use: "Dynamic analysis, debugging malware, unpacking", pros: "Gratis, ekosistem plugin luas, aktif dikembangkan", cons: "Windows-only, kompleks untuk pemula", url: "https://x64dbg.com", url1: "pages/coming-soon.html" }
+    { name: "Ghidra", func: "Software reverse engineering framework (NSA)", diff: 4, use: "Disassembly, decompilation, analisis malware", pros: "Gratis, powerful, fitur kolaborasi tim", cons: "Berbasis Java (agak lambat), learning curve tinggi", url: "https://ghidra-sre.org", url1: "guides/Ghidra/ghidra-reference-guide.html" },
+    { name: "x64dbg", func: "Open-source Windows debugger", diff: 4, use: "Dynamic analysis, debugging malware, unpacking", pros: "Gratis, ekosistem plugin luas, aktif dikembangkan", cons: "Windows-only, kompleks untuk pemula", url: "https://x64dbg.com", url1: "misc/coming-soon.html" }
   ],
   "Lab Environments": [
-    { name: "Kali Linux", func: "Penetration testing distribution", diff: 2, use: "600+ pre-installed security tools", pros: "Standar industri, komunitas besar, tool selalu update", cons: "Disalahgunakan script kiddies tanpa pemahaman dasar", url: "https://kali.org", url1: "pages/coming-soon.html" },
-    { name: "VirtualBox", func: "Free virtualization platform", diff: 1, use: "Menjalankan lab environment yang terisolasi", pros: "Gratis, cross-platform, fitur snapshot berguna", cons: "Overhead performa, fitur lebih sedikit dari VMware Pro", url: "https://virtualbox.org", url1: "pages/coming-soon.html" }
+    { name: "Kali Linux", func: "Penetration testing distribution", diff: 2, use: "600+ pre-installed security tools", pros: "Standar industri, komunitas besar, tool selalu update", cons: "Disalahgunakan script kiddies tanpa pemahaman dasar", url: "https://kali.org", url1: "misc/coming-soon.html" },
+    { name: "VirtualBox", func: "Free virtualization platform", diff: 1, use: "Menjalankan lab environment yang terisolasi", pros: "Gratis, cross-platform, fitur snapshot berguna", cons: "Overhead performa, fitur lebih sedikit dari VMware Pro", url: "https://virtualbox.org", url1: "misc/coming-soon.html" }
   ]
 };
 
@@ -537,6 +537,16 @@ function showSection(id) {
 function _renderSection(id) {
   if (!SECTION_MAP[id]) id = 'hero'; // fallback
 
+  const protectedSections = ['dashboard', 'planner', 'quiz'];
+  const isLoggedIn = typeof VeloraSec !== 'undefined' && VeloraSec.Token && VeloraSec.Token.isLoggedIn();
+  if (protectedSections.includes(id) && !isLoggedIn) {
+      id = 'hero';
+      history.replaceState({ section: 'hero' }, '', '#hero');
+  }
+
+  // Dashboard selalu di-refresh karena menampilkan data live dari API
+  if (id === 'dashboard') sectionInited['dashboard'] = false;
+
   // Hide all
   Object.values(SECTION_MAP).forEach(sid => {
     const el = document.getElementById(sid);
@@ -596,6 +606,74 @@ function _hashToSection() {
 }
 
 /* ================================================================
+   AUTH NAV & LOGOUT
+================================================================ */
+function updateAuthNav() {
+  const navLogin = document.getElementById('nav-login');
+  const navRegister = document.getElementById('nav-register');
+  const navLogout = document.getElementById('nav-logout');
+  if (!navLogin || !navRegister || !navLogout) return;
+
+  // Jika TokenManager dan SessionManager belum load, asumsikan belum login
+  const isLoggedIn = typeof TokenManager !== 'undefined' ? TokenManager.isLoggedIn() : false;
+  
+  if (isLoggedIn) {
+    navLogin.style.display = 'none';
+    navRegister.style.display = 'none';
+    navLogout.style.display = 'flex';
+  } else {
+    navLogin.style.display = 'flex';
+    navRegister.style.display = 'flex';
+    navLogout.style.display = 'none';
+  }
+}
+
+function handleLogout() {
+  const modal = document.getElementById('logout-modal');
+  if (modal) modal.classList.add('show');
+}
+
+function closeLogoutModal(e) {
+  const modal = document.getElementById('logout-modal');
+  if (modal) modal.classList.remove('show');
+}
+
+async function executeLogout() {
+  closeLogoutModal();
+  try {
+    if (typeof VeloraSec !== 'undefined' && VeloraSec.API && VeloraSec.API.Auth) {
+      await VeloraSec.API.Auth.logout();
+    }
+  } catch (err) {
+    console.warn("API Logout failed, clearing local session anyway.", err);
+  } finally {
+    if (typeof SessionManager !== 'undefined') {
+      SessionManager.clearAll();
+    } else if (typeof TokenManager !== 'undefined') {
+      TokenManager.clear();
+      if (typeof VELORASEC_CONFIG !== 'undefined') {
+        localStorage.removeItem(VELORASEC_CONFIG.USER_KEY);
+      }
+    } else {
+      // Fallback manual if managers are somehow not loaded
+      localStorage.removeItem('vs_access_token');
+      localStorage.removeItem('vs_refresh_token');
+      localStorage.removeItem('vs_user');
+    }
+    localStorage.removeItem('cyb-xp');
+    sessionStorage.clear();
+    
+    history.replaceState({ section: 'hero' }, '', '#hero');
+    _renderSection('hero');
+    if (typeof startTyping === 'function') startTyping();
+    updateAuthNav();
+  }
+}
+
+// Call on initial load
+window.addEventListener('DOMContentLoaded', updateAuthNav);
+
+/* ================================================================
    SIDEBAR
 ================================================================ */
 function toggleSidebar() {
@@ -608,7 +686,12 @@ function closeSidebar() {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebar-overlay').classList.remove('show');
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+document.addEventListener('keydown', e => { 
+  if (e.key === 'Escape') {
+    closeSidebar();
+    closeLogoutModal();
+  }
+});
 
 /* ================================================================
    PARTICLES
@@ -699,22 +782,8 @@ function toggleAcc(id, header) {
 }
 
 /* ================================================================
-   DASHBOARD — FIX: counter starts from 0, circle animates on open
+   ANIMATION UTILITIES
 ================================================================ */
-function buildDashboard() {
-  buildLevelBars();
-  buildActivity();
-  requestAnimationFrame(() => {
-    animCounter('cnt-completed', 9, 900);
-    animCounter('cnt-streak', 7, 700);
-    setTimeout(() => {
-      animBar('pb-completed', 19);
-      animBar('pb-streak', 70);
-      animCircle(20);
-    }, 120);
-  });
-}
-
 function animCounter(id, to, dur) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -732,72 +801,167 @@ function animBar(id, pct) {
   const el = document.getElementById(id);
   if (!el) return;
   el.style.width = '0%';
-  requestAnimationFrame(() => { el.style.transition = 'width 1.3s cubic-bezier(0.4,0,0.2,1)'; el.style.width = pct + '%'; });
+  requestAnimationFrame(() => {
+    el.style.transition = 'width 1.3s cubic-bezier(0.4,0,0.2,1)';
+    el.style.width = (pct || 0) + '%';
+  });
 }
 
-// FIX: circle animates when section is opened (not on DOMContentLoaded)
 function animCircle(pct) {
   const circle = document.getElementById('progressCircle');
-  const label = document.getElementById('circPct');
+  const label  = document.getElementById('circPct');
   if (!circle || !label) return;
-  const circ = 2 * Math.PI * 50; // ≈ 314.16
+  const circ = 2 * Math.PI * 50;
   circle.style.strokeDashoffset = circ;
   label.textContent = '0%';
   setTimeout(() => {
-    circle.style.strokeDashoffset = circ * (1 - pct / 100);
-    // Animate % label
+    circle.style.strokeDashoffset = circ * (1 - (pct || 0) / 100);
     const dur = 1400, start = performance.now();
     (function step(now) {
       const p = Math.min((now - start) / dur, 1);
-      label.textContent = Math.round(pct * (1 - Math.pow(1 - p, 3))) + '%';
+      label.textContent = Math.round((pct || 0) * (1 - Math.pow(1 - p, 3))) + '%';
       if (p < 1) requestAnimationFrame(step);
     })(performance.now());
   }, 120);
 }
 
-function buildLevelBars() {
+function buildLevelBars(arg) {
+  const totalPct = typeof arg === 'number' ? arg : (arg.completion_pct || 0);
   const levels = [
-    { name: "L1: Fundamentals", pct: 80, color: "#22c55e" },
-    { name: "L2: Networking", pct: 55, color: "#00bfff" },
-    { name: "L3: Cyber Core", pct: 30, color: "#8b5cf6" },
-    { name: "L4: Web Security", pct: 20, color: "#f59e0b" },
-    { name: "L5: Sys Attacks", pct: 0, color: "#ef4444" },
-    { name: "L6: Defensive", pct: 0, color: "#00ffcc" },
-    { name: "L7: Advanced", pct: 0, color: "#ec4899" }
+    { name: 'L1: Fundamentals', color: '#22c55e' },
+    { name: 'L2: Networking',   color: '#00bfff' },
+    { name: 'L3: Cyber Core',   color: '#8b5cf6' },
+    { name: 'L4: Web Security', color: '#f59e0b' },
+    { name: 'L5: Sys Attacks',  color: '#ef4444' },
+    { name: 'L6: Defensive',    color: '#00ffcc' },
+    { name: 'L7: Advanced',     color: '#ec4899' }
   ];
+  let remaining = totalPct;
+  const pctPerLevel = 100 / levels.length;
+  const mapped = levels.map(function(l) {
+    var pct = 0;
+    if (remaining >= pctPerLevel) { pct = 100; remaining -= pctPerLevel; }
+    else if (remaining > 0) { pct = Math.round((remaining / pctPerLevel) * 100); remaining = 0; }
+    return { name: l.name, color: l.color, pct: pct };
+  });
   const el = document.getElementById('levelBars');
   if (!el) return;
-  el.innerHTML = levels.map(l => `
-    <div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px">
-        <span>${l.name}</span><span style="color:${l.color}">${l.pct}%</span>
-      </div>
-      <div class="progress-wrap">
-        <div class="progress-fill" style="width:${l.pct}%;background:linear-gradient(90deg,${l.color}88,${l.color})"></div>
-      </div>
-    </div>
-  `).join('');
+  el.innerHTML = mapped.map(function(l) {
+    return '<div>' +
+      '<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px">' +
+        '<span>' + l.name + '</span>' +
+        '<span style="color:' + l.color + '">' + l.pct + '%</span>' +
+      '</div>' +
+      '<div class="progress-wrap">' +
+        '<div class="progress-fill" style="width:' + l.pct + '%;background:linear-gradient(90deg,' + l.color + '88,' + l.color + ')"></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
 }
 
-function buildActivity() {
-  const items = [
-    { icon: 'fa-check', icon2: 'var(--success)', text: 'Completed: TCP/IP Protocol Suite', time: '2j lalu' },
-    { icon: 'fa-flask', icon2: 'var(--secondary)', text: 'Lab: Wireshark Traffic Analysis', time: '5j lalu' },
-    { icon: 'fa-circle-question', icon2: 'var(--accent)', text: 'Quiz: Networking — 3/4 benar', time: '1h lalu' },
-    { icon: 'fa-check', icon2: 'var(--success)', text: 'Completed: OSI Model Module', time: '2h lalu' },
-    { icon: 'fa-book-open', icon2: 'var(--primary)', text: 'Dimulai: SQL Injection Module', time: '3h lalu' }
-  ];
+/* ================================================================
+   DASHBOARD
+================================================================ */
+async function buildDashboard() {
+  try {
+    const summary = await VeloraSec.API.Dashboard.getSummary();
+
+    let compCount = 0;
+    let totalMods = typeof MODULES !== 'undefined' ? MODULES.length : 10;
+    let modPct = 0;
+
+    try {
+      if (typeof VeloraSec !== 'undefined' && VeloraSec.Token && VeloraSec.Token.isLoggedIn()) {
+        const pResp = await VeloraSec.API.Progress.getAll();
+        const prog = pResp.progress || [];
+        
+        const uniqueCompleted = new Set();
+        prog.forEach(p => {
+          if (p.is_completed) uniqueCompleted.add(p.module_id);
+        });
+        
+        compCount = uniqueCompleted.size;
+        modPct = Math.round((compCount / totalMods) * 100) || 0;
+      }
+    } catch(err) {
+      console.warn('[VeloraSec] Failed to load module progress for dashboard', err);
+    }
+
+    const plannerCompleted = summary.completed_tasks || 0;
+    const plannerTotal = summary.total_tasks || 0;
+    
+    const overallCompleted = plannerCompleted + compCount;
+    const overallTotal = plannerTotal + totalMods;
+    const overallPercent = overallTotal > 0 ? Math.round((overallCompleted / overallTotal) * 100) : 0;
+
+    const cntEl = document.getElementById('cnt-completed');
+    if (cntEl && cntEl.nextElementSibling) {
+      cntEl.nextElementSibling.textContent = 'of ' + plannerTotal + ' tasks';
+    }
+
+    buildLevelBars(overallPercent);
+
+    requestAnimationFrame(function() {
+      animCounter('cnt-completed', plannerCompleted, 900);
+      animCounter('cnt-streak',    summary.streak_days || 0, 700);
+      setTimeout(function() {
+        animBar('pb-completed', summary.completion_pct || 0);
+        animBar('pb-streak',    (summary.streak_days || 0) * 10);
+        animCircle(overallPercent);
+      }, 120);
+    });
+
+    var xpEl = document.getElementById('totalXP');
+    if (xpEl) xpEl.textContent = summary.total_xp || 0;
+
+    buildActivity(summary.recent_activity || []);
+
+    const cards = document.querySelectorAll('.dash-top .glass-card');
+    if (cards.length >= 5) {
+      const estCard = cards[4];
+      estCard.innerHTML = `
+        <div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:8px">MODULES</div>
+        <div class="stat-num" style="color:var(--accent);font-size:22px" id="cnt-modules">0</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px">of ${totalMods} completed</div>
+        <div class="progress-wrap"><div class="progress-fill pg-teal" id="pb-modules" style="width:0%"></div></div>
+      `;
+      setTimeout(() => {
+        animCounter('cnt-modules', compCount, 800);
+        animBar('pb-modules', modPct);
+      }, 150);
+    }
+
+  } catch (err) {
+    console.warn('[VeloraSec] Dashboard load failed:', err);
+  }
+}
+
+function buildActivity(items) {
+  items = items || [];
   const el = document.getElementById('recentActivity');
   if (!el) return;
-  el.innerHTML = items.map(a =>
-    `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--glass-border)">
-      <div style="width:28px;height:28px;border-radius:6px;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <i class="fas ${a.icon}" style="color:${a.icon2};font-size:12px"></i>
-      </div>
-      <div style="flex:1;font-size:12px">${a.text}</div>
-      <div style="font-size:10px;color:var(--muted);white-space:nowrap">${a.time}</div>
-    </div>`
-  ).join('');
+
+  if (!items.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:12px;text-align:center;padding:20px">Belum ada aktivitas.</div>';
+    return;
+  }
+
+  el.innerHTML = items.map(function(a) {
+    var isPlanner = a.type === 'planner';
+    var icon  = isPlanner ? 'fa-calendar-check' : 'fa-check';
+    var title = isPlanner ? 'Selesai: Task ' + a.task_key : 'Selesai: ' + (a.task_key || 'Tugas');
+    var d = new Date(a.timestamp);
+    var timeStr = isNaN(d.getTime()) ? 'Baru saja' : d.toLocaleDateString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    return '<div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start">' +
+      '<div style="width:28px;height:28px;border-radius:6px;background:rgba(0,255,204,0.1);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">' +
+        '<i class="fas ' + icon + '"></i>' +
+      '</div>' +
+      '<div>' +
+        '<div style="font-size:12px;font-weight:700;margin-bottom:3px">' + title + '</div>' +
+        '<div style="font-size:10px;color:var(--muted)"><i class="fas fa-clock" style="margin-right:4px"></i>' + timeStr + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
 }
 
 /* ================================================================
@@ -830,17 +994,33 @@ function buildRoadmap() {
 }
 
 /* ================================================================
-   MODULES — FIX: filter always works, renderModules is standalone
+   MODULES
 ================================================================ */
-function buildModules() { renderModules(MODULES); }
+async function buildModules() { await renderModules(MODULES); }
 
-function renderModules(data) {
+async function renderModules(data) {
   const list = document.getElementById('moduleList');
   if (!list) return;
   if (!data.length) { list.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:20px 0">Tidak ada modul ditemukan.</div>`; return; }
+  
+  let completedIds = new Set();
+  try {
+    if (typeof VeloraSec !== 'undefined' && VeloraSec.Token && VeloraSec.Token.isLoggedIn()) {
+      const resp = await VeloraSec.API.Progress.getAll();
+      if (resp && resp.progress) {
+        resp.progress.forEach(p => {
+          if (p.is_completed) completedIds.add(p.module_id);
+        });
+      }
+    }
+  } catch (err) {
+    console.warn("[VeloraSec] Failed loading module progress:", err);
+  }
+
   const levelBadge = { beginner: 'b-green', intermediate: 'b-yellow', advanced: 'b-red' };
-  list.innerHTML = data.map(m =>
-    `<div class="module-item" data-level="${m.level}" style="margin-bottom:10px">
+  list.innerHTML = data.map(m => {
+    const isCompleted = completedIds.has(m.id);
+    return `<div class="module-item" data-level="${m.level}" style="margin-bottom:10px">
       <div class="acc-header" onclick="toggleAcc('m-${m.id}',this)">
         <div style="display:flex;align-items:center;gap:12px;min-width:0">
           <div style="width:32px;height:32px;border-radius:8px;background:${m.color}18;color:${m.color};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0"><i class="${m.icon}"></i></div>
@@ -850,6 +1030,7 @@ function renderModules(data) {
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:8px">
+          ${isCompleted ? '<span class="badge b-teal" style="padding:4px 8px"><i class="fas fa-check"></i></span>' : ''}
           <span class="badge ${levelBadge[m.level] || 'b-green'}">${m.level}</span>
           <i class="fas fa-chevron-down acc-chevron"></i>
         </div>
@@ -863,18 +1044,43 @@ function renderModules(data) {
               ${s.code ? codeBlock(s.code) : ''}
             </div>`
     ).join('')}
+          <div style="margin-top:20px;text-align:right">
+            ${isCompleted 
+               ? `<button class="cyber-btn" style="background:var(--success);color:#000;padding:6px 14px;font-size:11px" disabled><i class="fas fa-check"></i> Completed</button>`
+               : `<button class="cyber-btn btn-outline" style="padding:6px 14px;font-size:11px" onclick="markModuleCompleted('${m.id}', event)">✓ Mark as Completed</button>`
+            }
+          </div>
         </div>
       </div>
     </div>`
-  ).join('');
+  }).join('');
 }
 
-// FIX: filterModules ensures section is initialized before filtering
-function filterModules(level, btn) {
+async function markModuleCompleted(id, e) {
+  if (e) e.stopPropagation();
+  try {
+    const btn = e ? e.currentTarget : null;
+    if (btn) {
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      btn.disabled = true;
+    }
+    await VeloraSec.API.Progress.update(id, true);
+    await buildModules(); // Refresh UI
+  } catch (err) {
+    console.warn("Failed to complete module", err);
+    alert("Gagal memperbarui progress modul.");
+    if (e && e.currentTarget) {
+      e.currentTarget.innerHTML = '✓ Mark as Completed';
+      e.currentTarget.disabled = false;
+    }
+  }
+}
+
+async function filterModules(level, btn) {
   document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  if (!sectionInited['modules']) { sectionInited['modules'] = true; buildModules(); return; }
-  renderModules(level === 'all' ? MODULES : MODULES.filter(m => m.level === level));
+  if (!sectionInited['modules']) { sectionInited['modules'] = true; await buildModules(); return; }
+  await renderModules(level === 'all' ? MODULES : MODULES.filter(m => m.level === level));
 }
 
 /* ================================================================
@@ -933,7 +1139,7 @@ function buildLabs() {
 }
 
 /* ================================================================
-   QUIZ — FIX: DOM-based rendering, no inline string event handlers
+   QUIZ
 ================================================================ */
 let QS = { catIdx: -1, qIdx: 0, score: 0 };
 
@@ -1016,9 +1222,34 @@ function answerQ(sel, q, optsDiv, fbDiv) {
   fbDiv.appendChild(nextBtn);
 }
 
-function showResult() {
-  const cat = QUIZ_DATA[QS.catIdx];
-  const pct = Math.round((QS.score / cat.questions.length) * 100);
+async function showResult() {
+    console.log("SHOW RESULT CALLED", QS);
+
+    const cat = QUIZ_DATA[QS.catIdx];
+    const pct = Math.round((QS.score / cat.questions.length) * 100);
+
+    try {
+        console.log("Saving quiz...", {
+            category: cat.category,
+            score: QS.score,
+            total: cat.questions.length
+        });
+
+        const res = await VeloraSec.API.Quiz.saveResult(
+            cat.category,
+            QS.score,
+            cat.questions.length
+        );
+
+        console.log("SAVE RESPONSE:", res);
+
+        await buildDashboard();
+
+        console.log("Dashboard refreshed");
+    } catch(err) {
+        console.error("SAVE FAILED:", err);
+    }
+
   const area = document.getElementById('quizArea');
   if (!area) return;
   const msg = pct >= 80 ? '🎉 Luar biasa! Pemahaman yang kuat.' : pct >= 60 ? '👍 Bagus! Tinjau topik yang terlewat.' : '📚 Terus belajar! Kunjungi kembali modulnya.';
@@ -1159,91 +1390,72 @@ function buildMindset() {
 }
 
 /* ================================================================
-   PLANNER — FIX: dedicated IDs, clean toggle, no dead code
+   PLANNER
 ================================================================ */
-function getPlannerData() { try { return JSON.parse(localStorage.getItem('cyb-planner') || '{}'); } catch (e) { return {}; } }
-function setPlannerData(d) { try { localStorage.setItem('cyb-planner', JSON.stringify(d)); } catch (e) { } }
+async function buildPlanner() {
+  try {
+    const saved = await VeloraSec.API.Planner.getAll();
+    const map = {};
+    if (saved && saved.tasks) saved.tasks.forEach(t => map[t.task_key] = t.is_done);
+    
+    const c = document.getElementById('plannerContainer');
+    if (!c) return;
+    const total = PLANNER.reduce((s, w) => s + w.days.length, 0);
+    const done = Object.values(map).filter(Boolean).length;
+    const pct = Math.round((done / total) * 100);
 
-function buildPlanner() {
-  const saved = getPlannerData();
-  const c = document.getElementById('plannerContainer');
-  if (!c) return;
-  const total = PLANNER.reduce((s, w) => s + w.days.length, 0);
-  const done = Object.values(saved).filter(Boolean).length;
-  const pct = Math.round((done / total) * 100);
-
-  let html = `
-    <div class="glass-card" style="margin-bottom:20px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <div style="font-size:12px;font-weight:700;color:var(--primary);letter-spacing:2px">30-DAY COMPLETION</div>
-        <div style="font-size:20px;font-weight:900;color:var(--primary)" id="plannerPct">${pct}%</div>
+    let html = `
+      <div class="glass-card" style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:700;color:var(--primary);letter-spacing:2px">30-DAY COMPLETION</div>
+          <div style="font-size:20px;font-weight:900;color:var(--primary)" id="plannerPct">${pct}%</div>
+        </div>
+        <div class="progress-wrap" style="height:9px">
+          <div class="progress-fill pg-teal" id="plannerBar" style="width:${pct}%"></div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:7px" id="plannerCount">${done} dari ${total} tugas selesai</div>
       </div>
-      <div class="progress-wrap" style="height:9px">
-        <div class="progress-fill pg-teal" id="plannerBar" style="width:${pct}%"></div>
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:7px" id="plannerCount">${done} dari ${total} tugas selesai</div>
-    </div>
-  `;
+    `;
 
-  PLANNER.forEach((wk, wi) => {
-    html += `<div class="glass-card" style="margin-bottom:14px">
-      <div style="font-size:12px;font-weight:700;color:var(--secondary);margin-bottom:3px;letter-spacing:2px">WEEK ${wk.week}</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:14px">${esc(wk.theme)}</div>`;
-    wk.days.forEach((day, di) => {
-      const key = `w${wi}d${di}`;
-      const isDone = !!saved[key];
-      html += `<div class="check-item${isDone ? ' done' : ''}" id="ci-${key}" onclick="toggleTask('${key}')">
-        <div class="ci-box">${isDone ? '<i class="fas fa-check" style="font-size:10px;color:#000"></i>' : ''}</div>
-        <div class="ci-text">Hari ${di + 1}: ${esc(day)}</div>
-      </div>`;
+    PLANNER.forEach((wk, wi) => {
+      html += `<div class="glass-card" style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--secondary);margin-bottom:3px;letter-spacing:2px">WEEK ${wk.week}</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px">${esc(wk.theme)}</div>`;
+      wk.days.forEach((day, di) => {
+        const key = `w${wi}d${di}`;
+        const isDone = !!map[key];
+        html += `<div class="check-item${isDone ? ' done' : ''}" id="ci-${key}" onclick="toggleTask('${key}')">
+          <div class="ci-box">${isDone ? '<i class="fas fa-check" style="font-size:10px;color:#000"></i>' : ''}</div>
+          <div class="ci-text">Hari ${di + 1}: ${esc(day)}</div>
+        </div>`;
+      });
+      html += `</div>`;
     });
-    html += `</div>`;
-  });
 
-  html += `<div style="text-align:center;margin-top:10px">
-    <button class="cyber-btn btn-outline" style="padding:8px 20px;border:1px solid;font-size:11px" onclick="resetPlanner()">
-      <i class="fas fa-rotate-left"></i> Reset Progress
-    </button>
-  </div>`;
-  c.innerHTML = html;
+    html += `<div style="text-align:center;margin-top:10px">
+      <button class="cyber-btn btn-outline" style="padding:8px 20px;border:1px solid;font-size:11px" onclick="resetPlanner()">
+        <i class="fas fa-rotate-left"></i> Reset Progress
+      </button>
+    </div>`;
+    c.innerHTML = html;
+  } catch(e) { console.error(e); }
 }
 
-// FIX: no dead code, updates specific elements by ID
-function toggleTask(key) {
-  const saved = getPlannerData();
-  saved[key] = !saved[key];
-  setPlannerData(saved);
-
-  // Update the check item in DOM
-  const item = document.getElementById('ci-' + key);
-  if (item) {
-    const isDone = !!saved[key];
-    item.classList.toggle('done', isDone);
-    const box = item.querySelector('.ci-box');
-    if (box) box.innerHTML = isDone ? '<i class="fas fa-check" style="font-size:10px;color:#000"></i>' : '';
-  }
-
-  // Update progress display
-  const total = PLANNER.reduce((s, w) => s + w.days.length, 0);
-  const done = Object.values(saved).filter(Boolean).length;
-  const pct = Math.round((done / total) * 100);
-
-  const bar = document.getElementById('plannerBar');
-  const pEl = document.getElementById('plannerPct');
-  const cEl = document.getElementById('plannerCount');
-  if (bar) bar.style.width = pct + '%';
-  if (pEl) pEl.textContent = pct + '%';
-  if (cEl) cEl.textContent = `${done} dari ${total} tugas selesai`;
-
-  updateXP();
+async function toggleTask(key) {
+  try {
+    await VeloraSec.API.Planner.updateTask(key);
+    await buildPlanner();
+    await buildDashboard();
+  } catch (e) { console.error(e); }
 }
 
-function resetPlanner() {
-  if (!confirm('Reset semua progress planner? Tidak bisa dibatalkan.')) return;
-  setPlannerData({});
-  updateXP();
-  sectionInited['planner'] = false;
-  buildPlanner();
+async function resetPlanner() {
+  if (!confirm('Reset semua progress planner?')) return;
+  try {
+    await VeloraSec.API.Planner.resetAll();
+    await buildPlanner();
+    await buildDashboard();
+  } catch (e) { console.error(e); }
 }
 
 /* ================================================================
@@ -1275,23 +1487,12 @@ function buildResources() {
 }
 
 /* ================================================================
-   XP SYSTEM
-================================================================ */
-function updateXP() {
-  const done = Object.values(getPlannerData()).filter(Boolean).length;
-  const xp = done * 10;
-  try { localStorage.setItem('cyb-xp', xp); } catch (e) { }
-  const el = document.getElementById('totalXP');
-  if (el) el.textContent = xp;
-}
-
-/* ================================================================
-   GLOBAL SEARCH — FIX: debounced, no race condition
+   GLOBAL SEARCH
 ================================================================ */
 let searchTimer = null;
 function globalSearchFn(q) {
   clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => {
+  searchTimer = setTimeout(async () => {
     const query = q.trim().toLowerCase();
     if (!query || query.length < 2) return;
     const results = MODULES.filter(m =>
@@ -1300,8 +1501,7 @@ function globalSearchFn(q) {
       m.sections.some(s => s.title.toLowerCase().includes(query) || s.body.toLowerCase().includes(query))
     );
     showSection('modules');
-    renderModules(results);
-    // Reset filter tab UI
+    await renderModules(results);
     document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
     const all = document.querySelector('.ftab');
     if (all) all.classList.add('active');
@@ -1311,36 +1511,29 @@ function globalSearchFn(q) {
 /* ================================================================
    INIT
 ================================================================ */
-
 document.addEventListener('DOMContentLoaded', () => {
   buildParticles();
+  const isLoggedIn = typeof VeloraSec !== 'undefined' && VeloraSec.Token && VeloraSec.Token.isLoggedIn();
 
-  // Load saved XP
-  try {
-    const xp = localStorage.getItem('cyb-xp') || '0';
-    const el = document.getElementById('totalXP');
-    if (el) el.textContent = xp;
-  } catch (e) { }
+  if (!isLoggedIn) {
+    history.replaceState({ section: 'hero' }, '', '#hero');
+    _renderSection('hero');
+    startTyping();
+    return;
+  }
 
-  // Hash routing init — baca URL saat pertama buka
   const initSection = _hashToSection();
 
   if (initSection === 'hero') {
-    // Hero sudah display:block di HTML, typing langsung jalan
     startTyping();
     sectionInited['hero'] = true;
-    // Set hash tanpa pushState agar history bersih
     history.replaceState({ section: 'hero' }, '', '#hero');
-    // Pastikan active nav sinkron
     document.querySelectorAll('.nav-item[data-section]').forEach(n => {
       n.classList.toggle('active', n.dataset.section === 'hero');
     });
   } else {
-    // User buka URL dengan hash tertentu, langsung render section itu
-    // Hero disembunyikan dulu
     const heroEl = document.getElementById('sec-hero');
     if (heroEl) heroEl.style.display = 'none';
-    _renderSection(initSection);
-    // Typing tidak dijalankan (bukan di hero)
+    _renderSection(initSection || 'dashboard');
   }
 });

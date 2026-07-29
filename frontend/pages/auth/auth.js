@@ -223,36 +223,34 @@ function _simulateForgotPassword(email) {
  *   5. Tangani error jika gagal
  */
 async function handleLogin() {
+  console.log("HANDLE LOGIN DIPANGGIL");
+
   const email = document.getElementById('login-email')?.value.trim();
   const pw    = document.getElementById('login-pw')?.value;
 
-  // ── Validasi ──
+  console.log("Email:", email);
+
   if (!email || !pw) {
     showAuthMsg('login-msg', 'error', 'Email and password are required.');
     return;
   }
-  if (!email.includes('@')) {
-    showAuthMsg('login-msg', 'error', 'Enter a valid email address.');
-    return;
-  }
 
-  setLoadingState('login-btn', true, 'Authenticating...');
-  showAuthMsg('login-msg', 'info', 'Authenticating...');
+  console.log("DEMO_MODE =", VELORASEC_CONFIG?.DEMO_MODE);
 
   try {
+    setLoadingState('login-btn', true, 'Authenticating...');
+    showAuthMsg('login-msg', 'info', 'Authenticating...');
+    
     if (typeof VELORASEC_CONFIG !== 'undefined' && !VELORASEC_CONFIG.DEMO_MODE) {
-      // ── [MIGRATE → Phase 11] Real API ──────────────────────────────
-      // Hapus baris _simulateLogin di bawah dan uncomment ini:
-      // await VeloraSec.API.Auth.login(email, pw);
-      // ────────────────────────────────────────────────────────────────
-      await VeloraSec.API.Auth.login(email, pw); // akan throw ApiError jika gagal
+      await VeloraSec.API.Auth.login(email, pw);
     } else {
-      // ── DEMO MODE: simulasi ──
       await _simulateLogin(email);
     }
 
     showAuthMsg('login-msg', 'success', 'Login successful! Redirecting to dashboard...');
-    setTimeout(() => { window.location.href = AUTH_REDIRECT.AFTER_LOGIN; }, 1200);
+    setTimeout(() => {
+        window.location.href = AUTH_REDIRECT.AFTER_LOGIN;
+    }, 5000);
 
   } catch (err) {
     const msg = _resolveAuthError(err, {
