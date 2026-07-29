@@ -32,7 +32,7 @@ def create_app(config_name: str | None = None) -> Flask:
     Returns:
         Flask app instance yang sudah fully configured.
     """
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="../frontend", static_url_path="")
 
     # ── Load Configuration ────────────────────────────────────────────────
     from config import config_map
@@ -77,6 +77,16 @@ def create_app(config_name: str | None = None) -> Flask:
             'version': '1.0.0',
             'env':     env,
         }), 200
+
+    # ── Static File Routes (Render Deployment) ────────────────────────────
+    @app.route("/")
+    def index():
+        return app.send_static_file("pages/index.html")
+
+    @app.route("/<path:path>")
+    def static_proxy(path):
+        # Fallback agar semua asset (css, js, images) bisa diakses dari root url
+        return app.send_static_file(path)
 
     return app
 

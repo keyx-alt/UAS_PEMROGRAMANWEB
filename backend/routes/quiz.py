@@ -112,16 +112,30 @@ def save_result():
             'status':  400,
         }), 400
 
-    result = QuizResult(
-        user_id  = user_id,
-        category = category.strip(),
-        score    = score,
-        total    = total,
-    )
-    db.session.add(result)
-    db.session.commit()
+    try:
+        result = QuizResult(
+            user_id  = user_id,
+            category = category.strip(),
+            score    = score,
+            total    = total,
+        )
+        db.session.add(result)
+        db.session.flush() # Amankan ID dan default values sebelum commit
+        
+        result_data = result.to_dict() # Serialisasi saat objek masih terikat session
+        
+        db.session.commit()
 
-    return jsonify({
-        'message': 'Hasil quiz berhasil disimpan.',
-        'result':  result.to_dict(),
-    }), 201
+        return jsonify({
+            'message': 'Hasil quiz berhasil disimpan.',
+            'result':  result_data,
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        import traceback
+        return jsonify({
+            'error': 'InternalServerError',
+            'message': str(e),
+            'traceback': traceback.format_exc(),
+            'status': 500
+        }), 500
