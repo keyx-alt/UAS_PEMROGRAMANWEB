@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Login — VeloraSec</title>
+<link rel="icon" type="image/png" sizes="32x32" rel="icon" href="../../image/icons8-login-32.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="../../style.css"/>
+<link rel="stylesheet" href="auth.css"/>
+</head>
+<body>
+
+<div class="cyber-grid" aria-hidden="true"></div>
+<div id="particles" aria-hidden="true"></div>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+
+    <!-- Logo -->
+    <div class="auth-logo">
+      <i class="fas fa-shield-halved" style="color:var(--primary);font-size:24px"></i>
+      <div>
+        <div style="font-size:15px;font-weight:900;letter-spacing:2px;color:var(--primary)">VeloraSec</div>
+        <div style="font-size:8px;color:var(--muted);letter-spacing:3px">LEARNING HUB</div>
+      </div>
+    </div>
+
+    <div class="auth-title">Welcome Back</div>
+    <div class="auth-sub">&gt; Authenticate to continue your mission</div>
+
+    <!-- Email -->
+    <div class="input-group">
+      <label class="input-label">Email</label>
+      <div class="input-icon-wrap">
+        <i class="fas fa-at ii"></i>
+        <input type="email" class="cyber-input" placeholder="operator@velorasec.io"
+               id="login-email" autocomplete="email"/>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="input-group">
+      <label class="input-label">Password</label>
+      <div class="input-icon-wrap" style="position:relative">
+        <i class="fas fa-lock ii"></i>
+        <input type="password" class="cyber-input" placeholder="••••••••••••"
+               id="login-pw" autocomplete="current-password"/>
+        <button class="pw-toggle" onclick="togglePw('login-pw',this)"
+                tabindex="-1" aria-label="Toggle password">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Remember / Forgot -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;margin-top:-4px">
+      <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);cursor:pointer">
+        <input type="checkbox" id="login-remember" style="accent-color:var(--primary)"/>
+        Remember me
+      </label>
+      <a class="auth-link" href="forgot-password.html">Forgot password?</a>
+    </div>
+
+    <button class="cyber-btn btn-primary auth-btn-full" onclick="handleLogin()">
+      <i class="fas fa-terminal"></i> AUTHENTICATE
+    </button>
+
+    <div class="auth-divider">or</div>
+
+    <button class="cyber-btn btn-outline auth-btn-full"
+            onclick="window.location.href='../../index.html#hero'">
+      <i class="fas fa-eye"></i> EXPLORE AS GUEST
+    </button>
+
+    <div class="auth-footer">
+      No account? <a class="auth-link" href="register.html">Create one →</a>
+    </div>
+
+    <div id="login-msg" style="display:none;margin-top:14px"></div>
+
+  </div>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>

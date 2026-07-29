@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeloraSec - About Us</title>
+    <link rel="icon" type="image/png" sizes="32x32" rel="icon" href="../image/icons8-about-32.png">
+    <meta name="description"
+        content="Tentang VeloraSec — Platform edukasi cybersecurity yang dibangun untuk membentuk mindset dan skill profesional, dari nol hingga siap industri.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6.5.0 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#050a0f',
+                        neonCyan: '#00ffcc',
+                        darkBorder: '#1a2e35',
+                        panelBg: '#0a1218',
+                        neonPurple: '#9966ff'
+                    },
+                    fontFamily: {
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050a0f;
+            color: #d1d5db;
+        }
+
+        .bg-grid-pattern {
+            background-image:
+                linear-gradient(to right, #1a2e35 1px, transparent 1px),
+                linear-gradient(to bottom, #1a2e35 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.4), 0 0 30px rgba(0, 255, 204, 0.2);
+        }
+
+        .glow-purple {
+            text-shadow: 0 0 15px rgba(153, 102, 255, 0.4), 0 0 30px rgba(153, 102, 255, 0.2);
+        }
+
+        .card-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.08), 0 4px 24px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 255, 204, 0.25);
+        }
+
+        .card-glow {
+            transition: all 0.3s ease;
+        }
+
+        .stat-bar {
+            height: 3px;
+            border-radius: 999px;
+            background: rgba(0, 255, 204, 0.12);
+            overflow: hidden;
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #00ffcc, #9966ff);
+            animation: fillBar 1.5s ease forwards;
+            transform-origin: left;
+        }
+
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: var(--neonPurple) transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neonPurple);
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neonCyan);
+        }
+
+        @keyframes fillBar {
+            from {
+                width: 0%;
+            }
+        }
+
+        .pillar-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.4s;
+        }
+
+        .social-icon {
+            transition: color 0.2s, filter 0.2s, transform 0.2s;
+        }
+
+        .social-icon:hover {
+            color: #00ffcc !important;
+            filter: drop-shadow(0 0 6px rgba(0, 255, 204, 0.6));
+            transform: translateY(-2px);
+        }
+
+        .nav-back:hover {
+            background: rgba(0, 255, 204, 0.12);
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen font-mono relative overflow-x-hidden flex flex-col selection:bg-neonCyan selection:text-black">
+
+    <!-- Background Grid -->
+    <div class="absolute inset-0 z-0 opacity-20 bg-grid-pattern pointer-events-none"></div>
+
+    <!-- Subtle background glows -->
+    <div
+        class="absolute top-1/4 left-1/4 w-96 h-96 bg-neonCyan rounded-full blur-[150px] opacity-5 z-0 pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neonPurple rounded-full blur-[150px] opacity-5 z-0 pointer-events-none">
+    </div>
+    <div
+        class="absolute top-3/4 left-1/2 w-64 h-64 bg-neonCyan rounded-full blur-[120px] opacity-3 z-0 pointer-events-none">
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header
+        class="relative z-10 w-full p-6 flex justify-between items-center border-b border-darkBorder bg-darkBg/80 backdrop-blur-sm">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-shield-halved text-3xl text-neonCyan"
+                style="filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.6))"></i>
+            <div>
+                <h1 class="text-xl font-bold tracking-wider text-white">VeloraSec</h1>
+                <p class="text-[10px] text-gray-500 tracking-[0.2em] uppercase">Learning Hub</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-gray-500">
+            <span class="hidden sm:inline-block">System / About</span>
+            <div class="flex items-center gap-2 border border-darkBorder rounded-full px-3 py-1 bg-panelBg">
+                <div class="w-2 h-2 rounded-full bg-neonCyan animate-pulse"></div>
+                <span class="text-neonCyan">ONLINE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="relative z-10 flex-grow w-full max-w-5xl mx-auto px-6 py-12">
+
+        <!-- ── HERO ── -->
+        <div class="flex flex-col items-start md:items-center md:text-center mb-14 fade-in">
+            <!-- Badge -->
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1 mb-5 rounded-full border border-neonCyan/30 bg-neonCyan/5">
+                <i class="fa-solid fa-circle-info text-base text-neonCyan"></i>
+                <span class="text-xs text-neonCyan tracking-widest font-semibold uppercase">About VeloraSec</span>
+            </div>
+
+            <!-- Headline -->
+            <h2 class="text-5xl md:text-7xl font-bold mb-4 tracking-tight">
+                <span class="block text-neonCyan mb-2 glow-text">Cybersecurity</span>
+                <span class="block text-white">Learning Hub</span>
+            </h2>
+
+            <!-- Typing text -->
+            <div class="mt-6 mb-4 h-8 max-w-2xl text-sm md:text-base text-gray-400 leading-relaxed">
+                <span id="typing-text"></span><span class="animate-pulse text-neonCyan">_</span>
+            </div>
+        </div>
+
+        <!-- ── MISSION ── -->
+        <div class="border border-neonCyan/20 bg-neonCyan/5 rounded-xl p-7 mb-8 card-glow fade-in delay-1">
+            <div class="flex items-start gap-5">
+                <div class="pillar-icon bg-neonCyan/10 border border-neonCyan/25">
+                    <i class="fa-solid fa-terminal text-neonCyan text-lg"></i>
+                </div>
+                <div>
+                    <div class="text-[10px] text-gray-500 tracking-[0.25em] uppercase mb-2">Mission Statement</div>
+                    <p class="text-[15px] leading-8 text-gray-300">
+                        Kami percaya keamanan siber adalah
+                        <span class="text-neonCyan font-bold glow-text">mindset, bukan sekadar toolset</span>.
+                        VeloraSec hadir untuk membangun fondasi yang kuat memahami cara berpikir penyerang,
+                        lalu bertahan seperti seorang profesional nyata di industri.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── STATS ── -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-10 fade-in delay-2">
+            <!-- stat -->
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-5 text-center card-glow">
+                <div class="text-3xl font-black text-neonCyan glow-text mb-1">7</div>
+                <div class="text-[10px] text-gray-500 tracking-widest uppercase">Learning Levels</div>
+            </div>
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-5 text-center card-glow">
+                <div class="text-3xl font-black text-blue-400 mb-1" style="text-shadow:0 0 12px rgba(96,165,250,0.4)">
+                    48+</div>
+                <div class="text-[10px] text-gray-500 tracking-widest uppercase">Topics Covered</div>
+            </div>
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-5 text-center card-glow">
+                <div class="text-3xl font-black text-neonPurple mb-1 glow-purple">12</div>
+                <div class="text-[10px] text-gray-500 tracking-widest uppercase">Hands-On Labs</div>
+            </div>
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-5 text-center card-glow">
+                <div class="text-3xl font-black text-yellow-400 mb-1" style="text-shadow:0 0 12px rgba(251,191,36,0.4)">
+                    9</div>
+                <div class="text-[10px] text-gray-500 tracking-widest uppercase">Career Paths</div>
+            </div>
+            <div
+                class="border border-darkBorder bg-panelBg/60 rounded-xl p-5 text-center card-glow col-span-2 sm:col-span-1">
+                <div class="text-3xl font-black text-green-400 mb-1" style="text-shadow:0 0 12px rgba(74,222,128,0.4)">
+                    30</div>
+                <div class="text-[10px] text-gray-500 tracking-widest uppercase">Day Study Plan</div>
+            </div>
+        </div>
+
+        <!-- ── PLATFORM PILLARS ── -->
+        <div class="mb-4 text-[11px] text-neonCyan tracking-[0.2em] font-bold uppercase fade-in delay-2">Platform
+            Pillars</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 fade-in delay-3">
+
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-6 card-glow">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="pillar-icon bg-neonCyan/10 border border-neonCyan/20">
+                        <i class="fa-solid fa-layer-group text-neonCyan text-sm"></i>
+                    </div>
+                    <span class="text-sm font-bold text-white">Structured Curriculum</span>
+                </div>
+                <p class="text-xs text-gray-500 leading-7">7 level terstruktur dari fundamental hingga advanced
+                    specialization. Tidak ada lompatan — setiap konsep dibangun di atas yang sebelumnya.</p>
+                <div class="stat-bar mt-4">
+                    <div class="stat-bar-fill" style="width:100%"></div>
+                </div>
+            </div>
+
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-6 card-glow">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="pillar-icon bg-blue-400/10 border border-blue-400/20">
+                        <i class="fa-solid fa-flask text-blue-400 text-sm"></i>
+                    </div>
+                    <span class="text-sm font-bold text-white">Hands-On First</span>
+                </div>
+                <p class="text-xs text-gray-500 leading-7">Setiap teori disertai lab praktis, attack scenario nyata, dan
+                    contoh kode. Belajar dengan melakukan, bukan hanya membaca.</p>
+                <div class="stat-bar mt-4">
+                    <div class="stat-bar-fill" style="width:85%"></div>
+                </div>
+            </div>
+
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-6 card-glow">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="pillar-icon bg-neonPurple/10 border border-neonPurple/20">
+                        <i class="fa-solid fa-brain text-neonPurple text-sm"></i>
+                    </div>
+                    <span class="text-sm font-bold text-white">Attacker Mindset</span>
+                </div>
+                <p class="text-xs text-gray-500 leading-7">Memahami cara pikir penyerang adalah kunci pertahanan
+                    terbaik. Setiap modul menyertakan offensive dan defensive perspective.</p>
+                <div class="stat-bar mt-4">
+                    <div class="stat-bar-fill" style="width:90%"></div>
+                </div>
+            </div>
+
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-6 card-glow">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="pillar-icon bg-yellow-400/10 border border-yellow-400/20">
+                        <i class="fa-solid fa-briefcase text-yellow-400 text-sm"></i>
+                    </div>
+                    <span class="text-sm font-bold text-white">Industry-Ready</span>
+                </div>
+                <p class="text-xs text-gray-500 leading-7">Roadmap karier, sertifikasi yang relevan, dan tools yang
+                    dipakai profesional nyata — bukan kurikulum akademik yang ketinggalan zaman.</p>
+                <div class="stat-bar mt-4">
+                    <div class="stat-bar-fill" style="width:75%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── TECH & VERSION ── -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 fade-in delay-3">
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-6 card-glow">
+                <div class="text-[10px] text-gray-500 tracking-[0.2em] uppercase mb-4">Tech Stack</div>
+                <div class="flex flex-col gap-3 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">Frontend</span>
+                        <span
+                            class="px-2 py-0.5 rounded border border-neonCyan/30 bg-neonCyan/5 text-neonCyan text-[10px] tracking-widest">Vanilla
+                            HTML/CSS/JS</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">Styling</span>
+                        <span
+                            class="px-2 py-0.5 rounded border border-blue-400/30 bg-blue-400/5 text-blue-400 text-[10px] tracking-widest">Tailwind
+                            CDN</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">Icons</span>
+
+                        <div class="flex gap-2 items-center">
+                            <span
+                                class="px-2 py-0.5 rounded border border-blue-400/30 bg-blue-400/5 text-blue-400 text-[10px] tracking-widest">Font
+                                Awesome 6.5</span>
+                            <span
+                                class="px-2 py-0.5 rounded border border-blue-400/30 bg-blue-400/5 text-blue-400 text-[10px] tracking-widest">icons8</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">Storage</span>
+                        <span
+                            class="px-2 py-0.5 rounded border border-green-400/30 bg-green-400/5 text-green-400 text-[10px] tracking-widest">localStorage</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-6 card-glow">
+                <div class="text-[10px] text-gray-500 tracking-[0.2em] uppercase mb-4">Release Info</div>
+                <div class="flex flex-col gap-3 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">Version</span>
+                        <span
+                            class="px-2 py-0.5 rounded border border-neonCyan/30 bg-neonCyan/5 text-neonCyan text-[10px] tracking-widest">v4.1.0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">Status</span>
+                        <span
+                            class="px-2 py-0.5 rounded border border-green-400/30 bg-green-400/5 text-green-400 text-[10px] tracking-widest">●
+                            STABLE</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">License</span>
+                        <span
+                            class="px-2 py-0.5 rounded border border-yellow-400/30 bg-yellow-400/5 text-yellow-400 text-[10px] tracking-widest">Educational</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500">Platform</span>
+                        <span
+                            class="px-2 py-0.5 rounded border border-blue-400/30 bg-blue-400/5 text-blue-400 text-[10px] tracking-widest">Web
+                            / PWA-ready</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ETHICAL COMMITMENT ── -->
+        <div class="flex items-start gap-4 border border-red-500/30 bg-red-500/5 rounded-xl p-6 mb-10 fade-in delay-4">
+            <i class="fa-solid fa-scale-balanced text-red-400 text-xl mt-0.5 flex-shrink-0"
+                style="filter:drop-shadow(0 0 6px rgba(239,68,68,0.5))"></i>
+            <div>
+                <div class="text-red-400 font-bold tracking-widest uppercase text-xs mb-2"
+                    style="text-shadow:0 0 10px rgba(255,68,68,0.5)">Ethical Commitment</div>
+                <p class="text-xs text-gray-500 leading-7">
+                    Seluruh konten VeloraSec ditujukan <strong class="text-gray-300">semata-mata untuk edukasi dan
+                        penggunaan etis</strong>.
+                    Kami mengecam segala bentuk akses tidak sah, peretasan ilegal, atau penyalahgunaan ilmu keamanan.
+                    Dengan menggunakan platform ini, kamu berkomitmen untuk hanya menerapkan ilmu ini pada sistem yang
+                    kamu miliki
+                    atau dengan izin tertulis eksplisit.
+                </p>
+            </div>
+        </div>
+
+        <!-- ── CTA ── -->
+        <div class="border border-darkBorder bg-panelBg/60 rounded-xl p-10 text-center card-glow fade-in delay-4">
+            <div class="text-[10px] text-gray-500 tracking-[0.3em] uppercase mb-3">Start Your Journey</div>
+            <p class="text-gray-500 text-sm max-w-md mx-auto mb-7 leading-7">
+                Tidak perlu pengalaman sebelumnya. Mulai dari Level 1 dan bangun fondasi yang solid menuju karier
+                keamanan siber.
+            </p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="../index.html#roadmap"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-neonCyan text-black font-bold text-xs tracking-widest uppercase hover:opacity-90 transition"
+                    style="box-shadow:0 0 20px rgba(0,255,204,0.25)">
+                    <i class="fa-solid fa-route"></i> View Roadmap
+                </a>
+                <a href="Auth/register.html"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-neonCyan/40 text-neonCyan font-bold text-xs tracking-widest uppercase hover:bg-neonCyan/10 transition">
+                    <i class="fa-solid fa-user-plus"></i> Create Account
+                </a>
+            </div>
+        </div>
+
+        <!-- Back link -->
+        <div class="mt-10 flex justify-center fade-in delay-4">
+            <a href="../index.html"
+                class="nav-back inline-flex items-center gap-2 px-4 py-2 rounded-full border border-darkBorder text-xs text-gray-500 hover:text-neonCyan transition">
+                <i class="fa-solid fa-arrow-left text-neonCyan"></i> Back to Home
+            </a>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer
+        class="relative z-10 w-full p-6 border-t border-darkBorder flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-600 bg-darkBg/80 backdrop-blur-sm">
+        <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-neonCyan shadow-[0_0_5px_#00ffcc] animate-pulse"></div>
+            <span>© 2025 VeloraSec — Hack Responsibly | Educational Use Only</span>
+        </div>
+        <div class="flex items-center gap-5">
+            <a href="https://github.com/Ciel-Xo" target="_blank"
+                class="social-icon text-gray-600 hover:text-neonCyan transition"><i
+                    class="fab fa-github text-lg"></i></a>
+            <a href="encrypted.html" class="social-icon text-gray-600 hover:text-neonCyan transition"><i
+                    class="fab fa-twitter text-lg"></i></a>
+            <a href="404.html" class="social-icon text-gray-600 hover:text-neonCyan transition"><i
+                    class="fab fa-linkedin text-lg"></i></a>
+            <a href="paytounlock.html" class="social-icon text-gray-600 hover:text-neonCyan transition"><i
+                    class="fab fa-discord text-lg"></i></a>
+        </div>
+        <div>v4.1.0 &nbsp;|&nbsp; Ethical Hacking Only</div>
+    </footer>
+
+    <script>
+        // Typing Effect
+        const textElement = document.getElementById('typing-text');
+        const fullText = '> Platform edukasi cybersecurity dari nol hingga Security Analyst profesional.';
+        let i = 0;
+        let isDeleting = false;
+
+        function typeWriter() {
+            if (!isDeleting) {
+                if (i <= fullText.length) {
+                    textElement.innerHTML = fullText.substring(0, i);
+                    i++;
+                    setTimeout(typeWriter, 45);
+                } else {
+                    isDeleting = true;
+                    setTimeout(typeWriter, 3500);
+                }
+            } else {
+                if (i > 0) {
+                    i--;
+                    textElement.innerHTML = fullText.substring(0, i);
+                    setTimeout(typeWriter, 18);
+                } else {
+                    isDeleting = false;
+                    setTimeout(typeWriter, 600);
+                }
+            }
+        }
+
+        setTimeout(typeWriter, 600);
+    </script>
+</body>
+
+</html>

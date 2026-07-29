@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <link rel="icon" type="image/png" sizes="32x32" rel="icon" href="../image/icons8-error-32.png">
+    <meta name="description" content="Halaman yang kamu cari tidak ditemukan — VeloraSec Cybersecurity Learning Hub.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6.5.0 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#050a0f',
+                        neonCyan: '#00ffcc',
+                        darkBorder: '#1a2e35',
+                        panelBg: '#0a1218',
+                        neonPurple: '#9966ff'
+                    },
+                    fontFamily: {
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050a0f;
+            color: #d1d5db;
+        }
+
+        .bg-grid-pattern {
+            background-image:
+                linear-gradient(to right, #1a2e35 1px, transparent 1px),
+                linear-gradient(to bottom, #1a2e35 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.4), 0 0 30px rgba(0, 255, 204, 0.2);
+        }
+
+        .glow-red {
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6), 0 0 40px rgba(239, 68, 68, 0.3);
+        }
+        /* =============================================
+            SCROLLBAR
+            ============================================= */
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: var(--neonPurple) transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neonPurple);
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neonCyan);
+        }
+        /* ── Glitch effect on 404 ── */
+        .glitch {
+            position: relative;
+            color: #fff;
+            animation: glitchShake 3s infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            background: transparent;
+        }
+
+        .glitch::before {
+            color: #00ffcc;
+            clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+            animation: glitchTop 2.5s infinite;
+            left: 2px;
+        }
+
+        .glitch::after {
+            color: #ef4444;
+            clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+            animation: glitchBot 2.5s infinite;
+            left: -2px;
+        }
+
+        @keyframes glitchShake {
+
+            0%,
+            95%,
+            100% {
+                transform: translate(0);
+            }
+
+            96% {
+                transform: translate(-2px, 1px);
+            }
+
+            97% {
+                transform: translate(2px, -1px);
+            }
+
+            98% {
+                transform: translate(-1px, 2px);
+            }
+        }
+
+        @keyframes glitchTop {
+
+            0%,
+            89%,
+            100% {
+                transform: translate(0);
+                opacity: 0;
+            }
+
+            90% {
+                transform: translate(-3px, 0);
+                opacity: 0.8;
+            }
+
+            92% {
+                transform: translate(3px, 0);
+                opacity: 0.8;
+            }
+
+            94% {
+                transform: translate(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes glitchBot {
+
+            0%,
+            92%,
+            100% {
+                transform: translate(0);
+                opacity: 0;
+            }
+
+            93% {
+                transform: translate(3px, 0);
+                opacity: 0.8;
+            }
+
+            95% {
+                transform: translate(-3px, 0);
+                opacity: 0.8;
+            }
+
+            97% {
+                transform: translate(0);
+                opacity: 0;
+            }
+        }
+
+        /* Scan line sweep */
+        .scan-line {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(to bottom,
+                    transparent 0px,
+                    transparent 3px,
+                    rgba(0, 255, 204, 0.015) 3px,
+                    rgba(0, 255, 204, 0.015) 4px);
+            pointer-events: none;
+            animation: scanMove 8s linear infinite;
+        }
+
+        @keyframes scanMove {
+            0% {
+                background-position-y: 0;
+            }
+
+            100% {
+                background-position-y: 40px;
+            }
+        }
+
+        .error-badge {
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+        }
+
+        .nav-back:hover {
+            background: rgba(0, 255, 204, 0.1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen font-mono relative overflow-y-auto overflow-x-hidden flex flex-col selection:bg-neonCyan selection:text-black">
+
+    <!-- Background Grid -->
+    <div class="absolute inset-0 z-0 opacity-20 bg-grid-pattern pointer-events-none"></div>
+    <div class="scan-line z-0"></div>
+
+    <!-- Background glows -->
+    <div
+        class="absolute top-1/4 left-1/4 w-96 h-96 bg-neonCyan rounded-full blur-[150px] opacity-5 z-0 pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neonPurple rounded-full blur-[150px] opacity-5 z-0 pointer-events-none">
+    </div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full blur-[160px] opacity-5 z-0 pointer-events-none"
+        style="background:#ef4444"></div>
+
+    <!-- ===== HEADER ===== -->
+    <header
+        class="relative z-10 w-full p-6 flex justify-between items-center border-b border-darkBorder bg-darkBg/80 backdrop-blur-sm">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-shield-halved text-3xl text-neonCyan"
+                style="filter: drop-shadow(0 0 8px rgba(0, 255, 204, 0.6))"></i>
+            <div>
+                <h1 class="text-xl font-bold tracking-wider text-white">VeloraSec</h1>
+                <p class="text-[10px] text-gray-500 tracking-[0.2em] uppercase">Learning Hub</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-gray-500">
+            <span class="hidden sm:inline-block">System / Error</span>
+            <div class="flex items-center gap-2 border border-darkBorder rounded-full px-3 py-1 bg-panelBg">
+                <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                <span class="text-red-400">404 ERROR</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="relative z-10 flex-grow flex flex-col items-center justify-center p-6 w-full max-w-5xl mx-auto">
+        <div class="w-full text-left md:text-center flex flex-col items-start md:items-center">
+
+            <!-- Badge -->
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full border border-neonCyan/30 bg-neonCyan/5">
+                <i class="fa-solid fa-terminal text-base text-neonCyan"></i>
+                <span class="text-xs text-neonCyan tracking-widest font-semibold uppercase">System Alert</span>
+            </div>
+
+            <!-- Error warning banner -->
+            <div
+                class="mb-6 px-4 py-2 bg-red-500/10 border border-red-500/30 rounded text-red-400 text-sm font-bold tracking-widest uppercase flex items-center gap-2 error-badge">
+                <i class="fa-solid fa-triangle-exclamation text-base"></i>
+                PAGE NOT FOUND
+            </div>
+
+            <!-- 404 glitch number -->
+            <div class="mb-2 leading-none select-none"
+                style="font-size:clamp(90px,22vw,180px);font-weight:900;line-height:1">
+                <span class="glitch glow-red" data-text="404">404</span>
+            </div>
+
+            <!-- Subtitle -->
+            <h2 class="text-2xl md:text-3xl font-bold mb-4 tracking-tight text-white mt-2">
+                <span class="text-neonCyan glow-text">Access Denied</span> — Route Not Found
+            </h2>
+
+            <!-- Typing effect -->
+            <div
+                class="mt-4 mb-10 h-16 md:h-8 max-w-2xl text-sm md:text-base text-gray-400 leading-relaxed text-left md:text-center">
+                <span id="typing-text"></span><span class="animate-pulse text-neonCyan">_</span>
+            </div>
+
+            <!-- Error details card -->
+            <div class="w-full max-w-lg mb-10 border border-darkBorder bg-panelBg/80 rounded-xl p-5 text-left">
+                <div class="text-[10px] text-gray-500 tracking-[0.2em] uppercase mb-3">Error Report</div>
+                <div class="flex flex-col gap-2 text-xs font-mono">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">STATUS_CODE</span>
+                        <span class="text-red-400 font-bold">404</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">ERROR_TYPE</span>
+                        <span class="text-yellow-400">UNKNOWN</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">REQUESTED_PATH</span>
+                        <span class="text-neonCyan" id="req-path">/unknown</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">SYSTEM_STATUS</span>
+                        <span class="text-green-400">● ONLINE</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">TIMESTAMP</span>
+                        <span class="text-gray-400" id="err-time">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex flex-wrap gap-4 justify-start md:justify-center mb-8">
+                <a href="../index.html"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-neonCyan text-black font-bold text-xs tracking-widest uppercase hover:opacity-90 transition"
+                    style="box-shadow:0 0 20px rgba(0,255,204,0.25)">
+                    <i class="fa-solid fa-house"></i> Back to Home
+                </a>
+                <a href="../index.html#roadmap"
+                    class="nav-back inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-neonCyan/40 text-neonCyan font-bold text-xs tracking-widest uppercase transition">
+                    <i class="fa-solid fa-route"></i> View Roadmap
+                </a>
+            </div>
+
+            <!-- Quick links -->
+            <div class="w-full max-w-lg">
+                <div class="text-[10px] text-gray-600 tracking-[0.2em] uppercase mb-3 text-left md:text-center">Quick
+                    Links</div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                    <a href="../index.html#modules"
+                        class="nav-back flex flex-col items-center gap-1 p-3 border border-darkBorder rounded-lg text-gray-500 hover:text-neonCyan hover:border-neonCyan/30 transition text-center">
+                        <i class="fa-solid fa-book-open text-base"></i>
+                        <span>Modules</span>
+                    </a>
+                    <a href="../index.html#labs"
+                        class="nav-back flex flex-col items-center gap-1 p-3 border border-darkBorder rounded-lg text-gray-500 hover:text-neonCyan hover:border-neonCyan/30 transition text-center">
+                        <i class="fa-solid fa-flask text-base"></i>
+                        <span>Labs</span>
+                    </a>
+                    <a href="../index.html#tools"
+                        class="nav-back flex flex-col items-center gap-1 p-3 border border-darkBorder rounded-lg text-gray-500 hover:text-neonCyan hover:border-neonCyan/30 transition text-center">
+                        <i class="fa-solid fa-screwdriver-wrench text-base"></i>
+                        <span>Tools</span>
+                    </a>
+                    <a href="about.html"
+                        class="nav-back flex flex-col items-center gap-1 p-3 border border-darkBorder rounded-lg text-gray-500 hover:text-neonCyan hover:border-neonCyan/30 transition text-center">
+                        <i class="fa-solid fa-circle-info text-base"></i>
+                        <span>About</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer
+        class="relative z-10 w-full p-6 border-t border-darkBorder flex justify-between items-center text-xs text-gray-600 bg-darkBg/80 backdrop-blur-sm">
+        <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_5px_#ef4444] animate-pulse"></div>
+            <span>ERROR 404 — ROUTE NOT RESOLVED</span>
+        </div>
+        <div>v4.1.0 &nbsp;|&nbsp; Ethical Hacking Only</div>
+    </footer>
+
+    <script>
+        // Show current path
+        const reqPath = document.getElementById('req-path');
+        if (reqPath) reqPath.textContent = window.location.pathname || '/unknown';
+
+        // Show timestamp
+        const errTime = document.getElementById('err-time');
+        if (errTime) {
+            const now = new Date();
+            errTime.textContent = now.toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+        }
+
+        // Typing Effect
+        const textElement = document.getElementById('typing-text');
+        const fullText = '> Error: The requested path could not be found on this server. Please check the URL or navigate back to home.';
+        let i = 0;
+        let isDeleting = false;
+
+        function typeWriter() {
+            if (!isDeleting) {
+                if (i <= fullText.length) {
+                    textElement.innerHTML = fullText.substring(0, i);
+                    i++;
+                    setTimeout(typeWriter, 40);
+                } else {
+                    isDeleting = true;
+                    setTimeout(typeWriter, 4000);
+                }
+            } else {
+                if (i > 0) {
+                    i--;
+                    textElement.innerHTML = fullText.substring(0, i);
+                    setTimeout(typeWriter, 18);
+                } else {
+                    isDeleting = false;
+                    setTimeout(typeWriter, 600);
+                }
+            }
+        }
+
+        setTimeout(typeWriter, 500);
+    </script>
+</body>
+
+</html>

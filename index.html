@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VeloraSec | Cybersecurity Learning Hub</title>
+<link rel="icon" type="image/png" sizes="32x32" rel="icon" href="image/icons8-terminal-32.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<!-- Menghubungkan ke file CSS eksternal -->
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ============================== LOADING SCREEN ============================== -->
+<div id="loader-screen">
+  <div class="loader-bg-grid" aria-hidden="true"></div>
+  <div class="loader-glow loader-glow-1" aria-hidden="true"></div>
+  <div class="loader-glow loader-glow-2" aria-hidden="true"></div>
+
+  <div class="loader-content">
+    <!-- Logo -->
+    <div class="loader-logo">
+      <i class="fas fa-shield-halved loader-shield-icon"></i>
+      <div>
+        <div class="loader-brand">VeloraSec</div>
+        <div class="loader-sub">LEARNING HUB</div>
+      </div>
+    </div>
+
+    <!-- Animated hex ring -->
+    <div class="loader-ring-wrap">
+      <svg class="loader-ring" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(0,255,204,0.08)" stroke-width="3"/>
+        <circle class="loader-ring-arc" cx="60" cy="60" r="52" fill="none"
+                stroke="#00ffcc" stroke-width="3" stroke-linecap="round"
+                stroke-dasharray="326" stroke-dashoffset="326"/>
+      </svg>
+      <div class="loader-ring-inner">
+        <i class="fas fa-terminal loader-terminal-icon"></i>
+      </div>
+    </div>
+
+    <!-- Status text -->
+    <div class="loader-status-wrap">
+      <span id="loader-status-text">INITIALIZING SYSTEM</span>
+      <span class="loader-cursor">_</span>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="loader-bar-track">
+      <div class="loader-bar-fill" id="loader-bar"></div>
+    </div>
+
+    <!-- Boot log -->
+    <div class="loader-log" id="loader-log"></div>
+  </div>
+</div>
+
+<div class="cyber-grid" aria-hidden="true"></div>
+<div id="particles" aria-hidden="true"></div>
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ============================== SIDEBAR ============================== -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <i class="fas fa-shield-halved" style="color:var(--primary);font-size:22px"></i>
+    <div>
+      <div style="font-size:16px;font-weight:900;letter-spacing:2px;color:var(--primary)">VeloraSec</div>
+      <div style="font-size:9px;color:var(--muted);letter-spacing:3px">LEARNING HUB</div>
+    </div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group">Main</div>
+    <a class="nav-item active" data-section="hero" href="#hero" onclick="showSection('hero');return false;"><i class="fas fa-house"></i> Home</a>
+    <a class="nav-item" data-section="dashboard" href="#dashboard" onclick="showSection('dashboard');return false;"><i class="fas fa-chart-line"></i> Dashboard</a>
+    <div class="nav-group">Learn</div>
+    <a class="nav-item" data-section="roadmap" href="#roadmap" onclick="showSection('roadmap');return false;"><i class="fas fa-route"></i> Roadmap</a>
+    <a class="nav-item" data-section="modules" href="#modules" onclick="showSection('modules');return false;"><i class="fas fa-book-open"></i> Modules</a>
+    <a class="nav-item" data-section="labs" href="#labs" onclick="showSection('labs');return false;"><i class="fas fa-flask"></i> Labs</a>
+    <a class="nav-item" data-section="quiz" href="#quiz" onclick="showSection('quiz');return false;"><i class="fas fa-circle-question"></i> Quiz</a>
+    <div class="nav-group">Reference</div>
+    <a class="nav-item" data-section="tools" href="#tools" onclick="showSection('tools');return false;"><i class="fas fa-screwdriver-wrench"></i> Tools</a>
+    <a class="nav-item" data-section="career" href="#career" onclick="showSection('career');return false;"><i class="fas fa-briefcase"></i> Career Path</a>
+    <a class="nav-item" data-section="certs" href="#certs" onclick="showSection('certs');return false;"><i class="fas fa-certificate"></i> Certifications</a>
+    <div class="nav-group">Account</div>
+    <a class="nav-item" data-section="login" href="pages/Auth/login.html" ><i class="fas fa-right-to-bracket"></i> Login</a>
+    <a class="nav-item" data-section="register" href="pages/Auth/register.html" ><i class="fas fa-user-plus"></i> Register</a>
+    <a class="nav-item" data-section="about" href="pages/about.html"><i class="fas fa-circle-info"></i> About</a>
+    <div class="nav-group">Growth</div>
+    <a class="nav-item" data-section="mindset" href="#mindset" onclick="showSection('mindset');return false;"><i class="fas fa-brain"></i> Mindset</a>
+    <a class="nav-item" data-section="planner" href="#planner" onclick="showSection('planner');return false;"><i class="fas fa-calendar-days"></i> Study Planner</a>
+    <a class="nav-item" data-section="resources" href="#resources" onclick="showSection('resources');return false;"><i class="fas fa-link"></i> Resources</a>
+  </div>
+  <div class="sidebar-footer">
+    <div style="color:var(--primary);margin-bottom:3px">● SYSTEM ONLINE</div>
+    v4.1.0 &nbsp;|&nbsp; Ethical Hacking Only
+  </div>
+</nav>
+
+<!-- ============================== MAIN ============================== -->
+<div id="main">
+
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <div id="topbar-left">
+      <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="breadcrumb">Home</div>
+    </div>
+    <div class="search-bar">
+      <i class="fas fa-search" style="color:var(--muted);font-size:11px"></i>
+      <input type="text" placeholder="Search modules, topics..." id="globalSearch" oninput="globalSearchFn(this.value)" autocomplete="off"/>
+    </div>
+    <div id="topbar-right">
+    </div>
+  </div>
+
+  <!-- =================== HERO =================== -->
+  <section id="sec-hero" class="section" style="display:block">
+    <div class="hero-wrap">
+      <div style="max-width:700px">
+        <div class="badge b-teal" style="margin-bottom:18px">
+          <i class="fas fa-terminal"></i>&nbsp; VeloraSec — Ethical Learning Platform
+        </div>
+        <h1 style="font-size:clamp(26px,5vw,50px);font-weight:900;line-height:1.1;margin-bottom:14px">
+          <span class="glow-p" style="color:var(--primary)">Cybersecurity</span><br>
+          <span>Learning Hub</span>
+        </h1>
+        <p style="font-size:15px;color:var(--muted);margin-bottom:4px">
+          &gt;&nbsp;<span id="typing-target"></span><span class="cursor-blink"></span>
+        </p>
+        <p style="color:var(--muted);font-size:13px;margin:14px 0 30px;max-width:500px;line-height:1.8">
+          Kurikulum terstruktur dari nol sampai Security Analyst profesional. Berbasis praktik industri nyata — bukan sekadar teori dangkal.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <button class="cyber-btn btn-primary" onclick="showSection('roadmap')">
+            <i class="fas fa-play"></i> Start Learning
+          </button>
+          <button class="cyber-btn btn-outline" onclick="showSection('roadmap')">
+            <i class="fas fa-map"></i> Learning Roadmap
+          </button>
+        </div>
+        <!-- Stats -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:14px;margin-top:48px;max-width:520px">
+          <div class="glass-card" style="text-align:center;padding:14px">
+            <div class="stat-num glow-p" style="color:var(--primary)">7</div>
+            <div class="stat-label">Levels</div>
+          </div>
+          <div class="glass-card" style="text-align:center;padding:14px">
+            <div class="stat-num glow-b" style="color:var(--secondary)">48+</div>
+            <div class="stat-label">Topics</div>
+          </div>
+          <div class="glass-card" style="text-align:center;padding:14px">
+            <div class="stat-num glow-v" style="color:var(--accent)">12</div>
+            <div class="stat-label">Labs</div>
+          </div>
+          <div class="glass-card" style="text-align:center;padding:14px">
+            <div class="stat-num" style="color:var(--warn)">9</div>
+            <div class="stat-label">Careers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== DASHBOARD =================== -->
+  <section id="sec-dashboard" class="section">
+    <div class="section-title"><i class="fas fa-chart-line"></i> Progress Dashboard</div>
+    <div class="section-sub">Pantau perjalanan belajar cybersecurity-mu secara real time.</div>
+    <!-- Top row -->
+    <div class="dash-top" style="display:grid;grid-template-columns:auto 1fr;gap:20px;margin-bottom:24px;align-items:start">
+      <div class="glass-card" style="text-align:center;padding:24px;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <div class="circ-wrap">
+          <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(0,255,204,0.07)" stroke-width="10"/>
+            <circle id="progressCircle" cx="60" cy="60" r="50" fill="none" stroke="var(--primary)" stroke-width="10"
+              stroke-dasharray="314.16" stroke-dashoffset="314.16" stroke-linecap="round"
+              style="transition:stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1);filter:drop-shadow(0 0 5px var(--primary))"/>
+          </svg>
+          <div class="circ-inner">
+            <span id="circPct">0%</span>
+            <small>COMPLETE</small>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted)">Overall Progress</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px">
+        <div class="glass-card">
+          <div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:8px">COMPLETED</div>
+          <div class="stat-num" style="color:var(--success)" id="cnt-completed">0</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px">of 48 modules</div>
+          <div class="progress-wrap"><div class="progress-fill pg-teal" id="pb-completed" style="width:0%"></div></div>
+        </div>
+        <div class="glass-card">
+          <div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:8px">SKILL LEVEL</div>
+          <div class="stat-num" style="color:var(--secondary);font-size:22px">Novice</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px">→ Analyst</div>
+          <div class="progress-wrap"><div class="progress-fill pg-purple" style="width:30%"></div></div>
+        </div>
+        <div class="glass-card">
+          <div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:8px">STUDY STREAK</div>
+          <div class="stat-num" style="color:var(--warn)" id="cnt-streak">0</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px">days in a row 🔥</div>
+          <div class="progress-wrap"><div class="progress-fill pg-fire" id="pb-streak" style="width:0%"></div></div>
+        </div>
+        <div class="glass-card">
+          <div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:8px">ESTIMATED</div>
+          <div class="stat-num" style="color:var(--accent);font-size:22px">~8mo</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px">to completion</div>
+          <div class="progress-wrap"><div class="progress-fill pg-teal" style="width:19%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card" style="margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:18px;letter-spacing:2px">LEVEL PROGRESS</div>
+      <div style="display:flex;flex-direction:column;gap:14px" id="levelBars"></div>
+    </div>
+    <div class="glass-card">
+      <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:14px;letter-spacing:2px">RECENT ACTIVITY</div>
+      <div id="recentActivity"></div>
+    </div>
+  </section>
+
+  <!-- =================== ROADMAP =================== -->
+  <section id="sec-roadmap" class="section">
+    <div class="section-title"><i class="fas fa-route"></i> Learning Roadmap</div>
+    <div class="section-sub">7-level structured path — dari fundamental hingga spesialisasi advanced.</div>
+    <div id="roadmapContainer"></div>
+  </section>
+
+  <!-- =================== MODULES =================== -->
+  <section id="sec-modules" class="section">
+    <div class="section-title"><i class="fas fa-book-open"></i> Module Library</div>
+    <div class="section-sub">Deep-dive modules dengan contoh nyata, attack scenarios, dan defensive mindset.</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px">
+      <button class="ftab active" onclick="filterModules('all',this)">All</button>
+      <button class="ftab" onclick="filterModules('beginner',this)">Beginner</button>
+      <button class="ftab" onclick="filterModules('intermediate',this)">Intermediate</button>
+      <button class="ftab" onclick="filterModules('advanced',this)">Advanced</button>
+    </div>
+    <div id="moduleList"></div>
+  </section>
+
+  <!-- =================== LABS =================== -->
+  <section id="sec-labs" class="section">
+    <div class="section-title"><i class="fas fa-flask"></i> Hands-On Labs</div>
+    <div class="section-sub">Simulasi lab praktis dengan langkah-langkah terstruktur dan panduan lengkap.</div>
+    <div class="box box-danger" style="margin-bottom:22px">
+      <i class="fas fa-triangle-exclamation box-icon" style="color:var(--danger)"></i>
+      <div>
+        <strong style="color:var(--danger)">⚠ ETHICAL USE ONLY</strong><br>
+        Semua lab hanya untuk tujuan edukasi. JANGAN jalankan teknik ini pada sistem yang bukan milikmu atau tanpa izin tertulis eksplisit. Hacking tanpa izin adalah tindakan kriminal.
+      </div>
+    </div>
+    <div id="labContainer"></div>
+  </section>
+
+  <!-- =================== QUIZ =================== -->
+  <section id="sec-quiz" class="section">
+    <div class="section-title"><i class="fas fa-circle-question"></i> Knowledge Quiz</div>
+    <div class="section-sub">Uji pemahamanmu di berbagai domain keamanan siber. Pilih kategori untuk mulai.</div>
+    <div id="quizContainer"></div>
+  </section>
+
+  <!-- =================== TOOLS =================== -->
+  <section id="sec-tools" class="section">
+    <div class="section-title"><i class="fas fa-screwdriver-wrench"></i> Security Tools</div>
+    <div class="section-sub">Tools esensial yang digunakan para profesional keamanan siber di dunia nyata.</div>
+    <div id="toolsContainer"></div>
+  </section>
+
+  <!-- =================== CAREER =================== -->
+  <section id="sec-career" class="section">
+    <div class="section-title"><i class="fas fa-briefcase"></i> Career Paths</div>
+    <div class="section-sub">Jelajahi jalur karier di industri cybersecurity dan apa yang dibutuhkan untuk sampai ke sana.</div>
+    <div id="careerContainer"></div>
+  </section>
+
+  <!-- =================== CERTS =================== -->
+  <section id="sec-certs" class="section">
+    <div class="section-title"><i class="fas fa-certificate"></i> Certification Roadmap</div>
+    <div class="section-sub">Sertifikasi yang diakui industri untuk memvalidasi keahlian dan meningkatkan peluang karier.</div>
+    <div id="certsContainer"></div>
+  </section>
+
+  <!-- =================== MINDSET =================== -->
+  <section id="sec-mindset" class="section">
+    <div class="section-title"><i class="fas fa-brain"></i> Cybersecurity Mindset</div>
+    <div class="section-sub">Hal-hal penting yang WAJIB dipahami pemula sebelum terjun ke dunia hacking.</div>
+    <div id="mindsetContainer"></div>
+  </section>
+
+  <!-- =================== PLANNER =================== -->
+  <section id="sec-planner" class="section">
+    <div class="section-title"><i class="fas fa-calendar-days"></i> 30-Day Study Planner</div>
+    <div class="section-sub">Rencana belajar harian terstruktur. Progress tersimpan otomatis di browser-mu.</div>
+    <div id="plannerContainer"></div>
+  </section>
+
+  <!-- =================== RESOURCES =================== -->
+  <section id="sec-resources" class="section">
+    <div class="section-title"><i class="fas fa-link"></i> Resource Library</div>
+    <div class="section-sub">Sumber belajar terkurasi yang dipercaya oleh komunitas keamanan siber global.</div>
+    <div id="resourcesContainer"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding:32px;border-top:1px solid var(--glass-border);margin-top:24px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:24px;margin-bottom:20px">
+      <div>
+        <div style="color:var(--primary);font-weight:900;letter-spacing:2px;margin-bottom:8px;font-size:12px">PHILOSOPHY</div>
+        <p style="color:var(--muted);font-size:12px;line-height:1.8">Security is a mindset, not a toolset. Understand deeply. Think like an attacker, defend like a professional.</p>
+      </div>
+      <div>
+        <div style="color:var(--primary);font-weight:900;letter-spacing:2px;margin-bottom:8px;font-size:12px">DISCLAIMER</div>
+        <p style="color:var(--muted);font-size:12px;line-height:1.8">All content is for ethical, educational purposes only. Always get written authorization before testing any system. Unauthorized access is illegal.</p>
+      </div>
+      <div>
+        <div style="color:var(--primary);font-weight:900;letter-spacing:2px;margin-bottom:8px;font-size:12px">CONNECT</div>
+        <div style="display:flex;gap:14px;margin-top:8px">
+          <a href="https://github.com/Ciel-Xo" target="_blank"
+                class="social-icon text-gray-600 hover:text-neonCyan transition"><i
+                    class="fab fa-github text-lg"></i></a>
+            <a href="pages/encrypted.html" class="social-icon text-gray-600 hover:text-neonCyan transition"><i
+                    class="fab fa-twitter text-lg"></i></a>
+            <a href="pages/404.html" class="social-icon text-gray-600 hover:text-neonCyan transition"><i
+                    class="fab fa-linkedin text-lg"></i></a>
+            <a href="pages/paytounlock.html" class="social-icon text-gray-600 hover:text-neonCyan transition"><i
+                    class="fab fa-discord text-lg"></i></a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--glass-border);padding-top:14px;text-align:center;color:var(--muted);font-size:11px">
+      © 2025 VeloraSec - Cybersecurity Learning Hub — Hack Responsibly | For Educational Use Only
+    </div>
+  </footer>
+</div>
+
+<!-- Menghubungkan ke file JavaScript eksternal -->
+<script src="script.js"></script>
+</body>
+</html>
